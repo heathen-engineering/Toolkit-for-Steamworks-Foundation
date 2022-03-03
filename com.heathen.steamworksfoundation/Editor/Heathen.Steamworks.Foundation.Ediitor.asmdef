@@ -1,0 +1,18 @@
+{
+    "name": "Heathen.Steamworks.Foundation.Editor",
+    "references": [
+        "com.rlabrecque.steamworks.net",
+        "Heathen.Steamworks.Foundation"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

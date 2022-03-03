@@ -1,0 +1,30 @@
+{
+  "name": "com.heathen.steamworksfoundation",
+  "displayName": "Steamworks Foundation",
+  "version": "2.16.1",
+  "unity": "2019.4",
+  "author": {
+    "name": "Heathen Group",
+    "email": "support@heathen.group",
+    "url": "https://heathen.group"
+  },
+  "documentationUrl": "https://kb.heathenengineering.com/assets/steamworks",
+  "keywords": [],
+  "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!"
+  "samples" 
+	[{
+		"displayName": "Quick Start",
+		"description": "A simple bare bones example with instructions of a from-scratch setup.",
+		"path": "Samples~/1 Quick Start"
+	 },
+	 {
+		"displayName": "User Data",
+		"description": "Reading and using user data such as avatar, name, nickname, level, status and more.",
+		"path": "Samples~/2 User Data"
+	 },
+	 {
+		"displayName": "Stats and Achievements",
+		"description": "Demonstration of the configuration and use of Steam stats and achievements.",
+		"path": "Samples~/3 Stats and Achievements"
+	 }]
+}

@@ -10,8 +10,8 @@
   },
   "documentationUrl": "https://kb.heathenengineering.com/assets/steamworks",
   "keywords": [],
-  "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!"
-  "samples" 
+  "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!",
+  "samples": 
 	[{
 		"displayName": "Quick Start",
 		"description": "A simple bare bones example with instructions of a from-scratch setup.",

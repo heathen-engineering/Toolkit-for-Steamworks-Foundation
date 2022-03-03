@@ -22,9 +22,7 @@ namespace HeathenEngineering.SteamworksFoundation.Editors
                 && !SessionState.GetBool("SteamFoundation", false)
                 && !SessionState.GetBool("SteamInstall", false))
             {
-                StartCoroutine(InstallSystemCore());
-                StartCoroutine(InstallSteamworks());
-                StartCoroutine(InstallFoundation());
+                StartCoroutine(InstallAll());
             }
         }
 
@@ -312,6 +310,96 @@ namespace HeathenEngineering.SteamworksFoundation.Editors
                 Debug.LogError("PackageManager Steamworks Foundation install failed, Error Message: " + steamProc.Error.message);
             else if (steamProc.Status == StatusCode.Success)
                 Debug.Log("Steamworks Foundation " + steamProc.Result.version + " installation complete");
+
+            SessionState.SetBool("SteamFoundation", false);
+        }
+
+        private static IEnumerator InstallAll()
+        {
+            yield return null;
+            AddRequest sysProc = null;
+
+            if (!SessionState.GetBool("SysCoreInstall", false))
+            {
+                SessionState.SetBool("SysCoreInstall", true);
+                sysProc = Client.Add("https://github.com/heathen-engineering/SystemCore.git?path=/com.heathen.systemcore");
+            }
+
+            if (sysProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager's System Core install failed, Error Message: " + sysProc.Error.message);
+            else if (sysProc.Status == StatusCode.Success)
+                Debug.Log("System Core " + sysProc.Result.version + " installation complete");
+            else
+            {
+                Debug.Log("Installing System Core ...");
+                while (sysProc.Status == StatusCode.InProgress)
+                {
+                    yield return null;
+                }
+            }
+
+            if (sysProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager's System Core install failed, Error Message: " + sysProc.Error.message);
+            else if (sysProc.Status == StatusCode.Success)
+                Debug.Log("System Core " + sysProc.Result.version + " installation complete");
+
+            SessionState.SetBool("SysCoreInstall", false);
+
+            yield return null;
+            AddRequest steamProc = null;
+
+            if (!SessionState.GetBool("SteamInstall", false))
+            {
+                SessionState.SetBool("SteamInstall", true);
+                steamProc = Client.Add("https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net");
+            }
+
+            if (steamProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager Steamworks.NET install failed, Error Message: " + steamProc.Error.message);
+            else if (steamProc.Status == StatusCode.Success)
+                Debug.Log("Steamworks.NET " + steamProc.Result.version + " installation complete");
+            else
+            {
+                Debug.Log("Installing Steamworks.NET ...");
+                while (steamProc.Status == StatusCode.InProgress)
+                {
+                    yield return null;
+                }
+            }
+
+            if (steamProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager Steamworks.NET install failed, Error Message: " + steamProc.Error.message);
+            else if (steamProc.Status == StatusCode.Success)
+                Debug.Log("Steamworks.NET " + steamProc.Result.version + " installation complete");
+
+            SessionState.SetBool("SteamInstall", false);
+
+            yield return null;
+            AddRequest foundationProc = null;
+
+            if (!SessionState.GetBool("SteamFoundation", false))
+            {
+                SessionState.SetBool("SteamFoundation", true);
+                foundationProc = Client.Add("https://github.com/heathen-engineering/SteamworksFoundation.git?path=/com.heathen.steamworksfoundation");
+            }
+
+            if (foundationProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager Steamworks Foundation install failed, Error Message: " + foundationProc.Error.message);
+            else if (foundationProc.Status == StatusCode.Success)
+                Debug.Log("Steamworks Foundation " + foundationProc.Result.version + " installation complete");
+            else
+            {
+                Debug.Log("Installing Steamworks Foundation ...");
+                while (foundationProc.Status == StatusCode.InProgress)
+                {
+                    yield return null;
+                }
+            }
+
+            if (foundationProc.Status == StatusCode.Failure)
+                Debug.LogError("PackageManager Steamworks Foundation install failed, Error Message: " + foundationProc.Error.message);
+            else if (foundationProc.Status == StatusCode.Success)
+                Debug.Log("Steamworks Foundation " + foundationProc.Result.version + " installation complete");
 
             SessionState.SetBool("SteamFoundation", false);
         }

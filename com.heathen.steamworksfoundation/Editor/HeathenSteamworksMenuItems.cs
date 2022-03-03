@@ -15,10 +15,23 @@ namespace HeathenEngineering.SteamworksFoundation.Editors
             StartCoroutine(InitalizeAndLoad());
         }
 
-        [MenuItem("Help/Heathen/Steamworks/Update (Package Manager)", priority = 0)]
+        [MenuItem("Help/Heathen/Steamworks/Update All Requirements (Package Manager)", priority = 0)]
+        public static void InstallAllMenuItem()
+        {
+            if (!SessionState.GetBool("SysCoreInstall", false)
+                && !SessionState.GetBool("SteamFoundation", false)
+                && !SessionState.GetBool("SteamInstall", false))
+            {
+                StartCoroutine(InstallSystemCore());
+                StartCoroutine(InstallSteamworks());
+                StartCoroutine(InstallFoundation());
+            }
+        }
+
+        [MenuItem("Help/Heathen/Steamworks/Update Foundation (Package Manager)", priority = 0)]
         public static void InstallFoundationMenuItem()
         {
-            if (!SessionState.GetBool("SysCoreInstall", false))
+            if (!SessionState.GetBool("SteamFoundation", false))
             {
                 StartCoroutine(InstallFoundation());
             }

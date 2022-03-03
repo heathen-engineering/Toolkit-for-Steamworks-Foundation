@@ -11,6 +11,7 @@
   "documentationUrl": "https://kb.heathenengineering.com/assets/steamworks",
   "keywords": [],
   "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!",
+  "license": "LICENSE.md",
   "samples": 
 	[{
 		"displayName": "Quick Start",

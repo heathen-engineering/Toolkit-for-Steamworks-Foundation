@@ -136,7 +136,7 @@ namespace HeathenEngineering.SteamworksFoundation.Editors
                     SessionState.SetBool("SysCoreInstall", false);
                     SessionState.SetBool("SteamInstall", false);
                 }
-#elif !HE_SYSCORE || true
+#elif !HE_SYSCORE
                 if (EditorUtility.DisplayDialog("Heathen Installer", "System Core do not appear to be installed. System Core is a requirement for Steamworks Foundation to work properly. Would you like to install this dependencies now?", "Install", "No"))
                 {
                     yield return null;

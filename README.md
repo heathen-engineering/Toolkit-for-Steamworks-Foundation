@@ -1,6 +1,21 @@
 # Steamworks Foundation
+* Author: [Heathen Group](https://github.com/sponsors/heathen-engineering)
+* Author Web Site: [Heathen.Group](https://heathen.group)
+* License: [MIT](https://github.com/heathen-engineering/SteamworksFoundation/blob/main/LICENSE.md)
+* [Documentation](https://kb.heathenengineering.com/assets/steamworks)
+* [Support](https://discord.gg/6X3xrRc)
+* [Reporting Issues](https://github.com/heathen-engineering/SteamworksFoundation/issues)
 
-_Steamworks Foundation_ is the "lite" version of the [Steamworks Complete](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316) Unity asset and an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. This asset will check for the presence of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and offer to install it in your Unity project for you via Unity's Package Mannager if it is missing.
+## Installation
+* Package Manager
+1) Open the package manager and click the '+' (plus) button located in the upper left of the window
+2) Select `Add package from git URL...` when prompted provide the following URL:  
+`https://github.com/heathen-engineering/SteamworksFoundation.git?path=/com.heathen.steamworksfoundation`  
+
+## Description
+_Steamworks Foundation_ is the "lite" version of the [Steamworks Complete](https://www.heathen.group/steamworks) Unity asset and an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. This asset will check for the presence of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and offer to install it in your Unity project for you via Unity's Package Mannager if it is missing.
+
+> You can get [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit) and [UX Complete](https://www.heathen.group/ux) by becoming a [Heathen Sponsor](https://github.com/sponsors/heathen-engineering) here on GitHub!
 
 Heathen’s approach with its Steamworks assets has been to take the strength of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET), and the parody it has with Valve’s original APIs, and extend that with Unity centric tools, editor extensions and more to make [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) + Heathen the best possible option for Unity developers looking to integrate with Steam. 
 
@@ -14,16 +29,4 @@ For more information on what this asset is capable of or how to use it please vi
 
 Please consider supporting [Riley Labrecque](https://github.com/rlabrecque) and [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) here on GitHub you can find Sponsor links on his pages.
 
-_Steamworks Foundation_ is compatable with PC, Mac and Linux based Unity projects and does work with IL2CPP. Foundation is a "lite" version of Heathen's Steamworks Complete which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) or get it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316). For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).
-
-* Author: [Heathen Group](https://www.heathen.group)
-* License: [MIT](http://www.opensource.org/licenses/mit-license.php)
-* [Documentation](https://kb.heathenengineering.com/assets/system-core)
-* [Support](https://discord.gg/6X3xrRc)
-* [Reporting Issues](https://github.com/heathen-engineering/SteamworksFoundation/issues)
-
-## Installation
-* Package Manager
-1) Open the package manager and click the '+' (plus) button located in the upper left of the window
-2) Select `Add package from git URL...` when prompted provide the following URL:  
-`https://github.com/heathen-engineering/SteamworksFoundation.git?path=/com.heathen.steamworksfoundation`  
+_Steamworks Foundation_ is compatable with PC, Mac and Linux based Unity projects and does work with IL2CPP. Foundation is a "lite" version of [Heathen's Steamworks Complete](https://www.heathen.group/steamworks) which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) or get it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316). For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).

@@ -271,33 +271,9 @@ namespace HeathenEngineering.SteamworksIntegration
         IEnumerator DelayLogOn()
         {
             yield return null;
-#if MIRROR
-            if (settings.server.enableMirror)
-            {
-                yield return new WaitUntil(() => { return Mirror.NetworkManager.singleton != null; });
+            if (settings.server.autoLogon)
+                settings.server.LogOn();
 
-                Mirror.NetworkManager.singleton.StartServer();
-                var startTime = Time.unscaledTime;
-
-                yield return new WaitUntil(() => { return Mirror.NetworkServer.active || Time.unscaledTime - startTime > 30; });
-
-                if (Mirror.NetworkServer.active)
-                {
-                    if (settings.server.autoLogon)
-                        settings.server.LogOn();
-                }
-                else
-                {
-                    if (settings.server.autoLogon)
-                        Debug.LogWarning("Mirror has taken more than 30 seconds to start the server process. SteamSettings was waiting for Mirror to finish before logging the GameServer on to Steam's backend. Due to the time constraint SteamSettings has abandoned the process. You can still log the GameServer on to Steam manually by calling SteamSettings.Server.LogOn(); This should only be done once you are sure Mirror's NetworkServer is active and listening.\n\nNOTE: You can determin if the server is currently logged on by either listening to the connect, disconnect and failure events of the server object or by checking the SteamSettings.Server.LoggedOn boolean value.");
-                }
-            }
-            else
-#endif
-            {
-                if (settings.server.autoLogon)
-                    settings.server.LogOn();
-            }
         }
 
         private void OnSteamServersConnected(SteamServersConnected_t pLogonSuccess)

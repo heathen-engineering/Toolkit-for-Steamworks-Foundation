@@ -67,7 +67,7 @@ namespace HeathenEngineering.SteamworksIntegration
 
             public bool autoInitalize = false;
             public bool autoLogon = false;
-            public bool enableMirror = true;
+            //public bool enableMirror = true;
 
             public uint ip = 0;
             public ushort queryPort = 27016;
@@ -276,6 +276,15 @@ namespace HeathenEngineering.SteamworksIntegration
                     Debug.LogError("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e, current);
                     current.evtSteamInitializationError.Invoke("[Steamworks.NET] Could not load [lib]steam_api.dll/so/dylib. It's likely not in the correct location. Refer to the README for more details.\n" + e);
                     Application.Quit();
+                    return;
+                }
+#else
+                if (!SteamAPI.IsSteamRunning())
+                {
+                    HasInitalizationError = true;
+                    InitalizationErrorMessage = "Steam Running check returned false, Steam client must be running for the API to intialize.";
+                    current.evtSteamInitializationError.Invoke(InitalizationErrorMessage);
+                    Debug.LogError("[Steamworks.NET] Steam client must be running for the API to intialize.", current);
                     return;
                 }
 #endif
@@ -692,17 +701,6 @@ namespace HeathenEngineering.SteamworksIntegration
                 Debug.LogError(InitalizationErrorMessage);
                 return;
             }
-
-#if !UNITY_SERVER
-            if (!SteamAPI.IsSteamRunning())
-            {
-                HasInitalizationError = true;
-                InitalizationErrorMessage = "Steam Running check returned false, Steam client must be running for the API to intialize.";
-                evtSteamInitializationError.Invoke(InitalizationErrorMessage);
-                Debug.LogError("[Steamworks.NET] Steam client must be running for the API to intialize.", this);
-                return;
-            }
-#endif
 
             current = this;
 

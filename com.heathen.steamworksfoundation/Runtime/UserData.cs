@@ -69,6 +69,13 @@ namespace HeathenEngineering.SteamworksIntegration
         public bool GetGamePlayed(out FriendGameInfo_t gameInfo) => API.Friends.Client.GetFriendGamePlayed(cSteamId, out gameInfo);
         public void InviteToGame(string connectString) => API.Friends.Client.InviteUserToGame(this, connectString);
         public bool SendMessage(string message) => API.Friends.Client.ReplyToFriendMessage(this, message);
+        /// <summary>
+        /// Requests the persona name and avatar of a specified user.
+        /// </summary>
+        /// <returns>
+        /// true means that the data has being requested, and a PersonaStateChange_t callback will be posted when it's retrieved. false means that we already have all the details about that user, and functions that require this information can be used immediately.
+        /// </returns>
+        public bool RequestInformation() => API.Friends.Client.RequestUserInformation(this, false);
 
 #if HE_STEAMCOMPLETE
         public bool InviteToLobby(Lobby lobby) => lobby.InviteUserToLobby(this);

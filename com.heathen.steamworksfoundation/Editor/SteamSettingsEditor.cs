@@ -302,7 +302,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             var dedicated = GUILayout.Toggle(settings.server.isDedicated, (settings.server.isDedicated ? "Disable" : "Enable") + " Dedicated Server", EditorStyles.toolbarButton);
             var spec = GUILayout.Toggle(settings.server.supportSpectators, (settings.server.supportSpectators ? "Disable" : "Enable") + " Spectator Support", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
-            var mirror = GUILayout.Toggle(settings.server.enableMirror, (settings.server.enableMirror ? "Disable" : "Enable") + " Mirror Support", EditorStyles.toolbarButton);
+            //var mirror = GUILayout.Toggle(settings.server.enableMirror, (settings.server.enableMirror ? "Disable" : "Enable") + " Mirror Support", EditorStyles.toolbarButton);
 
             if (autoInt != settings.server.autoInitalize)
             {
@@ -311,12 +311,12 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 EditorUtility.SetDirty(target);
             }
 
-            if (mirror != settings.server.enableMirror)
-            {
-                Undo.RecordObject(target, "editor");
-                settings.server.enableMirror = mirror;
-                EditorUtility.SetDirty(target);
-            }
+            //if (mirror != settings.server.enableMirror)
+            //{
+            //    Undo.RecordObject(target, "editor");
+            //    settings.server.enableMirror = mirror;
+            //    EditorUtility.SetDirty(target);
+            //}
 
             if (heart != settings.server.enableHeartbeats)
             {

@@ -1,7 +1,9 @@
 ﻿#if !DISABLESTEAMWORKS && STEAMWORKS_NET
 using Steamworks;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration.API
@@ -25,6 +27,8 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 eventPersonaStateChange = new PersonaStateChangeEvent();
                 eventFriendRichPresenceUpdate = new FriendRichPresenceUpdateEvent();
                 pendingLinks = new List<ImageRequestCallbackLink>();
+
+                followedIds = new List<CSteamID>();
 
                 if (loadedImages.Count > 0)
                     UnloadAvatarImages();
@@ -69,7 +73,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                     return eventFriendMessageReceived;
                 }
             }
-            
+
             /// <summary>
             /// Called when Rich Presence data has been updated for a user, this can happen automatically when friends in the same game update their rich presence, or after a call to RequestFriendRichPresence.
             /// </summary>
@@ -128,12 +132,12 @@ namespace HeathenEngineering.SteamworksIntegration.API
             private static List<ImageRequestCallbackLink> pendingLinks = new List<ImageRequestCallbackLink>();
             private static Dictionary<int, Texture2D> loadedImages = new Dictionary<int, Texture2D>();
             private static Dictionary<CSteamID, Texture2D> userAvatarMapping = new Dictionary<CSteamID, Texture2D>();
-            
+
             private static CallResult<FriendsEnumerateFollowingList_t> m_FriendsEnumerateFollowingList_t;
             private static CallResult<FriendsGetFollowerCount_t> m_FriendsGetFollowerCount_t;
             private static CallResult<FriendsIsFollowing_t> m_FriendsIsFollowing_t;
-            
-            
+
+
             private static CallResult<SetPersonaNameResponse_t> m_SetPersonaNameResponse_t;
 
             private static Callback<GameConnectedFriendChatMsg_t> m_GameConnectedFriendChatMsg_t;
@@ -141,10 +145,86 @@ namespace HeathenEngineering.SteamworksIntegration.API
             private static Callback<PersonaStateChange_t> m_PersonaStateChange_t;
             private static Callback<FriendRichPresenceUpdate_t> m_FriendRichPresenceUpdate_t;
 
+            private static bool loadingFollowed = false;
+            private static List<CSteamID> followedIds = new List<CSteamID>();
+
             /// <summary>
             /// Clears all of the current user's Rich Presence key/values.
             /// </summary>
             public static void ClearRichPresence() => SteamFriends.ClearRichPresence();
+            public static void GetFollowed(Action<CSteamID[]> callback)
+            {
+                if (callback != null)
+                {
+                    if (followedIds != null && followedIds.Count > 0)
+                        callback.Invoke(followedIds.ToArray());
+                    else
+                        SteamSettings.behaviour.StartCoroutine(FetchAllFollowed(callback));
+                }
+            }
+
+            private static IEnumerator FetchAllFollowed(Action<CSteamID[]> callback)
+            {
+                if (!loadingFollowed)
+                {
+                    loadingFollowed = true;
+                    uint index = 0;
+                    int read = 0;
+                    int total = 0;
+                    bool waiting = true;
+                    bool hasError = false;
+
+                    EnumerateFollowingList(index, (r, e) =>
+                    {
+                        if (!e)
+                        {
+                            followedIds.AddRange(r.m_rgSteamID.Where(p => p != CSteamID.Nil));
+                            total = r.m_nTotalResultCount;
+                            read = r.m_nResultsReturned;
+                        }
+                        else
+                            hasError = true;
+
+                        waiting = false;
+                    });
+
+                    while (waiting)
+                        yield return null;
+
+                    if (read < total)
+                    {
+                        while (read < total && !hasError)
+                        {
+                            EnumerateFollowingList((uint)read, (r, e) =>
+                            {
+                                if (!e)
+                                {
+                                    followedIds.AddRange(r.m_rgSteamID.Where(p => p != CSteamID.Nil));
+                                    total = r.m_nTotalResultCount;
+                                    read += r.m_nResultsReturned;
+                                }
+                                else
+                                    hasError = true;
+
+                                waiting = false;
+                            });
+
+                            while (waiting)
+                                yield return null;
+                        }
+                    }
+
+                    loadingFollowed = false;
+                }
+                else
+                {
+                    while (loadingFollowed)
+                        yield return null;
+                }
+
+                callback.Invoke(followedIds.ToArray());
+            }
+
             /// <summary>
             /// Gets the list of users that the current user is following.
             /// </summary>
@@ -548,9 +628,9 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 }
 
                 CSteamID user = CSteamID.Nil;
-                foreach(var kvp in userAvatarMapping)
+                foreach (var kvp in userAvatarMapping)
                 {
-                    if(kvp.Value == image)
+                    if (kvp.Value == image)
                     {
                         user = kvp.Key;
                         break;
@@ -588,11 +668,11 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <returns></returns>
             public static bool InviteUserToGame(UserData userId, string connectString) => SteamFriends.InviteUserToGame(userId, connectString);
             /// <summary>
-            /// Checks if the current user is following the specified user.
+            /// Checks if the current user is following the specified id.
             /// </summary>
-            /// <param name="userId"></param>
+            /// <param name="id"></param>
             /// <param name="callback"></param>
-            public static void IsFollowing(UserData userId, Action<FriendsIsFollowing_t, bool> callback)
+            public static void IsFollowing(CSteamID id, Action<FriendsIsFollowing_t, bool> callback)
             {
                 if (callback == null)
                     return;
@@ -600,7 +680,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 if (m_FriendsIsFollowing_t == null)
                     m_FriendsIsFollowing_t = CallResult<FriendsIsFollowing_t>.Create();
 
-                var handle = SteamFriends.IsFollowing(userId);
+                var handle = SteamFriends.IsFollowing(id);
                 m_FriendsIsFollowing_t.Set(handle, callback.Invoke);
             }
             /// <summary>

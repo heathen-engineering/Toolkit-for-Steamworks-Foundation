@@ -1,8 +1,8 @@
 {
   "name": "com.heathen.steamworksfoundation",
   "displayName": "Steamworks Foundation",
-  "version": "2.17.4",
-  "unity": "2019.4",
+  "version": "2.18.1",
+  "unity": "2020.3",
   "author": {
     "name": "Heathen Group",
     "email": "support@heathen.group",

@@ -2189,6 +2189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLocalUser: 1
+  showNickname: 0
 --- !u!114 &1234042827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2773,38 +2774,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4882e1f0baaa18a45836edebb1e6b881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 85f8a80ca92ce574b82c98a512eca71a, type: 2}
-  evtLeaderboardRankChanged:
+  settings: {fileID: 11400000, guid: c74d43ae95d28b94b88bbdf92550a2cf, type: 2}
+  evtSteamInitialized:
     m_PersistentCalls:
       m_Calls: []
-  evtLeaderboardRankLoaded:
-    m_PersistentCalls:
-      m_Calls: []
-  evtLeaderboardNewHighRank:
-    m_PersistentCalls:
-      m_Calls: []
-  evtItemInstancesUpdated:
-    m_PersistentCalls:
-      m_Calls: []
-  evtUserStatsRecieved:
-    m_PersistentCalls:
-      m_Calls: []
-  evtUserStatsStored:
-    m_PersistentCalls:
-      m_Calls: []
-  evtNumberOfCurrentPlayersResult:
-    m_PersistentCalls:
-      m_Calls: []
-  evtAchievementStored:
-    m_PersistentCalls:
-      m_Calls: []
-  evtAvatarLoaded:
-    m_PersistentCalls:
-      m_Calls: []
-  evtPersonaStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  evtRecievedFriendChatMessage:
+  evtSteamInitializationError:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1744233207
@@ -3385,6 +3359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLocalUser: 1
+  showNickname: 0
 --- !u!114 &2077122416
 MonoBehaviour:
   m_ObjectHideFlags: 0

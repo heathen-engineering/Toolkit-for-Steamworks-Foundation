@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using HeathenEngineering.SteamworksIntegration;
+﻿#if HE_SYSCORE && STEAMWORKS_NET && !DISABLESTEAMWORKS 
+using UnityEngine;
 
 namespace HeathenEngineering.DEMO
 {
@@ -9,20 +9,10 @@ namespace HeathenEngineering.DEMO
     [System.Obsolete("This script is for demonstration purposes ONLY")]
     public class Scene2Behaviour : MonoBehaviour
     {
-        [SerializeField]
-        private UnityEngine.UI.RawImage avatarImage;
-        [SerializeField]
-        private TMPro.TextMeshProUGUI userName;
-
-        private void Start()
-        {
-            UserData.Me.LoadAvatar(r => avatarImage.texture = r);
-            userName.text = UserData.Me.Nickname;
-        }
-
         public void OpenKnowledgeBaseUserData()
         {
             Application.OpenURL("https://kb.heathenengineering.com/assets/steamworks");
         }
     }
 }
+#endif

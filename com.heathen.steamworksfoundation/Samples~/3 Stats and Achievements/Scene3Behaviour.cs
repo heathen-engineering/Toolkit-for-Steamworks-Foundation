@@ -1,4 +1,4 @@
-﻿#if HE_STEAMFOUNDATION && STEAMWORKS_NET
+﻿#if HE_SYSCORE && STEAMWORKS_NET && !DISABLESTEAMWORKS 
 
 using HeathenEngineering.SteamworksIntegration;
 using HeathenEngineering.SteamworksIntegration.API;

@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && STEAMWORKS_NET
+﻿#if HE_SYSCORE && STEAMWORKS_NET
 using HeathenEngineering.Events;
 using Steamworks;
 using System;
@@ -18,7 +18,7 @@ namespace HeathenEngineering.SteamworksIntegration
     /// </summary>
     /// <remarks>
     /// <para>
-    /// The <see cref="SteamworksBehaviour"/> uses <see cref="SteamSettings"/> to initalize the Steam API and handles callbacks for the system.
+    /// The <see cref="SteamworksBehaviour"/> uses <see cref="SteamSettings"/> to initialize the Steam API and handles callbacks for the system.
     /// For the convenance of users using a singleton model <see cref="SteamSettings.current"/> can be used to access the active settings object.
     /// <see cref="SteamSettings.Client"/> is a static member containing all client scoped objects.
     /// <see cref="SteamSettings.Server"/> is a static member containing all server scoped objects.
@@ -42,10 +42,21 @@ namespace HeathenEngineering.SteamworksIntegration
         /// Reference to the <see cref="SteamworksClientApiSettings"/> object containing the configuration to be used for intialization of the Steamworks API
         /// </summary>
         public SteamSettings settings;
-        
+        [Header("Events")]
+        public UnityEvent evtSteamInitialized = new UnityEvent();
+        /// <summary>
+        /// An event raised when an error has occred while intializing the Steamworks API
+        /// </summary>
+        public UnityStringEvent evtSteamInitializationError = new UnityStringEvent();
+
+        private void OnDestroy()
+        {
+            settings.evtSteamInitialized.RemoveListener(evtSteamInitialized.Invoke);
+            settings.evtSteamInitializationError.RemoveListener(evtSteamInitializationError.Invoke);
+        }
         #endregion
-                
-        
+
+
         private bool abortedInitalization = false;
 
         private SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
@@ -77,6 +88,9 @@ namespace HeathenEngineering.SteamworksIntegration
                 return;
             }
 
+            settings.evtSteamInitialized.AddListener(evtSteamInitialized.Invoke);
+            settings.evtSteamInitializationError.AddListener(evtSteamInitializationError.Invoke);
+
             SteamSettings.behaviour = this;
 
 #if !UNITY_SERVER
@@ -87,7 +101,7 @@ namespace HeathenEngineering.SteamworksIntegration
             if(!SteamSettings.Initialized)
             {
                 enabled = false;
-                Debug.LogWarning("Failed to initalize the Steam API please check the logs for details.");
+                Debug.LogWarning("Failed to initialize the Steam API please check the logs for details.");
                 return;
             }
 
@@ -102,15 +116,9 @@ namespace HeathenEngineering.SteamworksIntegration
 #if UNITY_SERVER //|| UNITY_EDITOR
             if (settings.isDebugging)
                 Debug.Log("Game Server Startup Detected!");
-            if (settings.server.autoInitalize)
+            if (settings.server.autoInitialize)
                 InitializeGameServer();
-#endif
-
-#if !UNITY_SERVER && HE_STEAMCOMPLETE
-            StartCoroutine(LoadBoardsIterative());
-
-            API.Matchmaking.Client.EventLobbyEnterSuccess.AddListener(HandleLobbyEnter);
-            API.Matchmaking.Client.EventLobbyLeave.AddListener(HandleLobbyLeave);
+#else
 #endif
         }
 
@@ -124,10 +132,6 @@ namespace HeathenEngineering.SteamworksIntegration
 
             if (settings.server.usingGameServerAuthApi)
                 SteamGameServer.SetAdvertiseServerActive(false);
-#if MIRROR
-            if (settings.server.enableMirror)
-                Mirror.NetworkManager.singleton.StopServer();
-#endif
 
             //Remove the settings event listeners
             settings.server.disconnected.RemoveListener(LogDisconnect);
@@ -149,102 +153,33 @@ namespace HeathenEngineering.SteamworksIntegration
 
 #if !UNITY_SERVER
             Steamworks.SteamAPI.RunCallbacks();
-#if HE_STEAMCOMPLETE
-            if (API.Input.Client.Initialized)
-            {
-                API.Input.Client.RunFrame();
-            }
-#endif
 #else
             Steamworks.GameServer.RunCallbacks();
 #endif
         }
 
         /// <summary>
-        /// Checks if the Steam API is initialized and if not it will create a new Steamworks Behaviour object configure it with the settings and initalize
+        /// Checks if the Steam API is initialized and if not it will create a new Steamworks Behaviour object configure it with the settings and initialize
         /// </summary>
         /// <remarks>
-        /// This should only be used in the rare cases you need to initalize Steam API on demand. In a typical araingment you would defiine the Steamworks Beahviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
+        /// This should only be used in the rare cases you need to initialize Steam API on demand. In a typical araingment you would defiine the Steamworks Beahviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
         /// </remarks>
         /// <param name="doNotDestroy">Optionally mark the created Steamworks Behaviour object as Do Not Destroy On Load</param>
         public static void CreateIfMissing(SteamSettings settings, bool doNotDestroy = false) => settings.CreateBehaviour(doNotDestroy);
 
-#if HE_STEAMCOMPLETE
-        IEnumerator LoadBoardsIterative()
-        {
-            yield return new WaitForEndOfFrame();
-
-            foreach(var board in settings.leaderboards)
-            {
-                if(!board.Valid)
-                {
-                    bool waiting = true;
-                    float exitTime = Time.realtimeSinceStartup + 5f;
-                    API.Leaderboards.Client.Find(board.leaderboardName, (r, e) =>
-                    {
-                        if (r.m_bLeaderboardFound != 0 && !e)
-                            board.leaderboardId = r.m_hSteamLeaderboard;
-
-                        waiting = false;
-                    });
-
-                    yield return new WaitWhile(() => waiting && exitTime > Time.realtimeSinceStartup);
-                }
-            }
-        }
-
-        private void HandleLobbyEnter(LobbyEnter_t arg0)
-        {
-            var responceType = (EChatRoomEnterResponse)arg0.m_EChatRoomEnterResponse;
-
-            if (responceType == EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess)
-            {
-                if(!API.Matchmaking.Client.memberOfLobbies.Any(p => p.id.m_SteamID == arg0.m_ulSteamIDLobby))
-                API.Matchmaking.Client.memberOfLobbies.Add(new CSteamID(arg0.m_ulSteamIDLobby));
-            }
-            else
-            {
-                if (settings.isDebugging || Application.isEditor)
-                {
-                    if (responceType != EChatRoomEnterResponse.k_EChatRoomEnterResponseLimited)
-                    {
-                        Debug.LogWarning("This user is limited and cannot fully join a Steam Lobby! metadata and lobby chat will not work for this user though they will appear in the members list.");
-                    }
-                    else
-                    {
-                        if (responceType != EChatRoomEnterResponse.k_EChatRoomEnterResponseSuccess)
-                            Debug.LogWarning("Detected a Failed lobby enter attempt (" + arg0.m_ulSteamIDLobby + ":" + responceType + ")");
-                        else
-                            Debug.Log("Detected a successful lobby enter attempt (" + arg0.m_ulSteamIDLobby + ":" + responceType + ")");
-                    }
-                }
-            }
-        }
-
-        private void HandleLobbyLeave(Lobby arg0)
-        {
-            API.Matchmaking.Client.memberOfLobbies.RemoveAll(p => p.id == arg0.id);
-
-            if (settings.isDebugging)
-            {
-                Debug.Log("Detected lobby exit (" + arg0.id + ")");
-            }
-        }
-#endif
-
         #region Server Only Logic
         /// <summary>
-        /// Initalizes the Steam Game Server API.
+        /// Initializes the Steam Game Server API.
         /// </summary>
         /// <remarks>
-        /// This is called automatically if <see cref="SteamSettings.GameServer.autoInitalize"/> is set to true on the <see cref="SteamSettings.server"/> member
+        /// This is called automatically if <see cref="SteamSettings.GameServer.autoInitialize"/> is set to true on the <see cref="SteamSettings.server"/> member
         /// e.g. check the toggles on your Steam Settings object.
         /// </remarks>
         public void InitializeGameServer()
         {
             if (SteamSettings.Initialized)
             {
-                Debug.LogError("Tried to initalize the Steamworks API twice in one session!");
+                Debug.LogError("Tried to initialize the Steamworks API twice in one session!");
                 return;
             }
 
@@ -264,16 +199,8 @@ namespace HeathenEngineering.SteamworksIntegration
             SteamSettings.behaviour = this;
             settings.Init();
 
-            if (SteamSettings.Initialized)
-                StartCoroutine(DelayLogOn());
-        }
-
-        IEnumerator DelayLogOn()
-        {
-            yield return null;
-            if (settings.server.autoLogon)
+            if (SteamSettings.Initialized && settings.server.autoLogon)
                 settings.server.LogOn();
-
         }
 
         private void OnSteamServersConnected(SteamServersConnected_t pLogonSuccess)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if HE_SYSCORE && STEAMWORKS_NET
+using System;
 
 namespace HeathenEngineering.SteamworksIntegration
 {
@@ -10,3 +11,4 @@ namespace HeathenEngineering.SteamworksIntegration
         public string value;
     }
 }
+#endif

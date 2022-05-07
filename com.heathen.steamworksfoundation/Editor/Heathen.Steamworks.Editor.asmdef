@@ -1,0 +1,31 @@
+{
+    "name": "Heathen.Steamworks.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:58d42c70423577947911995925414405",
+        "GUID:68bd7fdb68ef2684e982e8a9825b18a5",
+        "GUID:3e1f55b641cbc824881f0d12f6a5c69a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.rlabrecque.steamworks.net",
+            "expression": "",
+            "define": "STEAMWORKS_NET"
+        },
+        {
+            "name": "com.heathen.systemcore",
+            "expression": "",
+            "define": "HE_SYSCORE"
+        }
+    ],
+    "noEngineReferences": false
+}

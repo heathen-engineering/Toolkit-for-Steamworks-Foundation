@@ -87,7 +87,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
 #endif
             var debug = GUILayout.Toggle(settings.isDebugging, "Enable Debug Messages", EditorStyles.toolbarButton);
-            if(settings.isDebugging != debug)
+            if (settings.isDebugging != debug)
             {
                 Undo.RecordObject(target, "editor");
                 settings.isDebugging = debug;
@@ -238,8 +238,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
             var address = API.Utilities.IPUintToString(settings.server.ip);
             var nAddress = EditorGUILayout.TextField("IP Address", address);
-            
-            if(address != nAddress)
+
+            if (address != nAddress)
             {
                 try
                 {
@@ -264,8 +264,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
 
             port = EditorGUILayout.TextField(new GUIContent("Query", "The port that will manage server browser related duties and info pings from clients.\nIf you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE (65535) for QueryPort, then it will use 'GameSocketShare' mode, which means that the game is responsible for sending and receiving UDP packets for the master server updater. See references to GameSocketShare in isteamgameserver.hn"), settings.server.queryPort.ToString());
-            
-            if(ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
+
+            if (ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.queryPort = nPort;
@@ -287,14 +287,14 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            var autoInt = GUILayout.Toggle(settings.server.autoInitalize, (settings.server.autoInitalize ? "Disable" : "Enable") + " Auto-Initalize", EditorStyles.toolbarButton);
+            var autoInt = GUILayout.Toggle(settings.server.autoInitialize, (settings.server.autoInitialize ? "Disable" : "Enable") + " Auto-Initalize", EditorStyles.toolbarButton);
             var autoLog = GUILayout.Toggle(settings.server.autoLogon, (settings.server.autoLogon ? "Disable" : "Enable") + " Auto-Logon", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             var heart = GUILayout.Toggle(settings.server.enableHeartbeats, (settings.server.enableHeartbeats ? "Disable" : "Enable") + " Server Heartbeat", EditorStyles.toolbarButton);
             var anon = GUILayout.Toggle(settings.server.anonymousServerLogin, (settings.server.anonymousServerLogin ? "Disable" : "Enable") + " Anonymous Server Login", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();            
+            EditorGUILayout.BeginHorizontal();
             var gsAuth = GUILayout.Toggle(settings.server.usingGameServerAuthApi, (settings.server.usingGameServerAuthApi ? "Disable" : "Enable") + " Game Server Auth API", EditorStyles.toolbarButton);
             var pass = GUILayout.Toggle(settings.server.isPasswordProtected, (settings.server.isPasswordProtected ? "Disable" : "Enable") + " Password Protected", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
@@ -304,10 +304,10 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             EditorGUILayout.EndHorizontal();
             //var mirror = GUILayout.Toggle(settings.server.enableMirror, (settings.server.enableMirror ? "Disable" : "Enable") + " Mirror Support", EditorStyles.toolbarButton);
 
-            if (autoInt != settings.server.autoInitalize)
+            if (autoInt != settings.server.autoInitialize)
             {
                 Undo.RecordObject(target, "editor");
-                settings.server.autoInitalize = autoInt;
+                settings.server.autoInitialize = autoInt;
                 EditorUtility.SetDirty(target);
             }
 
@@ -626,7 +626,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
         private void DrawLeaderboardList()
         {
 #if HE_STEAMCOMPLETE
-#region Steam Complete
+            #region Steam Complete
             if (settings.leaderboards == null)
                 settings.leaderboards = new List<LeaderboardObject>();
 
@@ -725,10 +725,10 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 GUI.backgroundColor = bgColor;
                 //EditorGUI.indentLevel = mil;
             }
-#endregion
+            #endregion
 #else
             leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards: ");
-            if(leaderboardFoldout)
+            if (leaderboardFoldout)
             {
                 if (GUILayout.Button("Buy Steamworks Complete"))
                 {
@@ -851,7 +851,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
 #else
             dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content: ");
-            if(dlcFoldout)
+            if (dlcFoldout)
             {
                 if (GUILayout.Button("Buy Steamworks Complete"))
                 {
@@ -1065,7 +1065,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
 #else
             inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory: ");
-            if(inventoryFoldout)
+            if (inventoryFoldout)
             {
                 if (GUILayout.Button("Buy Steamworks Complete"))
                 {

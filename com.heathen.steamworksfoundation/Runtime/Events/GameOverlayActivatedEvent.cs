@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && STEAMWORKS_NET
+﻿#if HE_SYSCORE && STEAMWORKS_NET
 using UnityEngine.Events;
 
 namespace HeathenEngineering.SteamworksIntegration

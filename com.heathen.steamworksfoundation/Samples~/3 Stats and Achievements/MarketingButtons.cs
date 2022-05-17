@@ -1,4 +1,3 @@
-﻿#if HE_SYSCORE && STEAMWORKS_NET && !DISABLESTEAMWORKS 
 using UnityEngine;
 
 namespace HeathenEngineering.DEMO
@@ -52,4 +51,3 @@ namespace HeathenEngineering.DEMO
         }
     }
 }
-#endif

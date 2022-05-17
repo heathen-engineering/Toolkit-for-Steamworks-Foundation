@@ -2774,7 +2774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4882e1f0baaa18a45836edebb1e6b881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: c74d43ae95d28b94b88bbdf92550a2cf, type: 2}
+  settings: {fileID: 11400000, guid: a50ea08a068490c4ab2a690ccfc93125, type: 2}
   evtSteamInitialized:
     m_PersistentCalls:
       m_Calls: []

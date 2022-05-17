@@ -291,7 +291,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: uGUIExtras
         m_Mode: 1
         m_Arguments:
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: Containers
         m_Mode: 1
         m_Arguments:
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: LeaveAReview
         m_Mode: 1
         m_Arguments:
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: UXComplete
         m_Mode: 1
         m_Arguments:
@@ -1220,7 +1220,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774560842}
-  - component: {fileID: 774560841}
   - component: {fileID: 774560840}
   m_Layer: 0
   m_Name: DEMO SCRIPTS
@@ -1239,18 +1238,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24cf7160c2aada84587041a757efb5c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &774560841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 774560839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bdd5a47267624c4aa9704e196c77653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &774560842
@@ -1505,7 +1492,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: PhysKit
         m_Mode: 1
         m_Arguments:
@@ -2090,7 +2077,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: JoinDiscord
         m_Mode: 1
         m_Arguments:
@@ -2469,7 +2456,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 774560841}
+      - m_Target: {fileID: 0}
         m_MethodName: Anibone
         m_Mode: 1
         m_Arguments:

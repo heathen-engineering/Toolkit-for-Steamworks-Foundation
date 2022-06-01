@@ -13,6 +13,9 @@
 2) Select `Add package from git URL...` when prompted provide the following URL:  
 `https://github.com/heathen-engineering/SteamworksFoundation.git?path=/com.heathen.steamworksfoundation`  
 
+### Installation Trouble Shooting
+Steamworks Foundaiton should only be installed from Unity Package Manager. It will handle the install of dependnecies such as [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) for you. If you have any issues with installing from Unity Package Manager please read our [Package Manager Article](https://kb.heathenengineering.com/company/concepts/package-manager-install) on our Knowledge Base. Manual import is possible but tends to cause problems so we do not directly support it.
+
 ## Description
 _Steamworks Foundation_ is the "lite" version of the [Steamworks Complete](https://www.heathen.group/steamworks) Unity asset and an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. This asset will check for the presence of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and offer to install it in your Unity project for you via Unity's Package Mannager if it is missing.
 

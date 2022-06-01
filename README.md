@@ -23,7 +23,10 @@ _Steamworks Foundation_ is the "lite" version of the [Steamworks Complete](https
 
 Heathen’s approach with its Steamworks assets has been to take the strength of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET), and the parody it has with Valve’s original APIs, and extend that with Unity centric tools, editor extensions and more to make [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) + Heathen the best possible option for Unity developers looking to integrate with Steam. 
 
-With Heathen's Steamworks You retain the strength of directly accessing Steam API when and where you may wish, while having the benefit of not just C# focused but Unity focused tools and extensions as well as systems battle tested across many games from many Unity developers. We have wrapped all relivent Steam interfaces in our API accounting for every callback and callresult in them, even the undocumented ones. Our knowledge base outlines every available interface, event, attribute, function and feature as well as every tool, system and object we have created on top of them.
+With Heathen's Steamworks You retain the strength of directly accessing Steam API when and where you may wish, while having the benefit of not just C# focused but Unity focused tools and extensions as well as systems battle tested across many games from many Unity developers. 
+
+### Learn More about Heathen's Steamworks integration
+[![What is Heathen's Steamworks](https://static.wixstatic.com/media/6ca001_d8db9e631f42495e87f65272f4eea058~mv2.png)](https://www.youtube.com/watch?v=6ujmZI1qUYI "What is Heathen's Steamworks")
 
 Whether you're new to Steam, Unity, or game development in general or a seasoned veteran well capable with the Steam APIs, Heathen’s Steamworks can greatly accelerate your project and help you produce a more robust product that better leverages the services offered by Valve. Heathen’s asset does not prevent you from using raw API calls in conjunction with its own extensions and tools. Many features of Steam API can be handled within Steamworks Complete with little or no coding at all. In the same respect everything is built with respect to the programmer and the need to extend and expand. 
 

@@ -1,3 +1,6 @@
+## Become a GitHub Sponsor
+Support Heathen and get instant access to [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit) and [UX Complete](https://www.heathen.group/ux) by becoming a [Heathen Sponsor](https://github.com/sponsors/heathen-engineering) here on GitHub!
+
 # Steamworks Foundation
 ![Steamworks Image](https://static.wixstatic.com/media/6ca001_1db279a94080471eae00168e27dce4c3~mv2.png/v1/crop/x_0,y_0,w_2400,h_993/fill/w_980,h_406,al_c,usm_0.66_1.00_0.01,enc_auto/SteamMarketing.png)
 * Author: [Heathen Group](https://github.com/sponsors/heathen-engineering)

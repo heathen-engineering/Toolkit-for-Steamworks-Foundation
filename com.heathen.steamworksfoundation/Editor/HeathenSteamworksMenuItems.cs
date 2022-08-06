@@ -76,8 +76,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
                 SessionState.SetBool("SysCoreInstall", false);
             }
-#elif !STEAMWORKSNET && !FACEPUNCH
-            if (EditorUtility.DisplayDialog("Heathen Installer", "No Steam API found, you can install Steamworks.NET or Facepunch, we can install Steamworks.NET for you, if you want to use Facepunch you will need to install that your self.", "Install Steamworks.NET", "I'll get Facepunch my self"))
+#elif !STEAMWORKSNET
+            if (EditorUtility.DisplayDialog("Heathen Installer", "No Steam API found, you can install Steamworks.NET, we can install Steamworks.NET for you.", "Install Steamworks.NET", "I'll do it my self"))
             {
                 yield return null;
                 AddRequest steamProc = null;

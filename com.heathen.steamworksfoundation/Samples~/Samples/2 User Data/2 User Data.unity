@@ -291,7 +291,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: uGUIExtras
         m_Mode: 1
         m_Arguments:
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: Containers
         m_Mode: 1
         m_Arguments:
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: LeaveAReview
         m_Mode: 1
         m_Arguments:
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: UXComplete
         m_Mode: 1
         m_Arguments:
@@ -1220,6 +1220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774560842}
+  - component: {fileID: 774560841}
   - component: {fileID: 774560840}
   m_Layer: 0
   m_Name: DEMO SCRIPTS
@@ -1238,6 +1239,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24cf7160c2aada84587041a757efb5c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &774560841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774560839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bdd5a47267624c4aa9704e196c77653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &774560842
@@ -1492,7 +1505,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: PhysKit
         m_Mode: 1
         m_Arguments:
@@ -2077,7 +2090,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: JoinDiscord
         m_Mode: 1
         m_Arguments:
@@ -2176,7 +2189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLocalUser: 1
-  showNickname: 0
 --- !u!114 &1234042827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2456,7 +2468,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 774560841}
         m_MethodName: Anibone
         m_Mode: 1
         m_Arguments:
@@ -2761,11 +2773,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4882e1f0baaa18a45836edebb1e6b881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: a50ea08a068490c4ab2a690ccfc93125, type: 2}
-  evtSteamInitialized:
+  settings: {fileID: 11400000, guid: 85f8a80ca92ce574b82c98a512eca71a, type: 2}
+  evtLeaderboardRankChanged:
     m_PersistentCalls:
       m_Calls: []
-  evtSteamInitializationError:
+  evtLeaderboardRankLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  evtLeaderboardNewHighRank:
+    m_PersistentCalls:
+      m_Calls: []
+  evtItemInstancesUpdated:
+    m_PersistentCalls:
+      m_Calls: []
+  evtUserStatsRecieved:
+    m_PersistentCalls:
+      m_Calls: []
+  evtUserStatsStored:
+    m_PersistentCalls:
+      m_Calls: []
+  evtNumberOfCurrentPlayersResult:
+    m_PersistentCalls:
+      m_Calls: []
+  evtAchievementStored:
+    m_PersistentCalls:
+      m_Calls: []
+  evtAvatarLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  evtPersonaStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  evtRecievedFriendChatMessage:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1744233207
@@ -3346,7 +3385,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLocalUser: 1
-  showNickname: 0
 --- !u!114 &2077122416
 MonoBehaviour:
   m_ObjectHideFlags: 0

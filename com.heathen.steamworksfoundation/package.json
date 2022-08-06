@@ -1,7 +1,7 @@
 {
   "name": "com.heathen.steamworksfoundation",
   "displayName": "Steamworks Foundation",
-  "version": "2.18.2",
+  "version": "2.20.7",
   "unity": "2020.3",
   "author": {
     "name": "Heathen Group",
@@ -17,18 +17,8 @@
   "license": "LICENSE.md",
   "samples": 
 	[{
-		"displayName": "Quick Start",
-		"description": "A simple bare bones example with instructions of a from-scratch setup.",
-		"path": "Samples~/1 Quick Start"
-	 },
-	 {
-		"displayName": "User Data",
-		"description": "Reading and using user data such as avatar, name, nickname, level, status and more.",
-		"path": "Samples~/2 User Data"
-	 },
-	 {
-		"displayName": "Stats and Achievements",
-		"description": "Demonstration of the configuration and use of Steam stats and achievements.",
-		"path": "Samples~/3 Stats and Achievements"
+		"displayName": "Sample Scenes",
+		"description": "A set of common sample scenes.",
+		"path": "Samples~/Samples"
 	 }]
 }

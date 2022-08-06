@@ -19,7 +19,7 @@
         {
             "name": "com.rlabrecque.steamworks.net",
             "expression": "",
-            "define": "STEAMWORKS_NET"
+            "define": "STEAMWORKSNET"
         },
         {
             "name": "com.heathen.systemcore",

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH) && !DISABLESTEAMWORKS 
+using UnityEngine;
 
 namespace HeathenEngineering.DEMO
 {
@@ -14,3 +15,4 @@ namespace HeathenEngineering.DEMO
         }
     }
 }
+#endif

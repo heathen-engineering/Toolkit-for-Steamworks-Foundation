@@ -1,4 +1,5 @@
-﻿
+﻿#if HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH) && !DISABLESTEAMWORKS
+
 using HeathenEngineering.SteamworksIntegration;
 using HeathenEngineering.SteamworksIntegration.API;
 using Steamworks;
@@ -60,3 +61,4 @@ namespace HeathenEngineering.DEMO
         }
     }
 }
+#endif

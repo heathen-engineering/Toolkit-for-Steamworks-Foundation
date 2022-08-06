@@ -1,4 +1,4 @@
-﻿#if HE_SYSCORE && STEAMWORKS_NET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKS_NET
 using System.IO;
 using UnityEditor;
 using UnityEngine;

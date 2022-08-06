@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && STEAMWORKS_NET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
 using Steamworks;
 using System.Collections.Generic;
 using System.IO;
@@ -47,17 +47,6 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             DrawCommonSettings();
             DrawServerSettings();
 
-#if !HE_STEAMCOMPLETE
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            if (GUILayout.Button("Buy Steamworks Complete"))
-            {
-                GUI.FocusControl(null);
-
-                Application.OpenURL("https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316");
-            }
-#endif
         }
 
         private void ValidationChecks()
@@ -78,16 +67,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
         private void DrawCommonSettings()
         {
             EditorGUILayout.BeginHorizontal();
-#if HE_STEAMCOMPLETE
-            if (GUILayout.Button("Open Debug Window"))
-            {
-                GUI.FocusControl(null);
-
-                SteamInspector_Code.ShowExample();
-            }
-#endif
             var debug = GUILayout.Toggle(settings.isDebugging, "Enable Debug Messages", EditorStyles.toolbarButton);
-            if (settings.isDebugging != debug)
+            if(settings.isDebugging != debug)
             {
                 Undo.RecordObject(target, "editor");
                 settings.isDebugging = debug;
@@ -238,8 +219,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
             var address = API.Utilities.IPUintToString(settings.server.ip);
             var nAddress = EditorGUILayout.TextField("IP Address", address);
-
-            if (address != nAddress)
+            
+            if(address != nAddress)
             {
                 try
                 {
@@ -264,8 +245,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
 
             port = EditorGUILayout.TextField(new GUIContent("Query", "The port that will manage server browser related duties and info pings from clients.\nIf you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE (65535) for QueryPort, then it will use 'GameSocketShare' mode, which means that the game is responsible for sending and receiving UDP packets for the master server updater. See references to GameSocketShare in isteamgameserver.hn"), settings.server.queryPort.ToString());
-
-            if (ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
+            
+            if(ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.queryPort = nPort;
@@ -287,14 +268,14 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            var autoInt = GUILayout.Toggle(settings.server.autoInitialize, (settings.server.autoInitialize ? "Disable" : "Enable") + " Auto-Initalize", EditorStyles.toolbarButton);
+            var autoInt = GUILayout.Toggle(settings.server.autoInitialize, (settings.server.autoInitialize ? "Disable" : "Enable") + " Auto-Initialize", EditorStyles.toolbarButton);
             var autoLog = GUILayout.Toggle(settings.server.autoLogon, (settings.server.autoLogon ? "Disable" : "Enable") + " Auto-Logon", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
             var heart = GUILayout.Toggle(settings.server.enableHeartbeats, (settings.server.enableHeartbeats ? "Disable" : "Enable") + " Server Heartbeat", EditorStyles.toolbarButton);
             var anon = GUILayout.Toggle(settings.server.anonymousServerLogin, (settings.server.anonymousServerLogin ? "Disable" : "Enable") + " Anonymous Server Login", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.BeginHorizontal();            
             var gsAuth = GUILayout.Toggle(settings.server.usingGameServerAuthApi, (settings.server.usingGameServerAuthApi ? "Disable" : "Enable") + " Game Server Auth API", EditorStyles.toolbarButton);
             var pass = GUILayout.Toggle(settings.server.isPasswordProtected, (settings.server.isPasswordProtected ? "Disable" : "Enable") + " Password Protected", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
@@ -310,13 +291,6 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 settings.server.autoInitialize = autoInt;
                 EditorUtility.SetDirty(target);
             }
-
-            //if (mirror != settings.server.enableMirror)
-            //{
-            //    Undo.RecordObject(target, "editor");
-            //    settings.server.enableMirror = mirror;
-            //    EditorUtility.SetDirty(target);
-            //}
 
             if (heart != settings.server.enableHeartbeats)
             {
@@ -625,775 +599,113 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private void DrawLeaderboardList()
         {
-#if HE_STEAMCOMPLETE
-            #region Steam Complete
-            if (settings.leaderboards == null)
-                settings.leaderboards = new List<LeaderboardObject>();
-
-            settings.leaderboards.RemoveAll(p => p == null);
-            if (settings.leaderboards == null)
-                settings.leaderboards = new List<LeaderboardObject>();
-
-            leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards: " + settings.leaderboards.Count);
+            leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards ");
 
             if (leaderboardFoldout)
             {
-                //int mil = EditorGUI.indentLevel;
-                //EditorGUI.indentLevel++;
+                EditorGUI.indentLevel++;
 
-                var color = GUI.contentColor;
-                EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                if (GUILayout.Button("+ New", EditorStyles.toolbarButton, GUILayout.Width(50)))
+                EditorGUILayout.HelpBox("Steam Leaderboards are not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+
+                if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
-                    GUI.FocusControl(null);
-
-                    LeaderboardObject nStat = ScriptableObject.CreateInstance<LeaderboardObject>();
-                    nStat.name = "[LdrBrd] New Leaderboard";
-                    nStat.leaderboardName = "New Leaderboard";
-                    AssetDatabase.AddObjectToAsset(nStat, settings);
-                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                    settings.leaderboards.Add(nStat);
-                    EditorUtility.SetDirty(target);
-                    EditorGUIUtility.PingObject(nStat);
+                    Application.OpenURL("https://github.com/sponsors/heathen-engineering/sponsorships?tier_id=140443&preview=true");
                 }
-                GUI.contentColor = color;
-                EditorGUILayout.EndHorizontal();
-
-                var bgColor = GUI.backgroundColor;
-                //int il = EditorGUI.indentLevel;
-                //EditorGUI.indentLevel++;
-
-                settings.leaderboards.RemoveAll(p => p == null);
-
-                for (int i = 0; i < settings.leaderboards.Count; i++)
+                if (GUILayout.Button("Learn More", EditorStyles.toolbarButton))
                 {
-                    var item = settings.leaderboards[i];
-
-                    EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                    if (GUILayout.Button(new GUIContent("P", "Ping the object in the Unity Editor"), EditorStyles.toolbarButton, GUILayout.Width(20)))
-                    {
-                        GUI.FocusControl(null);
-                        EditorGUIUtility.PingObject(item);
-                    }
-
-                    if (GUILayout.Button(new GUIContent(item.createIfMissing ? "✓" : "-", "Create if missing?"), EditorStyles.toolbarButton, GUILayout.Width(20)))
-                    {
-                        GUI.FocusControl(null);
-                        item.createIfMissing = !item.createIfMissing;
-                        EditorUtility.SetDirty(item);
-                    }
-
-                    var nVal = EditorGUILayout.TextField(item.leaderboardName);
-                    if (nVal != item.leaderboardName)
-                    {
-                        item.leaderboardName = nVal;
-                        item.name = "[LdrBrd] " + nVal;
-                        EditorUtility.SetDirty(target);
-                        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(target));
-                        EditorGUIUtility.PingObject(item);
-                    }
-
-                    GUIContent detailsContent = new GUIContent("Details:", "This is the number of detail values that will be loaded for entries when querying the leaderboard. Details are an int array and can be used to assoceate general data with a given entry such as class, rank, level, map, etc.");
-                    EditorGUILayout.LabelField(detailsContent, GUILayout.Width(65));
-                    var nCount = EditorGUILayout.TextField(item.maxDetailEntries.ToString(), GUILayout.Width(75));
-                    int nCountBuffer = 0;
-                    if (int.TryParse(nCount, out nCountBuffer))
-                    {
-                        item.maxDetailEntries = nCountBuffer;
-                    }
-
-                    GUI.contentColor = SteamSettings.Colors.ErrorRed;
-                    if (GUILayout.Button(new GUIContent("X", "Remove the object"), EditorStyles.toolbarButton, GUILayout.Width(25)))
-                    {
-                        GUI.FocusControl(null);
-                        if (AssetDatabase.GetAssetPath(settings.leaderboards[i]) == AssetDatabase.GetAssetPath(settings))
-                        {
-                            AssetDatabase.RemoveObjectFromAsset(settings.leaderboards[i]);
-                            needRefresh = true;
-                        }
-                        settings.leaderboards.RemoveAt(i);
-                        EditorUtility.SetDirty(target);
-                        EditorGUIUtility.PingObject(target);
-                        return;
-                    }
-                    GUI.contentColor = color;
-                    EditorGUILayout.EndHorizontal();
+                    Application.OpenURL("https://kb.heathenengineering.com/company/concepts/become-a-sponsor");
                 }
-                //EditorGUI.indentLevel = il;
-                GUI.backgroundColor = bgColor;
-                //EditorGUI.indentLevel = mil;
-            }
-            #endregion
-#else
-            leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards: ");
-            if (leaderboardFoldout)
-            {
-                if (GUILayout.Button("Buy Steamworks Complete"))
+                if (GUILayout.Button("Ask a Question", EditorStyles.toolbarButton))
                 {
-                    GUI.FocusControl(null);
-
-                    Application.OpenURL("https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316");
+                    Application.OpenURL("https://discord.gg/6X3xrRc");
                 }
-            }
-#endif
+
+                EditorGUI.indentLevel--;
+            }            
         }
 
         private void DrawDLCList()
         {
-#if HE_STEAMCOMPLETE
-            if (settings.dlc == null)
-                settings.dlc = new List<DownloadableContentObject>();
-
-            settings.dlc.RemoveAll(p => p == null);
-            if (settings.dlc == null)
-                settings.dlc = new List<DownloadableContentObject>();
-
-            dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content: " + settings.dlc.Count);
+            dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content ");
 
             if (dlcFoldout)
             {
-                var color = GUI.contentColor;
-                EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                //GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                if (GUILayout.Button("Import", EditorStyles.toolbarButton, GUILayout.Width(50)))
-                {
-                    GUI.FocusControl(null);
-                    try
-                    {
-                        var dlc = API.App.Client.Dlc;
-                        var toRemove = new List<DownloadableContentObject>();
-                        foreach (var eDlc in settings.dlc)
-                        {
-                            if (eDlc.AppId == default || !dlc.Any(p => p.AppId == eDlc.AppId))
-                                toRemove.Add(eDlc);
-                        }
-
-                        while (toRemove.Count > 0)
-                        {
-                            var target = toRemove[0];
-                            toRemove.Remove(target);
-                            GUI.FocusControl(null);
-                            if (AssetDatabase.GetAssetPath(target) == AssetDatabase.GetAssetPath(settings))
-                            {
-                                AssetDatabase.RemoveObjectFromAsset(target);
-                                needRefresh = true;
-                                UnityEditor.EditorUtility.SetDirty(settings);
-                            }
-                            settings.dlc.Remove(target);
-                        }
-
-                        for (int i = 0; i < dlc.Length; i++)
-                        {
-                            var tDlc = dlc[i];
-
-                            var dlcObj = settings.dlc.FirstOrDefault(p => p.AppId == tDlc.AppId);
-
-                            bool created = false;
-                            if (dlcObj == null)
-                            {
-                                dlcObj = ScriptableObject.CreateInstance<DownloadableContentObject>();
-                                created = true;
-                            }
-
-                            dlcObj.name = "[DLC] " + tDlc.Name;
-                            dlcObj.AppId = tDlc.AppId;
-
-                            if (created)
-                            {
-                                UnityEditor.AssetDatabase.AddObjectToAsset(dlcObj, settings);
-                                settings.dlc.Add(dlcObj);
-                            }
-
-                            UnityEditor.EditorUtility.SetDirty(dlcObj);
-                            UnityEditor.EditorUtility.SetDirty(settings);
-                        }
-
-                        //Found we need to double tap set dirty here, not sure if this is a bug with Unity editor or something missing in our process
-                        UnityEditor.EditorUtility.SetDirty(target);
-                        UnityEditor.EditorUtility.SetDirty(settings);
-                        UnityEditor.AssetDatabase.ImportAsset(UnityEditor.AssetDatabase.GetAssetPath(target));
-                        UnityEditor.EditorUtility.SetDirty(settings);
-
-                        EditorUtility.SetDirty(target);
-                        EditorGUIUtility.PingObject(target);
-                    }
-                    catch
-                    {
-                        Debug.LogWarning("DLC can only be imported while the simulation is running, press play and try again to import.");
-                    }
-                }
-                GUI.contentColor = color;
-                EditorGUILayout.EndHorizontal();
-
-                var bgColor = GUI.backgroundColor;
-                
-                settings.dlc.RemoveAll(p => p == null);
-
-                for (int i = 0; i < settings.dlc.Count; i++)
-                {
-                    var item = settings.dlc[i];
-
-                    EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                    if (GUILayout.Button("P", EditorStyles.toolbarButton, GUILayout.Width(20)))
-                    {
-                        GUI.FocusControl(null);
-                        EditorGUIUtility.PingObject(item);
-                    }
-
-                    EditorGUILayout.LabelField(item.name.Replace("[DLC] ", ""));
-
-                    EditorGUILayout.EndHorizontal();
-                }
-                
-                GUI.backgroundColor = bgColor;
-            }
-#else
-            dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content: ");
-            if (dlcFoldout)
-            {
-                if (GUILayout.Button("Buy Steamworks Complete"))
-                {
-                    GUI.FocusControl(null);
-
-                    Application.OpenURL("https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316");
-                }
-            }
-#endif
-        }
-
-        private void DrawInventoryArea()
-        {
-#if HE_STEAMCOMPLETE
-            settings.client.inventory.items.RemoveAll(p => p == null);
-
-            foreach(var item in settings.client.inventory.items)
-            {
-                var objName = "[Inv] " + item.Id.ToString() + " " + item.Name;
-                if (item.name != objName)
-                {
-                    item.name = objName;
-                    EditorUtility.SetDirty(item);
-                    EditorUtility.SetDirty(settings);
-
-                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                    EditorGUIUtility.PingObject(item);
-                }
-            }
-
-            inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory: " + settings.client.inventory.items.Count);
-
-            if (inventoryFoldout)
-            {
-                var runLoad = settings.client.inventory.runTimeUpdateItemDefinitions;
-                runLoad = EditorGUILayout.Toggle(new GUIContent("Runtime Update", "Should the item definitions be updated at run time in the event of item definition change notification from the Valve client."), runLoad);
-                if(settings.client.inventory.runTimeUpdateItemDefinitions != runLoad)
-                {
-                    settings.client.inventory.runTimeUpdateItemDefinitions = runLoad;
-                    EditorUtility.SetDirty(target);
-                }
-
                 EditorGUI.indentLevel++;
-                EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                var color = GUI.contentColor;
-                GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                if (GUILayout.Button("+ New", EditorStyles.toolbarButton, GUILayout.Width(50)))
+
+                EditorGUILayout.HelpBox("Steam DLC is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+
+                if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
-                    GUI.FocusControl(null);
-
-                    var nItem = ScriptableObject.CreateInstance<ItemDefinition>();
-                    nItem.Id = new SteamItemDef_t(GetNextAvailableItemNumber());
-                    nItem.Name = "New Item";
-                    nItem.name = "[Inv] " + nItem.Id.m_SteamItemDef + " New Item";
-
-                    AssetDatabase.AddObjectToAsset(nItem, settings);
-                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                    settings.client.inventory.items.Add(nItem);
-                    EditorUtility.SetDirty(target);
-
-                    GUI.FocusControl(null);
-                    EditorGUIUtility.PingObject(nItem);
+                    Application.OpenURL("https://github.com/sponsors/heathen-engineering/sponsorships?tier_id=140443&preview=true");
                 }
-                GUI.contentColor = color;
-                if (GUILayout.Button("Import", EditorStyles.toolbarButton, GUILayout.Width(50)))
+                if (GUILayout.Button("Learn More", EditorStyles.toolbarButton))
                 {
-                    GUI.FocusControl(null);
-
-                    try
-                    {
-                        settings.client.inventory.UpdateItemDefinitions();
-                        API.Inventory.Client.LoadItemDefinitions();
-                    }
-                    catch
-                    {
-                        Debug.LogWarning("Failed to import data from Steam, make sure you have simulated/ran at least once in order to engage the Steam API.");
-                    }
-
-                    EditorUtility.SetDirty(target);
-                    GUI.FocusControl(null);
-                    EditorGUIUtility.PingObject(target);
+                    Application.OpenURL("https://kb.heathenengineering.com/company/concepts/become-a-sponsor");
                 }
-                GUI.contentColor = color;
-
-                if (GUILayout.Button("Copy JSON", EditorStyles.toolbarButton, GUILayout.Width(100)))
+                if (GUILayout.Button("Ask a Question", EditorStyles.toolbarButton))
                 {
-                    GUI.FocusControl(null);
-
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("{");
-                    sb.Append("\t\"appid\": " + settings.applicationId.ToString());
-                    sb.Append(",\n\t\"items\": [");
-                    sb.Append("\n" + settings.client.inventory.items[0].ToJson());
-
-                    for (int i = 1; i < settings.client.inventory.items.Count; i++)
-                    {
-                        sb.Append(",\n" + settings.client.inventory.items[i].ToJson());
-                    }
-
-                    sb.Append("\n\t]\n}");
-
-                    var n = new TextEditor();
-                    n.text = sb.ToString();
-                    n.SelectAll();
-                    n.Copy();
-
-                    Debug.Log("Output copied to clipboard:\n\n" + sb.ToString());
-                }
-                GUI.contentColor = color;
-
-
-                EditorGUILayout.EndHorizontal();
-
-                itemsFoldout = EditorGUILayout.Foldout(itemsFoldout, "Items: " + settings.client.inventory.items.Where(p => p.Type == Enums.InventoryItemType.item).Count());
-
-                if (itemsFoldout)
-                {
-                    settings.client.inventory.items.Sort((a, b) => a.Id.m_SteamItemDef.CompareTo(b.Id.m_SteamItemDef));
-
-                    for (int i = 0; i < settings.client.inventory.items.Count; i++)
-                    {
-                        var item = settings.client.inventory.items[i];
-
-                        if (item.Type == Enums.InventoryItemType.item)
-                        {
-                            if (DrawItem(item))
-                                break;
-                        }
-                    }
-                }
-
-                bundlesFoldout = EditorGUILayout.Foldout(bundlesFoldout, "Bundles: " + settings.client.inventory.items.Where(p => p.Type == Enums.InventoryItemType.bundle).Count());
-
-                if (bundlesFoldout)
-                {
-                    settings.client.inventory.items.RemoveAll(p => p == null);
-                    settings.client.inventory.items.Sort((a, b) => a.Id.m_SteamItemDef.CompareTo(b.Id.m_SteamItemDef));
-
-                    for (int i = 0; i < settings.client.inventory.items.Count; i++)
-                    {
-                        var item = settings.client.inventory.items[i];
-
-                        if (item.Type == Enums.InventoryItemType.bundle)
-                        {
-                            if (DrawItem(item))
-                                break;
-                        }
-                    }
-                }
-
-                generatorFoldout = EditorGUILayout.Foldout(generatorFoldout, "Generators: " + settings.client.inventory.items.Where(p => p.Type == Enums.InventoryItemType.generator).Count());
-
-                if (generatorFoldout)
-                {
-                    settings.client.inventory.items.RemoveAll(p => p == null);
-                    settings.client.inventory.items.Sort((a, b) => a.Id.m_SteamItemDef.CompareTo(b.Id.m_SteamItemDef));
-
-                    for (int i = 0; i < settings.client.inventory.items.Count; i++)
-                    {
-                        var item = settings.client.inventory.items[i];
-
-                        if (item.Type == Enums.InventoryItemType.generator)
-                        {
-                            if (DrawItem(item))
-                                break;
-                        }
-                    }
-                }
-
-                playtimegeneratorFoldout = EditorGUILayout.Foldout(playtimegeneratorFoldout, "Playtime Generators: " + settings.client.inventory.items.Where(p => p.Type == Enums.InventoryItemType.playtimegenerator).Count());
-
-                if (playtimegeneratorFoldout)
-                {
-                    settings.client.inventory.items.RemoveAll(p => p == null);
-                    settings.client.inventory.items.Sort((a, b) => a.Id.m_SteamItemDef.CompareTo(b.Id.m_SteamItemDef));
-
-                    for (int i = 0; i < settings.client.inventory.items.Count; i++)
-                    {
-                        var item = settings.client.inventory.items[i];
-
-                        if (item.Type == Enums.InventoryItemType.playtimegenerator)
-                        {
-                            if (DrawItem(item))
-                                break;
-                        }
-                    }
-                }
-
-                taggeneratorFoldout = EditorGUILayout.Foldout(taggeneratorFoldout, "Tag Generators: " + settings.client.inventory.items.Where(p => p.Type == Enums.InventoryItemType.tag_generator).Count());
-
-                if (taggeneratorFoldout)
-                {
-                    settings.client.inventory.items.RemoveAll(p => p == null);
-                    settings.client.inventory.items.Sort((a, b) => a.Id.m_SteamItemDef.CompareTo(b.Id.m_SteamItemDef));
-
-                    for (int i = 0; i < settings.client.inventory.items.Count; i++)
-                    {
-                        var item = settings.client.inventory.items[i];
-
-                        if (item.Type == Enums.InventoryItemType.tag_generator)
-                        {
-                            if (DrawItem(item))
-                                break;
-                        }
-                    }
+                    Application.OpenURL("https://discord.gg/6X3xrRc");
                 }
 
                 EditorGUI.indentLevel--;
             }
-#else
-            inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory: ");
+        }
+
+        private void DrawInventoryArea()
+        {
+            inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory ");
+
             if (inventoryFoldout)
             {
-                if (GUILayout.Button("Buy Steamworks Complete"))
-                {
-                    GUI.FocusControl(null);
+                EditorGUI.indentLevel++;
 
-                    Application.OpenURL("https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316");
+                EditorGUILayout.HelpBox("Steam Inventory is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+
+                if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
+                {
+                    Application.OpenURL("https://github.com/sponsors/heathen-engineering/sponsorships?tier_id=140443&preview=true");
                 }
+                if (GUILayout.Button("Learn More", EditorStyles.toolbarButton))
+                {
+                    Application.OpenURL("https://kb.heathenengineering.com/company/concepts/become-a-sponsor");
+                }
+                if (GUILayout.Button("Ask a Question", EditorStyles.toolbarButton))
+                {
+                    Application.OpenURL("https://discord.gg/6X3xrRc");
+                }
+
+                EditorGUI.indentLevel--;
             }
-#endif
         }
 
         private void DrawInputArea()
         {
-#if HE_STEAMCOMPLETE
             //inputFoldout
-            inputFoldout = EditorGUILayout.Foldout(inputFoldout, "Input: " + (settings.client.actions.Count + settings.client.actionSets.Count + settings.client.actionSetLayers.Count).ToString());
+            inputFoldout = EditorGUILayout.Foldout(inputFoldout, "Input");
 
             if(inputFoldout)
             {
 
                 EditorGUI.indentLevel++;
 
-                inputActionSetFoldout = EditorGUILayout.Foldout(inputActionSetFoldout, "Action Sets: " + settings.client.actionSets.Count.ToString());
+                EditorGUILayout.HelpBox("Steam Input is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n Cancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
-                if(inputActionSetFoldout)
+                if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
-                    EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                    var color = GUI.contentColor;
-                    GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                    if (GUILayout.Button("+ New", EditorStyles.toolbarButton, GUILayout.Width(50)))
-                    {
-                        GUI.FocusControl(null);
-
-                        var nItem = ScriptableObject.CreateInstance<InputActionSet>();
-                        nItem.setName = "action_set";
-                        nItem.name = "[Input-Set] " + nItem.setName;
-
-                        AssetDatabase.AddObjectToAsset(nItem, settings);
-                        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                        settings.client.actionSets.Add(nItem);
-                        EditorUtility.SetDirty(target);
-
-                        GUI.FocusControl(null);
-                        EditorGUIUtility.PingObject(nItem);
-                    }
-                    GUI.contentColor = color;
-                    EditorGUILayout.EndHorizontal();
-
-                    for (int i = 0; i < settings.client.actionSets.Count; i++)
-                    {
-                        var item = settings.client.actionSets[i];
-
-                        if (DrawItem(item))
-                            break;
-                    }
+                    Application.OpenURL("https://github.com/sponsors/heathen-engineering/sponsorships?tier_id=140443&preview=true");
                 }
-
-                inputActionSetLayerFoldout = EditorGUILayout.Foldout(inputActionSetLayerFoldout, "Action Set Layerss: " + settings.client.actionSetLayers.Count.ToString());
-
-                if (inputActionSetLayerFoldout)
+                if (GUILayout.Button("Learn More", EditorStyles.toolbarButton))
                 {
-                    EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                    var color = GUI.contentColor;
-                    GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                    if (GUILayout.Button("+ New", EditorStyles.toolbarButton, GUILayout.Width(50)))
-                    {
-                        GUI.FocusControl(null);
-
-                        var nItem = ScriptableObject.CreateInstance<InputActionSetLayer>();
-                        nItem.layerName = "action_set_layer";
-                        nItem.name = "[Input-SetLayer] " + nItem.layerName;
-
-                        AssetDatabase.AddObjectToAsset(nItem, settings);
-                        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                        settings.client.actionSetLayers.Add(nItem);
-                        EditorUtility.SetDirty(target);
-
-                        GUI.FocusControl(null);
-                        EditorGUIUtility.PingObject(nItem);
-                    }
-                    GUI.contentColor = color;
-                    EditorGUILayout.EndHorizontal();
-
-                    for (int i = 0; i < settings.client.actionSetLayers.Count; i++)
-                    {
-                        var item = settings.client.actionSetLayers[i];
-
-                        if (DrawItem(item))
-                            break;
-                    }
+                    Application.OpenURL("https://kb.heathenengineering.com/company/concepts/become-a-sponsor");
                 }
-
-                inputActionFoldout = EditorGUILayout.Foldout(inputActionFoldout, "Actions: " + settings.client.actions.Count.ToString());
-
-                if (inputActionFoldout)
+                if (GUILayout.Button("Ask a Question", EditorStyles.toolbarButton))
                 {
-                    EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-                    var color = GUI.contentColor;
-                    GUI.contentColor = SteamSettings.Colors.BrightGreen;
-                    if (GUILayout.Button("+ New", EditorStyles.toolbarButton, GUILayout.Width(50)))
-                    {
-                        GUI.FocusControl(null);
-
-                        var nItem = ScriptableObject.CreateInstance<InputAction>();
-                        nItem.ActionName = "action";
-                        nItem.name = "[Input-Action] " + nItem.ActionName;
-
-                        AssetDatabase.AddObjectToAsset(nItem, settings);
-                        AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-
-                        settings.client.actions.Add(nItem);
-                        EditorUtility.SetDirty(target);
-
-                        GUI.FocusControl(null);
-                        EditorGUIUtility.PingObject(nItem);
-                    }
-                    GUI.contentColor = color;
-                    EditorGUILayout.EndHorizontal();
-
-                    for (int i = 0; i < settings.client.actions.Count; i++)
-                    {
-                        var item = settings.client.actions[i];
-
-                        if (DrawItem(item))
-                            break;
-                    }
+                    Application.OpenURL("https://discord.gg/6X3xrRc");
                 }
 
                 EditorGUI.indentLevel--;
             }
-#endif
         }
-
-#if HE_STEAMCOMPLETE
-        private bool DrawItem(ItemDefinition item)
-        {
-            var color = GUI.contentColor;
-            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("P", EditorStyles.toolbarButton, GUILayout.Width(20)))
-            {
-                GUI.FocusControl(null);
-                EditorGUIUtility.PingObject(item);
-            }
-
-            EditorGUILayout.LabelField(item.name);
-
-            GUI.contentColor = SteamSettings.Colors.ErrorRed;
-            if (GUILayout.Button("X", EditorStyles.toolbarButton, GUILayout.Width(25)))
-            {
-                GUI.FocusControl(null);
-                if (AssetDatabase.GetAssetPath(item) == AssetDatabase.GetAssetPath(settings))
-                {
-                    AssetDatabase.RemoveObjectFromAsset(item);
-                    needRefresh = true;
-                }
-                settings.client.inventory.items.Remove(item);
-                EditorUtility.SetDirty(target);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(target);
-                return true;
-            }
-            GUI.contentColor = color;
-            EditorGUILayout.EndHorizontal();
-            return false;
-        }
-
-        private bool DrawItem(InputActionSet item)
-        {
-            var color = GUI.contentColor;
-            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("P", EditorStyles.toolbarButton, GUILayout.Width(20)))
-            {
-                GUI.FocusControl(null);
-                EditorGUIUtility.PingObject(item);
-            }
-
-            var result = EditorGUILayout.TextField(item.setName);
-
-            if(result != item.setName)
-            {
-                item.setName = result;
-                item.name = "[Input-Set] " + item.setName;
-
-                EditorUtility.SetDirty(item);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(item);
-            }
-
-            GUI.contentColor = SteamSettings.Colors.ErrorRed;
-            if (GUILayout.Button("X", EditorStyles.toolbarButton, GUILayout.Width(25)))
-            {
-                GUI.FocusControl(null);
-                if (AssetDatabase.GetAssetPath(item) == AssetDatabase.GetAssetPath(settings))
-                {
-                    AssetDatabase.RemoveObjectFromAsset(item);
-                    needRefresh = true;
-                }
-                settings.client.actionSets.Remove(item);
-                EditorUtility.SetDirty(target);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(target);
-                return true;
-            }
-            GUI.contentColor = color;
-            EditorGUILayout.EndHorizontal();
-            return false;
-        }
-
-        private bool DrawItem(InputActionSetLayer item)
-        {
-            var color = GUI.contentColor;
-            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("P", EditorStyles.toolbarButton, GUILayout.Width(20)))
-            {
-                GUI.FocusControl(null);
-                EditorGUIUtility.PingObject(item);
-            }
-
-            var result = EditorGUILayout.TextField(item.layerName);
-
-            if (result != item.layerName)
-            {
-                item.layerName = result;
-                item.name = "[Input-SetLayer] " + item.layerName;
-
-                EditorUtility.SetDirty(item);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(item);
-            }
-
-            GUI.contentColor = SteamSettings.Colors.ErrorRed;
-            if (GUILayout.Button("X", EditorStyles.toolbarButton, GUILayout.Width(25)))
-            {
-                GUI.FocusControl(null);
-                if (AssetDatabase.GetAssetPath(item) == AssetDatabase.GetAssetPath(settings))
-                {
-                    AssetDatabase.RemoveObjectFromAsset(item);
-                    needRefresh = true;
-                }
-                settings.client.actionSetLayers.Remove(item);
-                EditorUtility.SetDirty(target);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(target);
-                return true;
-            }
-            GUI.contentColor = color;
-            EditorGUILayout.EndHorizontal();
-            return false;
-        }
-
-        private bool DrawItem(InputAction item)
-        {
-            var color = GUI.contentColor;
-            EditorGUILayout.BeginHorizontal(EditorStyles.toolbar, GUILayout.ExpandWidth(true));
-            if (GUILayout.Button("P", EditorStyles.toolbarButton, GUILayout.Width(20)))
-            {
-                GUI.FocusControl(null);
-                EditorGUIUtility.PingObject(item);
-            }
-
-            if (item.Type == InputActionType.Digital)
-            {
-                if (GUILayout.Button(new GUIContent("DI", "Click to make this an analog action."), EditorStyles.toolbarButton, GUILayout.Width(20)))
-                {
-                    item.Type = InputActionType.Analog;
-
-                    GUI.FocusControl(null);
-                    EditorUtility.SetDirty(item);
-                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                    EditorGUIUtility.PingObject(item);
-                }
-            }
-            else
-            {
-                if (GUILayout.Button(new GUIContent("AI", "Click to make this a digital action."), EditorStyles.toolbarButton, GUILayout.Width(20)))
-                {
-                    item.Type = InputActionType.Digital;
-
-                    GUI.FocusControl(null);
-                    EditorUtility.SetDirty(item);
-                    AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                    EditorGUIUtility.PingObject(item);
-                }
-            }
-
-            var result = EditorGUILayout.TextField(item.ActionName);
-
-            if (result != item.ActionName)
-            {
-                item.ActionName = result;
-                item.name = "[Input-Action] " + item.ActionName;
-
-                EditorUtility.SetDirty(item);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(item);
-            }
-
-            GUI.contentColor = SteamSettings.Colors.ErrorRed;
-            if (GUILayout.Button("X", EditorStyles.toolbarButton, GUILayout.Width(25)))
-            {
-                GUI.FocusControl(null);
-                if (AssetDatabase.GetAssetPath(item) == AssetDatabase.GetAssetPath(settings))
-                {
-                    AssetDatabase.RemoveObjectFromAsset(item);
-                    needRefresh = true;
-                }
-                settings.client.actions.Remove(item);
-                EditorUtility.SetDirty(target);
-                AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
-                EditorGUIUtility.PingObject(target);
-                return true;
-            }
-            GUI.contentColor = color;
-            EditorGUILayout.EndHorizontal();
-            return false;
-        }
-
-        private int GetNextAvailableItemNumber()
-        {
-            int id = 1;
-            while (settings.client.inventory.items.Any(p => p.Id.m_SteamItemDef == id) && id < 999999)
-                id++;
-
-            return id;
-        }
-#endif
     }
 }
 #endif

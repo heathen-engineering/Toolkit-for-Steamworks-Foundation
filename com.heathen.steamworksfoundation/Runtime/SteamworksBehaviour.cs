@@ -1,4 +1,4 @@
-﻿#if HE_SYSCORE && STEAMWORKS_NET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
 using HeathenEngineering.Events;
 using Steamworks;
 using System;
@@ -118,7 +118,6 @@ namespace HeathenEngineering.SteamworksIntegration
                 Debug.Log("Game Server Startup Detected!");
             if (settings.server.autoInitialize)
                 InitializeGameServer();
-#else
 #endif
         }
 

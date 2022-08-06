@@ -1,4 +1,4 @@
-﻿#if HE_SYSCORE && STEAMWORKS_NET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
 using HeathenEngineering.Events;
 using Steamworks;
 using System;
@@ -67,7 +67,6 @@ namespace HeathenEngineering.SteamworksIntegration
 
             public bool autoInitialize = false;
             public bool autoLogon = false;
-            //public bool enableMirror = true;
 
             public uint ip = 0;
             public ushort queryPort = 27016;
@@ -128,7 +127,7 @@ namespace HeathenEngineering.SteamworksIntegration
 
                 if (current.isDebugging)
                     Debug.Log("Registering callbacks.");
-                
+
                 RegisterCallbacks();
 
                 EServerMode eMode = EServerMode.eServerModeNoAuthentication;
@@ -257,7 +256,7 @@ namespace HeathenEngineering.SteamworksIntegration
         {
             internal void Init()
             {
-#if !UNITY_EDITOR //|| true
+#if !UNITY_EDITOR // || true
                 try
                 {
                     // If Steamworks is not running or the game wasn't started through Steamworks, SteamAPI_RestartAppIfNecessary starts the
@@ -323,11 +322,10 @@ namespace HeathenEngineering.SteamworksIntegration
 #endif
                 }
             }
-
         }
-#endregion
+        #endregion
 
-#region Static Access
+        #region Static Access
         public static void Unload()
         {
             Initialized = false;
@@ -453,7 +451,6 @@ namespace HeathenEngineering.SteamworksIntegration
         /// See <see cref="stats"/> for more information. This field simply access the <see cref="stats"/> member for the <see cref="current"/> <see cref="SteamworksClientApiSettings"/> object.
         /// </remarks>
         public static List<StatObject> Stats => current.stats;
-
         #endregion
 
         #region Utility Functions
@@ -478,7 +475,7 @@ namespace HeathenEngineering.SteamworksIntegration
                 if (initializedCallback != null)
                     behaviour.evtSteamInitialized.AddListener(initializedCallback.Invoke);
 
-                if(errorCallback != null)
+                if (errorCallback != null)
                     behaviour.evtSteamInitializationError.AddListener(errorCallback.Invoke);
 
                 behaviour.settings = this;
@@ -494,9 +491,9 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </remarks>
         /// <param name="doNotDestroy">Optionally mark the created Steamworks Behaviour object as Do Not Destroy On Load</param>
         public static void CreateBeahviour(SteamSettings settings, bool doNotDestroy = false) => settings.CreateBehaviour(doNotDestroy);
-#endregion
+        #endregion
 
-#region Instanced Members
+        #region Instanced Members
         /// <summary>
         /// The current applicaiton ID
         /// </summary>
@@ -564,15 +561,15 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </remarks>
         public List<AchievementObject> achievements = new List<AchievementObject>();
 
-#endregion
+        #endregion
 
-#region Events
+        #region Events
         public UnityEvent evtSteamInitialized;
 
         public UnityStringEvent evtSteamInitializationError;
-#endregion
+        #endregion
 
-#region Internals
+        #region Internals
         /// <summary>
         /// Initalization logic for the Steam API
         /// </summary>
@@ -639,9 +636,7 @@ namespace HeathenEngineering.SteamworksIntegration
 #endif
             Unload();
         }
-#endregion
+        #endregion
     }
-
-    
 }
 #endif

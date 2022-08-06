@@ -1,7 +1,10 @@
-﻿#if HE_SYSCORE && STEAMWORKS_NET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
 using Steamworks;
 using System;
 using System.Net;
+using Unity.Mathematics;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace HeathenEngineering.SteamworksIntegration.API
 {
@@ -83,6 +86,56 @@ namespace HeathenEngineering.SteamworksIntegration.API
 
         public static class Client
         {
+            [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+            static void Init()
+            {
+                m_AppResumingFromSuspend_t = null;
+                m_FloatingGamepadTextInputDismissed_t = null;
+                eventKeyboardShown = new UnityEvent();
+                eventKeyboardClosed = new UnityEvent();
+            }
+
+#pragma warning disable IDE0052 // Remove unread private members
+            private static Callback<AppResumingFromSuspend_t> m_AppResumingFromSuspend_t;
+            private static Callback<FloatingGamepadTextInputDismissed_t> m_FloatingGamepadTextInputDismissed_t;
+#pragma warning restore IDE0052 // Remove unread private members
+
+            public static UnityEvent EventAppResumFromSuspend
+            {
+                get
+                {
+                    if (m_AppResumingFromSuspend_t == null)
+                    {
+                        m_AppResumingFromSuspend_t = Callback<AppResumingFromSuspend_t>.Create((r) =>
+                        {
+                            eventAppResumeFromSuspend.Invoke();
+                        });
+                    }
+
+                    return eventAppResumeFromSuspend;
+                }
+            }
+            public static UnityEvent EventKeyboardShown => eventKeyboardShown;
+            public static UnityEvent EventKeyboardClosed
+            {
+                get
+                {
+                    if(m_FloatingGamepadTextInputDismissed_t == null)
+                    {
+                        m_FloatingGamepadTextInputDismissed_t = Callback<FloatingGamepadTextInputDismissed_t>.Create((r) =>
+                        {
+                            eventKeyboardClosed.Invoke();
+                        });
+                    }
+
+                    return eventKeyboardClosed;
+                }
+            }
+
+            private static UnityEvent eventAppResumeFromSuspend;
+            private static UnityEvent eventKeyboardShown;
+            private static UnityEvent eventKeyboardClosed;
+
             public static string IpCountry => SteamUtils.GetIPCountry();
             public static uint SecondsSinceAppActive => SteamUtils.GetSecondsSinceAppActive();
             public static DateTime ServerRealTime => new DateTime(1970, 1, 1).AddSeconds(SteamUtils.GetServerRealTime());
@@ -97,6 +150,59 @@ namespace HeathenEngineering.SteamworksIntegration.API
             }
             public static void SetGameLauncherMode(bool mode) => SteamUtils.SetGameLauncherMode(mode);
             public static void StartVRDashboard() => SteamUtils.StartVRDashboard();
+
+            /// <summary>
+            /// Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.
+            /// The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field.
+            /// </summary>
+            /// <param name="mode">Selects the keyboard type to use</param>
+            /// <param name="fieldPosition">Coordinate of where to position the floating keyboard</param>
+            /// <param name="fieldSize">Desired size of the floating keyboard</param>
+            /// <returns>true if the floating keyboard was shown, otherwise, false.</returns>
+            public static bool ShowVirtualKeyboard(EFloatingGamepadTextInputMode mode, int2 fieldPosition, int2 fieldSize)
+            {
+                if (SteamUtils.ShowFloatingGamepadTextInput(mode, fieldPosition.x, fieldPosition.y, fieldSize.x, fieldSize.y))
+                {
+                    eventKeyboardShown.Invoke();
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            public static bool ShowVirtualKeyboard(EFloatingGamepadTextInputMode mode, RectTransform fieldTransform, Canvas canvas)
+            {
+                var rect = RectTransformUtility.PixelAdjustRect(fieldTransform, canvas);
+
+                if (SteamUtils.ShowFloatingGamepadTextInput(mode, (int)rect.x, (int)rect.y, (int)rect.size.x, (int)rect.size.y))
+                {
+                    eventKeyboardShown.Invoke();
+                    return true;
+                }
+                else
+                    return false;
+            }
+
+            /// <summary>
+            /// Opens a floating keyboard over the game content and sends OS keyboard keys directly to the game.
+            /// The text field position is specified in pixels relative the origin of the game window and is used to position the floating keyboard in a way that doesn't cover the text field.
+            /// </summary>
+            /// <param name="mode">Selects the keyboard type to use</param>
+            /// <param name="fieldPosition">Coordinate of where to position the floating keyboard</param>
+            /// <param name="fieldSize">Desired size of the floating keyboard</param>
+            /// <returns>true if the floating keyboard was shown, otherwise, false.</returns>
+            public static bool ShowVirtualKeyboard(EFloatingGamepadTextInputMode mode, float2 fieldPosition, float2 fieldSize)
+            {
+                if (SteamUtils.ShowFloatingGamepadTextInput(mode, System.Convert.ToInt32(fieldPosition.x), System.Convert.ToInt32(fieldPosition.y), System.Convert.ToInt32(fieldSize.x), System.Convert.ToInt32(fieldSize.y)))
+                {
+                    eventKeyboardShown.Invoke();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

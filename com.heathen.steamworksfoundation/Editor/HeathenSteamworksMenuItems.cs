@@ -19,31 +19,6 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private static IEnumerator ValidateAndInstall()
         {
-            var listProc = Client.List();
-
-            while (!listProc.IsCompleted)
-                yield return null;
-
-            bool needsRemove = false;
-            if (listProc.Status == StatusCode.Success)
-            {
-                if (listProc.Result.Any(p => p.name == "com.heathen.steamworksfoundation"))
-                    needsRemove = true;
-            }
-            else
-                Debug.LogError("Failed to check Package Manager dependencies: " + listProc.Error.message);
-
-            if (needsRemove)
-            {
-                if (EditorUtility.DisplayDialog("Heathen Installer", "Steamworks Foundation appears to be installed and must be removed before continuing. Should we uninstall Steamworks Foundation now?", "Uninstall", "No"))
-                {
-                    var removeProc = Client.Remove("com.heathen.steamworksfoundation");
-
-                    while (!removeProc.IsCompleted)
-                        yield return null;
-                }
-            }
-
 #if !HE_SYSCORE
             if (EditorUtility.DisplayDialog("Heathen Installer", "System Core appears to be missing and is required for Steamworks Complete to work properly. Should we install System Core now?", "Install", "No"))
             {

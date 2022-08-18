@@ -19,6 +19,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private static IEnumerator ValidateAndInstall()
         {
+            yield return null;
 #if !HE_SYSCORE
             if (EditorUtility.DisplayDialog("Heathen Installer", "System Core appears to be missing and is required for Steamworks Complete to work properly. Should we install System Core now?", "Install", "No"))
             {

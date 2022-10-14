@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steamworks Foundation", "Steamworks Foundation.csproj", "{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportDebug|x64 = ExportDebug|x64
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		ExportRelease|x64 = ExportRelease|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.Debug|x64.ActiveCfg = Debug|x64
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.Debug|x64.Build.0 = Debug|x64
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportDebug|x64.ActiveCfg = ExportDebug|x64
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportDebug|x64.Build.0 = ExportDebug|x64
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportRelease|x64.ActiveCfg = ExportRelease|x64
+		{385C0EFF-9D50-44A9-91BD-520A2CDB0B17}.ExportRelease|x64.Build.0 = ExportRelease|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B4D171B-8D8B-45A3-B548-74A63A116737}
+	EndGlobalSection
+EndGlobal

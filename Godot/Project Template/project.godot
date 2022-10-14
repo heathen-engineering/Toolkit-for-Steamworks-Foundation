@@ -1,0 +1,39 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+[application]
+
+config/name="Project Template"
+run/main_scene="res://Samples/1 Quick Start/1 Quick Start.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+SteamworksBehaviour="*res://addons/Heathen/SteamworksBehaviour.cs"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/Heathen/plugin.cfg" )
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[mono]
+
+project/assembly_name="Steamworks Foundation"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

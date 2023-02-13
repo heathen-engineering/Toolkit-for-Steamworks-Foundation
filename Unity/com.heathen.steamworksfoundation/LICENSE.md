@@ -1,6 +1,6 @@
 License
 
-Copyright (c) 2014-2022 Heathen Engineering Ltd, an Irish Registered Corporation #556277
+Copyright (c) 2014-2023 Heathen Engineering Ltd, an Irish Registered Corporation #556277
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute and/or sublicense copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

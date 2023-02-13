@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using Steamworks;
 using UnityEngine;
 
@@ -28,18 +28,26 @@ namespace HeathenEngineering.SteamworksIntegration
         public bool IsEnabled => API.Overlay.Client.IsEnabled;
 
         public GameOverlayActivatedEvent evtOverlayActivated;
-        public GameLobbyJoinRequestedEvent evtGameLobbyJoinRequested;
         public GameServerChangeRequestedEvent evtGameServerChangeRequested;
         public GameRichPresenceJoinRequestedEvent evtRichPresenceJoinRequested;
 
 
         private void OnEnable()
         {
+            if (API.App.Initialized)
+                EnabledProcess();
+            else
+            {
+                API.App.evtSteamInitialized.AddListener(EnabledProcess);
+            }
+        }
+
+        private void EnabledProcess()
+        {
             NotificationPosition = notificationPosition;
             NotificationInset = notificationInset;
             API.Overlay.Client.EventGameOverlayActivated.AddListener(evtOverlayActivated.Invoke);
             API.Overlay.Client.EventGameServerChangeRequested.AddListener(evtGameServerChangeRequested.Invoke);
-            API.Overlay.Client.EventGameLobbyJoinRequested.AddListener(evtGameLobbyJoinRequested.Invoke);
             API.Overlay.Client.EventGameRichPresenceJoinRequested.AddListener(evtRichPresenceJoinRequested.Invoke);
         }
 
@@ -47,14 +55,13 @@ namespace HeathenEngineering.SteamworksIntegration
         {
             API.Overlay.Client.EventGameOverlayActivated.RemoveListener(evtOverlayActivated.Invoke);
             API.Overlay.Client.EventGameServerChangeRequested.RemoveListener(evtGameServerChangeRequested.Invoke);
-            API.Overlay.Client.EventGameLobbyJoinRequested.RemoveListener(evtGameLobbyJoinRequested.Invoke);
             API.Overlay.Client.EventGameRichPresenceJoinRequested.RemoveListener(evtRichPresenceJoinRequested.Invoke);
         }
 
 #if UNITY_EDITOR
         private void Update()
         {
-            if (SteamSettings.Initialized)
+            if (API.App.Initialized)
             {
                 if (notificationPosition != API.Overlay.Client.NotificationPosition)
                 {
@@ -80,31 +87,25 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </summary>
         /// <param name="dialog">The dialog to open. Valid options are: "friends", "community", "players", "settings", "officialgamegroup", "stats", "achievements".</param>
         public void Open(OverlayDialog dialog) => API.Overlay.Client.Activate(dialog);
-        /// <summary>
-        /// Activates the Steam Overlay to open the invite dialog. Invitations sent from this dialog will be for the provided lobby.
-        /// </summary>
-        /// <param name="lobbyId">The Steam ID of the lobby that selected users will be invited to.</param>
-        public void OpenLobbyInvite(CSteamID lobbyId) => API.Overlay.Client.ActivateInviteDialog(lobbyId);
         public void OpenConnectStringInvite(string connectionString) => API.Overlay.Client.ActivateInviteDialog(connectionString);
-        public void OpenRemotePlayInvite(CSteamID lobbyId) => API.Overlay.Client.ActivateRemotePlayInviteDialog(lobbyId);
         /// <summary>
         /// Activates the Steam Overlay to the Steam store page for the provided app.
         /// </summary>
         /// <param name="appID">The app ID to show the store page of.</param>
         /// <param name="flag">Flags to modify the behavior when the page opens.</param>
-        public void OpenStore(AppId_t appID, EOverlayToStoreFlag flag) => API.Overlay.Client.Activate(appID, flag);
+        public void OpenStore(AppData appID, EOverlayToStoreFlag flag) => API.Overlay.Client.Activate(appID, flag);
         /// <summary>
         /// Activates Steam Overlay to a specific dialog.
         /// </summary>
         /// <param name="dialog">The dialog to open.</param>
         /// <param name="steamId">The Steam ID of the context to open this dialog to.</param>
-        public void OpenUser(string dialog, UserData steamId) => API.Overlay.Client.Activate(dialog, steamId);
+        public void OpenUser(string dialog, CSteamID steamId) => API.Overlay.Client.Activate(dialog, steamId);
         /// <summary>
         /// Activates Steam Overlay to a specific dialog.
         /// </summary>
         /// <param name="dialog">The dialog to open.</param>
         /// <param name="steamId">The Steam ID of the context to open this dialog to.</param>
-        public void OpenUser(FriendDialog dialog, UserData steamId) => API.Overlay.Client.Activate(dialog.ToString(), steamId);
+        public void OpenUser(FriendDialog dialog, CSteamID steamId) => API.Overlay.Client.Activate(dialog.ToString(), steamId);
         /// <summary>
         /// Activates Steam Overlay web browser directly to the specified URL.
         /// </summary>

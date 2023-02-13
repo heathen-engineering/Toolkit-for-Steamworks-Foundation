@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration

@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using Steamworks;
 using System;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace HeathenEngineering.SteamworksIntegration
     /// for more information please see <a href="https://partner.steamgames.com/doc/features/achievements">https://partner.steamgames.com/doc/features/achievements</a>
     /// </para>
     /// </remarks>
-    [HelpURL("https://kb.heathenengineering.com/assets/steamworks/stats-object")]
+    [HelpURL("https://kb.heathen.group/assets/steamworks/guides/stats-object")]
     [Serializable]
     public class FloatStatObject : StatObject
     {
@@ -24,17 +24,8 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </summary>
         public float Value 
         {
-            get
-            {
-                if (API.StatsAndAchievements.Client.GetStat(statName, out float data))
-                    return data;
-                else
-                    return 0;
-            }
-            set 
-            {
-                SetFloatStat(value);
-            }
+            get => data.FloatValue();
+            set => data.Set(value);
         }
 
         /// <summary>
@@ -42,51 +33,6 @@ namespace HeathenEngineering.SteamworksIntegration
         /// This is used when working with the generic <see cref="StatObject"/> reference.
         /// </summary>
         public override DataType Type { get { return DataType.Float; } }
-
-        /// <summary>
-        /// Returns the value of this stat as a float.
-        /// This is used when working with the generic <see cref="StatObject"/> reference.
-        /// </summary>
-        /// <returns></returns>
-        public override float GetFloatValue()
-        {
-            return Value;
-        }
-
-        /// <summary>
-        /// Returns the value of this stat as an int.
-        /// This is used when working with the generic <see cref="StatObject"/> reference.
-        /// </summary>
-        /// <returns></returns>
-        public override int GetIntValue()
-        {
-            return (int)Value;
-        }
-
-        /// <summary>
-        /// Sets the value of this stat on the Steamworks API.
-        /// This is used when working with the generic <see cref="StatObject"/> reference.
-        /// </summary>
-        /// <param name="value">The value to set on the API</param>
-        public override void SetFloatStat(float value) => SteamUserStats.SetStat(statName, value);
-
-        /// <summary>
-        /// Sets the value of this stat on the Steamworks API.
-        /// This is used when working with the generic <see cref="StatObject"/> reference.
-        /// </summary>
-        /// <param name="value">The value to set on the API</param>
-        public override void SetIntStat(int value) => SteamUserStats.SetStat(statName, value);
-
-        public void AddStat(float value) => Value += value;
-
-        /// <summary>
-        /// This stores all stats to the Valve backend servers it is not possible to store only 1 stat at a time
-        /// Note that this will cause a callback from Steamworks which will cause the stats to update
-        /// </summary>
-        public override void StoreStats()
-        {
-            SteamUserStats.StoreStats();
-        }
     }
 }
 #endif

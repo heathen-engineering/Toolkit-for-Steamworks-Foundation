@@ -1,0 +1,267 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5797971409039324458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc250c6c93d29664697c63cee645dbdb, type: 3}
+  m_Name: '[Stat Int] NumLosses'
+  m_EditorClassIdentifier: 
+  data:
+    id: NumLosses
+--- !u!114 &-5779673662737521517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: '[Ach] ACH_WIN_ONE_GAME'
+  m_EditorClassIdentifier: 
+  data:
+    id: ACH_WIN_ONE_GAME
+  StatusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-5696335151814961415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: '[Ach] ACH_WIN_100_GAMES'
+  m_EditorClassIdentifier: 
+  data:
+    id: ACH_WIN_100_GAMES
+  StatusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-4069362907877233145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc250c6c93d29664697c63cee645dbdb, type: 3}
+  m_Name: '[Stat Int] NumGames'
+  m_EditorClassIdentifier: 
+  data:
+    id: NumGames
+--- !u!114 &-3203211658084346776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: '[Ach] NEW_ACHIEVEMENT_0_4'
+  m_EditorClassIdentifier: 
+  data:
+    id: NEW_ACHIEVEMENT_0_4
+  StatusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-2224319964784241432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc250c6c93d29664697c63cee645dbdb, type: 3}
+  m_Name: '[Stat Int] Unused2'
+  m_EditorClassIdentifier: 
+  data:
+    id: Unused2
+--- !u!114 &-2066227864163758038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: '[Ach] ACH_TRAVEL_FAR_SINGLE'
+  m_EditorClassIdentifier: 
+  data:
+    id: ACH_TRAVEL_FAR_SINGLE
+  StatusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 242f29df75dec3d4cb1cbb74a477bee6, type: 3}
+  m_Name: Sample Steam Settings
+  m_EditorClassIdentifier: 
+  applicationId:
+    m_AppId: 480
+  callbackTick_Milliseconds: 15
+  isDebugging: 0
+  server:
+    autoInitialize: 1
+    autoLogon: 1
+    ip: 0
+    queryPort: 27016
+    gamePort: 27015
+    serverVersion: 1.0.0.0
+    spectatorPort: 27017
+    usingGameServerAuthApi: 1
+    enableHeartbeats: 1
+    supportSpectators: 1
+    spectatorServerName: Usually GameDescription + Spectator
+    anonymousServerLogin: 1
+    gameServerToken: See https://steamcommunity.com/dev/managegameservers
+    isPasswordProtected: 0
+    serverName: My Server Name
+    gameDescription: Usually the name of your game
+    gameDirectory: e.g. its folder name
+    isDedicated: 1
+    maxPlayerCount: 4
+    botPlayerCount: 0
+    mapName: 
+    gameData: 
+    rulePairs: []
+  client:
+    actionSets:
+    - {fileID: 8687066694236909909}
+    - {fileID: 6898120515480232137}
+    actionSetLayers:
+    - {fileID: -8259465730888945101}
+    actions:
+    - {fileID: -2389145002793059815}
+    - {fileID: -7959057027444370631}
+    - {fileID: 2984563057538352908}
+    - {fileID: 6720707874264215643}
+    - {fileID: 27743936173450813}
+    - {fileID: -396192849407997093}
+    - {fileID: 1686736331553316852}
+    - {fileID: 304416110921887668}
+    - {fileID: -3269942302377952921}
+    - {fileID: 6675236513019271334}
+    - {fileID: 237403070380789125}
+    - {fileID: 8887953299308169330}
+    - {fileID: -7455765037712096492}
+    inventory:
+      items: []
+      runTimeUpdateItemDefinitions: 0
+  stats:
+  - {fileID: -4069362907877233145}
+  - {fileID: 8164444839112459042}
+  - {fileID: -5797971409039324458}
+  - {fileID: 7262114162419496264}
+  - {fileID: 8326798814440580138}
+  - {fileID: -2224319964784241432}
+  - {fileID: 5420587755674467353}
+  achievements:
+  - {fileID: 5940351223977467042}
+  - {fileID: -2066227864163758038}
+  - {fileID: -5696335151814961415}
+  - {fileID: -5779673662737521517}
+  - {fileID: -3203211658084346776}
+  dlc:
+  - {fileID: 6781526430467295319}
+  - {fileID: 7907135861833840900}
+  leaderboards:
+  - {fileID: -4909516470161387214}
+--- !u!114 &5420587755674467353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da81eb7de88c2c4197e3d17cb88b1bf, type: 3}
+  m_Name: '[Stat Float] MaxFeetTraveled'
+  m_EditorClassIdentifier: 
+  data:
+    id: MaxFeetTraveled
+--- !u!114 &5940351223977467042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1590c8affe9f884388e9c8c5bcf1697, type: 3}
+  m_Name: '[Ach] ACH_TRAVEL_FAR_ACCUM'
+  m_EditorClassIdentifier: 
+  data:
+    id: ACH_TRAVEL_FAR_ACCUM
+  StatusChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7262114162419496264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da81eb7de88c2c4197e3d17cb88b1bf, type: 3}
+  m_Name: '[Stat Float] FeetTraveled'
+  m_EditorClassIdentifier: 
+  data:
+    id: FeetTraveled
+--- !u!114 &8164444839112459042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc250c6c93d29664697c63cee645dbdb, type: 3}
+  m_Name: '[Stat Int] NumWins'
+  m_EditorClassIdentifier: 
+  data:
+    id: NumWins
+--- !u!114 &8326798814440580138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5e53cd2021f15408d8f5f874c30f2b, type: 3}
+  m_Name: '[Stat AvgRate] AverageSpeed'
+  m_EditorClassIdentifier: 
+  data:
+    id: AverageSpeed

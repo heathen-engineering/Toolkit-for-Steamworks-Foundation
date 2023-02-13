@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using Steamworks;
 using System.Collections.Generic;
 using System.IO;
@@ -225,8 +225,12 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 try
                 {
                     var nip = API.Utilities.IPStringToUint(nAddress);
-                    Undo.RecordObject(target, "editor");
-                    settings.server.ip = nip;
+                    if (nip != settings.server.ip)
+                    {
+                        Undo.RecordObject(target, "editor");
+                        settings.server.ip = nip;
+                        EditorUtility.SetDirty(target);
+                    }
                 }
                 catch { }
             }
@@ -242,6 +246,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.gamePort = nPort;
+                EditorUtility.SetDirty(target);
             }
 
             port = EditorGUILayout.TextField(new GUIContent("Query", "The port that will manage server browser related duties and info pings from clients.\nIf you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE (65535) for QueryPort, then it will use 'GameSocketShare' mode, which means that the game is responsible for sending and receiving UDP packets for the master server updater. See references to GameSocketShare in isteamgameserver.hn"), settings.server.queryPort.ToString());
@@ -250,6 +255,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.queryPort = nPort;
+                EditorUtility.SetDirty(target);
             }
 
             port = EditorGUILayout.TextField("Spectator", settings.server.spectatorPort.ToString());
@@ -258,6 +264,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.spectatorPort = nPort;
+                EditorUtility.SetDirty(target);
             }
         }
 
@@ -361,7 +368,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
                     IntStatObject nStat = ScriptableObject.CreateInstance<IntStatObject>();
                     nStat.name = "[Stat Int] New Int Stat";
-                    nStat.statName = "New Int Stat";
+                    nStat.data = "New Int Stat";
                     AssetDatabase.AddObjectToAsset(nStat, settings);
                     AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
 
@@ -376,7 +383,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
                     FloatStatObject nStat = ScriptableObject.CreateInstance<FloatStatObject>();
                     nStat.name = "[Stat Float] New Float Stat";
-                    nStat.statName = "New Float Stat";
+                    nStat.data = "New Float Stat";
                     AssetDatabase.AddObjectToAsset(nStat, settings);
                     AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
 
@@ -391,7 +398,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
                     AvgRateStatObject nStat = ScriptableObject.CreateInstance<AvgRateStatObject>();
                     nStat.name = "[Stat AvgRate] New Average Rate Stat";
-                    nStat.statName = "New Average Rate Stat";
+                    nStat.data = "New Average Rate Stat";
                     AssetDatabase.AddObjectToAsset(nStat, settings);
                     AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(settings));
 
@@ -424,11 +431,11 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                         EditorGUIUtility.PingObject(target);
                     }
 
-                    var newName = EditorGUILayout.TextField(target.statName);
-                    if (!string.IsNullOrEmpty(newName) && newName != target.statName)
+                    var newName = EditorGUILayout.TextField(target.data);
+                    if (!string.IsNullOrEmpty(newName) && newName != target.data)
                     {
                         Undo.RecordObject(target, "name change");
-                        target.statName = newName;
+                        target.data = newName;
                         switch (target.Type)
                         {
                             case StatObject.DataType.Int:
@@ -490,6 +497,12 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 GUI.contentColor = color;
                 if (GUILayout.Button("Import", EditorStyles.toolbarButton, GUILayout.Width(50)))
                 {
+                    if (!API.App.Initialized || !Steamworks.SteamUser.BLoggedOn())
+                    {
+                        Debug.Log("You cannot import data when the Steam client is in offline mode.");
+                        return;
+                    }
+
                     try
                     {
                         GUI.FocusControl(null);
@@ -537,9 +550,6 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
                             achObj.name = "[Ach] " + achName;
                             achObj.Id = achName;
-                            achObj.Name = API.StatsAndAchievements.Client.GetAchievementDisplayAttribute(achName, AchievementAttributes.name);
-                            achObj.Description = API.StatsAndAchievements.Client.GetAchievementDisplayAttribute(achName, AchievementAttributes.desc);
-                            achObj.Hidden = API.StatsAndAchievements.Client.GetAchievementDisplayAttribute(achName, AchievementAttributes.hidden) == "1";
 
                             if (created)
                             {
@@ -588,7 +598,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                     }
 
                     EditorGUILayout.LabelField(target.Id);
-                    if (UnityEngine.Application.isPlaying && SteamSettings.Initialized)
+                    if (UnityEngine.Application.isPlaying && API.App.Initialized)
                         EditorGUILayout.LabelField(target.IsAchieved ? "Unlocked" : "Locked");
 
                     EditorGUILayout.EndHorizontal();
@@ -599,13 +609,13 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private void DrawLeaderboardList()
         {
-            leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards ");
+            leaderboardFoldout = EditorGUILayout.Foldout(leaderboardFoldout, "Leaderboards: ");
 
             if (leaderboardFoldout)
             {
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam Leaderboards are not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam Leaderboard is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
@@ -621,12 +631,12 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 }
 
                 EditorGUI.indentLevel--;
-            }            
+            }
         }
 
         private void DrawDLCList()
         {
-            dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content ");
+            dlcFoldout = EditorGUILayout.Foldout(dlcFoldout, "Downloadable Content: ");
 
             if (dlcFoldout)
             {
@@ -653,7 +663,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private void DrawInventoryArea()
         {
-            inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory ");
+            inventoryFoldout = EditorGUILayout.Foldout(inventoryFoldout, "Inventory: ");
 
             if (inventoryFoldout)
             {
@@ -681,14 +691,14 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
         private void DrawInputArea()
         {
             //inputFoldout
-            inputFoldout = EditorGUILayout.Foldout(inputFoldout, "Input");
+            inputFoldout = EditorGUILayout.Foldout(inputFoldout, "Input: ");
 
             if(inputFoldout)
             {
 
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam Input is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n Cancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam Input is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {

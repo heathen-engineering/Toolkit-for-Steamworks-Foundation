@@ -1,4 +1,4 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using HeathenEngineering.Events;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,7 +7,6 @@ namespace HeathenEngineering.SteamworksIntegration
 {
     public class SteamSystemEvents : MonoBehaviour
     {
-        public SteamSettings settings;
         [Header("Events")]
         public UnityEvent evtSteamInitialized = new UnityEvent();
         /// <summary>
@@ -16,14 +15,14 @@ namespace HeathenEngineering.SteamworksIntegration
         public UnityStringEvent evtSteamInitializationError = new UnityStringEvent();
         private void Awake()
         {
-            settings.evtSteamInitialized.AddListener(evtSteamInitialized.Invoke);
-            settings.evtSteamInitializationError.AddListener(evtSteamInitializationError.Invoke);
+            API.App.evtSteamInitialized.AddListener(evtSteamInitialized.Invoke);
+            API.App.evtSteamInitializationError.AddListener(evtSteamInitializationError.Invoke);
         }
 
         private void OnDestroy()
         {
-            settings.evtSteamInitialized.RemoveListener(evtSteamInitialized.Invoke);
-            settings.evtSteamInitializationError.RemoveListener(evtSteamInitializationError.Invoke);
+            API.App.evtSteamInitialized.RemoveListener(evtSteamInitialized.Invoke);
+            API.App.evtSteamInitializationError.RemoveListener(evtSteamInitializationError.Invoke);
         }
     }
 }

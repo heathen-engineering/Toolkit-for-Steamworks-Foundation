@@ -1,8 +1,8 @@
 {
   "name": "com.heathen.steamworksfoundation",
   "displayName": "Steamworks Foundation",
-  "version": "2.20.8",
-  "unity": "2020.3",
+  "version": "3.0.3",
+  "unity": "2021.3",
   "author": {
     "name": "Heathen Group",
     "email": "support@heathen.group",
@@ -16,9 +16,15 @@
   "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!",
   "license": "LICENSE.md",
   "samples": 
-	[{
-		"displayName": "Sample Scenes",
-		"description": "A set of common sample scenes.",
-		"path": "Samples~/Samples"
+	[
+	{
+		"displayName": "Prefabs",
+		"description": "Unity uGUI Prefabs to help you prototype common use cases faster!.",
+		"path": "Tools~/Prefabs"
+	},
+	{
+		"displayName": "Example Scenes",
+		"description": "A collection of 11 scenes demonstrating inital set up, using UserData, Stats and Achievements, Leaderbaords, Lobbies, Steam Input, Workshop Browser, Steam Inventory basics, Creating an Item Store using Steam Inventory, Using Steam's Remote Storage and configuring a Steam Game Server",
+		"path": "Samples~/Examples"
 	 }]
 }

@@ -19,7 +19,21 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private static IEnumerator ValidateAndInstall()
         {
-            yield return null;
+            var listProc = Client.List();
+
+            while (!listProc.IsCompleted)
+                yield return null;
+
+            bool needsRemove = false;
+            if (listProc.Status == StatusCode.Success)
+            {
+                var steamworksComplete = listProc.Result.FirstOrDefault(p => p.name == "com.heathen.steamworksfoundation");
+                if (steamworksComplete != null)
+                    SessionState.SetString("com.heathen.steamworks-version", steamworksComplete.version);
+            }
+            else
+                Debug.LogError("Failed to check Package Manager dependencies: " + listProc.Error.message);
+
 #if !HE_SYSCORE
             if (EditorUtility.DisplayDialog("Heathen Installer", "System Core appears to be missing and is required for Steamworks Complete to work properly. Should we install System Core now?", "Install", "No"))
             {
@@ -53,7 +67,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 SessionState.SetBool("SysCoreInstall", false);
             }
 #elif !STEAMWORKSNET
-            if (EditorUtility.DisplayDialog("Heathen Installer", "No Steam API found, you can install Steamworks.NET, we can install Steamworks.NET for you.", "Install Steamworks.NET", "I'll do it my self"))
+            if (EditorUtility.DisplayDialog("Heathen Installer", "Steam API not found, Steamworks.NET must be installed via the Unity Package Manager for this asset to work correctly. Would you like to install it now?", "Install Steamworks.NET", "Cancel"))
             {
                 yield return null;
                 AddRequest steamProc = null;
@@ -106,6 +120,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             }
         }
 
+#if !FACEPUNCH
         [MenuItem("Help/Heathen/Steamworks/Update Steamworks.NET (Package Manager)", priority = 2)]
         public static void InstallSteamworksMenuItem()
         {
@@ -114,6 +129,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 StartCoroutine(InstallSteamworks());
             }
         }
+#endif
 
         [MenuItem("Help/Heathen/Steamworks/Documentation", priority = 3)]
         public static void Documentation()

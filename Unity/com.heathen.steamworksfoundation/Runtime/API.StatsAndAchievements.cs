@@ -1,7 +1,8 @@
-﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && (STEAMWORKSNET || FACEPUNCH)
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration.API
@@ -63,7 +64,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 get
                 {
                     if (m_UserStatsReceived_t == null)
-                        m_UserStatsReceived_t = Callback<UserStatsReceived_t>.Create(eventUserStatsReceived.Invoke);
+                        m_UserStatsReceived_t = Callback<UserStatsReceived_t>.Create((r) => eventUserStatsReceived.Invoke(r));
 
                     return eventUserStatsReceived;
                 }
@@ -127,7 +128,22 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </summary>
             /// <param name="achievementApiName"></param>
             /// <returns></returns>
-            public static bool ClearAchievement(string achievementApiName) => SteamUserStats.ClearAchievement(achievementApiName);
+            public static bool ClearAchievement(string achievementApiName)
+            {
+                var value = SteamUserStats.ClearAchievement(achievementApiName);
+
+                if(value)
+                {
+                    if (SteamSettings.current != null)
+                    {
+                        var ach = SteamSettings.Achievements.FirstOrDefault(p => p.Id == achievementApiName);
+                        if (ach != null)
+                            ach.StatusChanged?.Invoke(ach.IsAchieved);
+                    }
+                }
+
+                return value;
+            }
             /// <summary>
             /// Gets the unlock status of the Achievement.
             /// </summary>
@@ -155,7 +171,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="achievementApiName">The 'API Name' of the achievement.</param>
             /// <param name="achieved">Returns the unlock status of the achievement.</param>
             /// <returns></returns>
-            public static bool GetAchievement(CSteamID userId, string achievementApiName, out bool achieved) => SteamUserStats.GetUserAchievement(userId, achievementApiName, out achieved);
+            public static bool GetAchievement(UserData userId, string achievementApiName, out bool achieved) => SteamUserStats.GetUserAchievement(userId, achievementApiName, out achieved);
             /// <summary>
             /// Gets the achievement status, and the time it was unlocked if unlocked.
             /// </summary>
@@ -164,7 +180,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="achieved">Returns the unlock status of the achievement.</param>
             /// <param name="unlockTime">Returns the time that the achievement was unlocked.</param>
             /// <returns></returns>
-            public static bool GetAchievement(CSteamID userId, string achievementApiName, out bool achieved, out DateTime unlockTime)
+            public static bool GetAchievement(UserData userId, string achievementApiName, out bool achieved, out DateTime unlockTime)
             {
                 var result = SteamUserStats.GetUserAchievementAndUnlockTime(userId, achievementApiName, out achieved, out uint epoch);
                 unlockTime = new DateTime(1970, 1, 1).AddSeconds(epoch);
@@ -266,6 +282,67 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="data">The variable to return the stat value into.</param>
             /// <returns></returns>
             public static bool GetGlobalStat(string statApiName, out double data) => SteamUserStats.GetGlobalStat(statApiName, out data);
+            public static void GetMostAchievedAchievements(Action<EResult, (AchievementObject achievement, float percentage)[], bool> callback)
+            {
+                if(SteamSettings.current == null)
+                {
+                    Debug.LogError($"{nameof(GetMostAchievedAchievements)} only works when you have initalized a {nameof(SteamSettings)} object");
+                    callback?.Invoke(EResult.k_EResultInvalidParam, null, true);
+                }
+
+                RequestGlobalAchievementPercentages((result, error) =>
+                {
+                    if (!error && result.m_eResult == EResult.k_EResultOK)
+                    {
+                        var index = GetMostAchievedAchievementInfo(out string achievementApiName, out float percent, out bool achieved);
+                        if (index > -1)
+                        {
+                            List<(AchievementObject achievement, float percentage)> results = new List<(AchievementObject achievement, float percentage)>();
+
+                            while (index != -1)
+                            {
+                                var first = SteamSettings.Achievements.FirstOrDefault(p => p.Id == achievementApiName);
+                                results.Add((first, percent));
+
+                                index = GetNextMostAchievedAchievementInfo(index, out achievementApiName, out percent, out achieved);
+                            }
+
+                            callback?.Invoke(result.m_eResult, results.ToArray(), error);
+                        }
+                        else
+                            callback?.Invoke(result.m_eResult, null, error);
+                    }
+                    else
+                        callback?.Invoke(result.m_eResult, null, error);
+                });
+            }
+            public static void GetMostAchievedAchievements(Action<EResult, (AchievementData achievement, float percentage)[], bool> callback)
+            {
+                RequestGlobalAchievementPercentages((result, error) =>
+                {
+                    if (!error && result.m_eResult == EResult.k_EResultOK)
+                    {
+                        var index = GetMostAchievedAchievementInfo(out string achievementApiName, out float percent, out bool achieved);
+                        if (index > -1)
+                        {
+                            List<(AchievementData achievement, float percentage)> results = new List<(AchievementData achievement, float percentage)>();
+
+                            while (index != -1)
+                            {
+                                results.Add((achievementApiName, percent));
+
+                                index = GetNextMostAchievedAchievementInfo(index, out achievementApiName, out percent, out achieved);
+                            }
+
+                            callback?.Invoke(result.m_eResult, results.ToArray(), error);
+                        }
+                        else
+                            callback?.Invoke(result.m_eResult, null, error);
+                    }
+                    else
+                        callback?.Invoke(result.m_eResult, null, error);
+                });
+            }
             /// <summary>
             /// Gets the info on the most achieved achievement for the game.
             /// </summary>
@@ -327,7 +404,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="statApiName">The 'API Name' of the stat. Must not be longer than k_cchStatNameMax.</param>
             /// <param name="data">The variable to return the stat value into.</param>
             /// <returns></returns>
-            public static bool GetStat(CSteamID userId, string statApiName, out int data) => SteamUserStats.GetUserStat(userId, statApiName, out data);
+            public static bool GetStat(UserData userId, string statApiName, out int data) => SteamUserStats.GetUserStat(userId, statApiName, out data);
             /// <summary>
             /// Gets the current value of the a stat for the specified user.
             /// </summary>
@@ -335,7 +412,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="statApiName">The 'API Name' of the stat. Must not be longer than k_cchStatNameMax.</param>
             /// <param name="data">The variable to return the stat value into.</param>
             /// <returns></returns>
-            public static bool GetStat(CSteamID userId, string statApiName, out float data) => SteamUserStats.GetUserStat(userId, statApiName, out data);
+            public static bool GetStat(UserData userId, string statApiName, out float data) => SteamUserStats.GetUserStat(userId, statApiName, out data);
             /// <summary>
             /// Shows the user a pop-up notification with the current progress of an achievement.
             /// </summary>
@@ -415,13 +492,36 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </remarks>
             /// <param name="achievementsToo"></param>
             /// <returns></returns>
-            public static bool ResetAllStats(bool achievementsToo) => SteamUserStats.ResetAllStats(achievementsToo);
+            public static bool ResetAllStats(bool achievementsToo)
+            {
+                var value = SteamUserStats.ResetAllStats(achievementsToo);
+
+                if(SteamSettings.current != null && value && achievementsToo)
+                {
+                    foreach(var ach in SteamSettings.Achievements)
+                        ach.StatusChanged?.Invoke(ach.IsAchieved);
+                }
+
+                return value;
+            }
             /// <summary>
             /// Unlocks an achievement.
             /// </summary>
             /// <param name="achievementApiName"></param>
             /// <returns></returns>
-            public static bool SetAchievement(string achievementApiName) => SteamUserStats.SetAchievement(achievementApiName);
+            public static bool SetAchievement(string achievementApiName)
+            {
+                var value = SteamUserStats.SetAchievement(achievementApiName);
+
+                if(SteamSettings.current != null && value)
+                {
+                    var ach = SteamSettings.Achievements.FirstOrDefault(p => p.Id == achievementApiName);
+                    if (ach != null)
+                        ach.StatusChanged?.Invoke(ach.IsAchieved);
+                }
+
+                return value;
+            }
             /// <summary>
             /// Sets / updates the value of a given stat for the current user.
             /// </summary>

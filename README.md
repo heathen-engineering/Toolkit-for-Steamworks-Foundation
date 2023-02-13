@@ -4,7 +4,7 @@ Support Heathen by becoming a [GitHub Sponsor](https://github.com/sponsors/heath
 As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $10 tier or higher you get instant access to [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit), [UX Complete](https://www.heathen.group/ux) and access to exclusives like our GUI Tools for Steam!
 
 # Steamworks Foundation
-![Steamworks Image](https://static.wixstatic.com/media/6ca001_1db279a94080471eae00168e27dce4c3~mv2.png/v1/crop/x_0,y_0,w_2400,h_993/fill/w_980,h_406,al_c,usm_0.66_1.00_0.01,enc_auto/SteamMarketing.png)
+![Steamworks Image](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Steamworks_Cover.jpg)
 * Author: [Heathen Group](https://github.com/sponsors/heathen-engineering)
 * Author Web Site: [Heathen.Group](https://heathen.group)
 * License: [MIT](https://github.com/heathen-engineering/SteamworksFoundation/blob/main/LICENSE.md)
@@ -26,10 +26,15 @@ With Heathen's Steamworks You retain the strength of directly accessing Steam AP
 
 Whether you're new to Steam, [Unity | Godot (mono)], or game development in general or a seasoned veteran well capable with the Steam APIs, Heathen’s Steamworks can greatly accelerate your project and help you produce a more robust product that better leverages the services offered by Valve. Heathen’s asset does not prevent you from using raw API calls in conjunction with its own extensions and tools. Many features of Steam API can be handled within our tools with little or no coding at all. In the same respect everything is built with respect to the programmer and the need to extend and expand. 
 
+![More than a wrapper](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Unity%20Integration.jpg)
 Modular, extensible, and supported by a large community of fellow developers. Heathen’s Steamworks is the best solution for Unity & Godot developers looking to ship on the Steam platform.
 
+![Community](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Discord%20Community.jpg)
 For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).
 
 Please consider supporting [Riley Labrecque](https://github.com/rlabrecque) and [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) here on GitHub you can find Sponsor links on his pages.
 
-_Steamworks Foundation_ is compatable with PC, Mac and Linux based Unity & Godot (mono) projects. Foundation is a "lite" version of [Heathen's Steamworks Complete](https://www.heathen.group/steamworks) which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) or get it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316). For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).
+_Steamworks Foundation_ is compatable with PC, Mac and Linux based Unity & Godot (mono) projects. Foundation is a "lite" version of [Heathen's Steamworks Complete](https://www.heathen.group/steamworks) which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) or get it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316).
+
+![Knoweldge Base](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Knowledge%20Base.jpg)
+For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).

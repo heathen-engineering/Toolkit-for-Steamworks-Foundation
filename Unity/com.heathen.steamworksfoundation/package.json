@@ -25,6 +25,6 @@
 	{
 		"displayName": "Example Scenes",
 		"description": "A collection of 11 scenes demonstrating inital set up, using UserData, Stats and Achievements, Leaderbaords, Lobbies, Steam Input, Workshop Browser, Steam Inventory basics, Creating an Item Store using Steam Inventory, Using Steam's Remote Storage and configuring a Steam Game Server",
-		"path": "Samples~/Examples"
+		"path": "Samples~/Samples"
 	 }]
 }

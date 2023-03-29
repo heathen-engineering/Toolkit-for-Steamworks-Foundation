@@ -125,7 +125,7 @@ MonoBehaviour:
   applicationId:
     m_AppId: 480
   callbackTick_Milliseconds: 15
-  isDebugging: 0
+  isDebugging: 1
   server:
     autoInitialize: 1
     autoLogon: 1
@@ -150,29 +150,6 @@ MonoBehaviour:
     mapName: 
     gameData: 
     rulePairs: []
-  client:
-    actionSets:
-    - {fileID: 8687066694236909909}
-    - {fileID: 6898120515480232137}
-    actionSetLayers:
-    - {fileID: -8259465730888945101}
-    actions:
-    - {fileID: -2389145002793059815}
-    - {fileID: -7959057027444370631}
-    - {fileID: 2984563057538352908}
-    - {fileID: 6720707874264215643}
-    - {fileID: 27743936173450813}
-    - {fileID: -396192849407997093}
-    - {fileID: 1686736331553316852}
-    - {fileID: 304416110921887668}
-    - {fileID: -3269942302377952921}
-    - {fileID: 6675236513019271334}
-    - {fileID: 237403070380789125}
-    - {fileID: 8887953299308169330}
-    - {fileID: -7455765037712096492}
-    inventory:
-      items: []
-      runTimeUpdateItemDefinitions: 0
   stats:
   - {fileID: -4069362907877233145}
   - {fileID: 8164444839112459042}
@@ -187,11 +164,6 @@ MonoBehaviour:
   - {fileID: -5696335151814961415}
   - {fileID: -5779673662737521517}
   - {fileID: -3203211658084346776}
-  dlc:
-  - {fileID: 6781526430467295319}
-  - {fileID: 7907135861833840900}
-  leaderboards:
-  - {fileID: -4909516470161387214}
 --- !u!114 &5420587755674467353
 MonoBehaviour:
   m_ObjectHideFlags: 0

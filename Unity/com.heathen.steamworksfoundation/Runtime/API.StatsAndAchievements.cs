@@ -473,7 +473,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </remarks>
             /// <param name="userId"></param>
             /// <param name="callback"></param>
-            public static void RequestUserStats(CSteamID userId, Action<UserStatsReceived_t, bool> callback)
+            public static void RequestUserStats(UserData userId, Action<UserStatsReceived_t, bool> callback)
             {
                 if (callback == null)
                     return;

@@ -45,6 +45,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 if (callbackWaitThread.IsBusy)
                 {
                     callbackWaitThread.RunWorkerCompleted -= CallbackWaitThread_RunWorkerCompleted;
+                    callbackWaitThread.ProgressChanged -= CallbackWaitThread_ProgressChanged;
 
                     callbackWaitThread.CancelAsync();
                     callbackWaitThread.Dispose();
@@ -66,6 +67,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 if (callbackWaitThread.IsBusy)
                 {
                     callbackWaitThread.RunWorkerCompleted -= CallbackWaitThread_RunWorkerCompleted;
+                    callbackWaitThread.ProgressChanged -= CallbackWaitThread_ProgressChanged;
                     callbackWaitThread.CancelAsync();
                 }
 
@@ -119,12 +121,15 @@ namespace HeathenEngineering.SteamworksIntegration.API
 
         private static void CallbackWaitThread_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+
+        }
+        private static void CallbackWaitThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
 #if !UNITY_SERVER
             Steamworks.SteamAPI.RunCallbacks();
 #else
             Steamworks.GameServer.RunCallbacks();
 #endif
-            callbackWaitThread.RunWorkerAsync();
         }
         #endregion
 
@@ -162,7 +167,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
 
             public static bool LoggedOn => Initialized && SteamUser.BLoggedOn();
 
-            public static void Initialize(AppData appId)
+            public static void Initialize(AppData appId) 
             {
                 if (Initialized)
                 {
@@ -271,13 +276,22 @@ namespace HeathenEngineering.SteamworksIntegration.API
                         {
                             callbackWaitThread = new BackgroundWorker();
                             callbackWaitThread.WorkerSupportsCancellation = true;
-                            callbackWaitThread.DoWork += (p, e) => Thread.Sleep(callbackTick_Milliseconds);
+                            callbackWaitThread.WorkerReportsProgress = true;
+                            callbackWaitThread.DoWork += (p, e) =>
+                            {
+                                while (true)
+                                {
+                                    Thread.Sleep(callbackTick_Milliseconds);
+                                    callbackWaitThread.ReportProgress(1);
+                                }
+                            };
                             callbackWaitThread.RunWorkerCompleted += CallbackWaitThread_RunWorkerCompleted;
+                            callbackWaitThread.ProgressChanged += CallbackWaitThread_ProgressChanged;
                         }
 
                         callbackWaitThread.RunWorkerAsync();
                         Web.LoadAppNames(null);
-                        
+
                         evtSteamInitialized.Invoke();
                     }
                     else
@@ -587,7 +601,22 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 var secondsSince1970 = SteamApps.GetEarliestPurchaseUnixTime(appId);
                 return new DateTime(1970, 1, 1).AddSeconds(secondsSince1970);
             }
-            
+            /// <summary>
+            /// Asynchronously retrieves metadata details about a specific file in the depot manifest.
+            /// </summary>
+            /// <param name="name"></param>
+            /// <param name="callback"></param>
+            public static void GetFileDetails(string name, Action<FileDetailsResult, bool> callback)
+            {
+                if (callback == null)
+                    return;
+
+                if (m_FileDetailResult_t == null)
+                    m_FileDetailResult_t = CallResult<FileDetailsResult_t>.Create();
+
+                var handle = SteamApps.GetFileDetails(name);
+                m_FileDetailResult_t.Set(handle, (r,e) => { callback.Invoke(r, e); });
+            }
             /// <summary>
             /// If you detect the game is out-of-date (for example, by having the client detect a version mismatch with a server), you can call use MarkContentCorrupt to force a verify, show a message to the user, and then quit.
             /// </summary>
@@ -766,8 +795,17 @@ namespace HeathenEngineering.SteamworksIntegration.API
                         {
                             callbackWaitThread = new BackgroundWorker();
                             callbackWaitThread.WorkerSupportsCancellation = true;
-                            callbackWaitThread.DoWork += (p,e) => Thread.Sleep(callbackTick_Milliseconds);
+                            callbackWaitThread.WorkerReportsProgress = true;
+                            callbackWaitThread.DoWork += (p,e) =>
+                            {
+                                while (true)
+                                {
+                                    Thread.Sleep(callbackTick_Milliseconds);
+                                    callbackWaitThread.ReportProgress(1);
+                                }
+                            };
                             callbackWaitThread.RunWorkerCompleted += CallbackWaitThread_RunWorkerCompleted;
+                            callbackWaitThread.ProgressChanged += CallbackWaitThread_ProgressChanged;
                         }
 
                         callbackWaitThread.RunWorkerAsync();
@@ -786,7 +824,6 @@ namespace HeathenEngineering.SteamworksIntegration.API
                     }
                 }
             }
-
             public static void LogOn()
             {
                 if (Configuration.anonymousServerLogin)

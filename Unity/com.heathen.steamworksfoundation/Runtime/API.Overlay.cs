@@ -13,6 +13,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             {
                 eventGameOverlayActivated = new GameOverlayActivatedEvent();
                 eventGameServerChangeRequested = new GameServerChangeRequestedEvent();
+                eventGameLobbyJoinRequested = new GameLobbyJoinRequestedEvent();
                 eventGameRichPresenceJoinRequest = new GameRichPresenceJoinRequestedEvent();
                 m_GameOverlayActivated_t = null;
                 m_GameServerChangeRequested_t = null;
@@ -72,6 +73,19 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 }
             }
             /// <summary>
+            /// Called when the user tries to join a lobby from their friends list or from an invite. The game client should attempt to connect to specified lobby when this is received. If the game isn't running yet then the game will be automatically launched with the command line parameter +connect_lobby <64-bit lobby Steam ID> instead.
+            /// </summary>
+            public static GameLobbyJoinRequestedEvent EventGameLobbyJoinRequested
+            {
+                get
+                {
+                    if (m_GameLobbyJoinRequested_t == null)
+                        m_GameLobbyJoinRequested_t = Callback<GameLobbyJoinRequested_t>.Create((r) => eventGameLobbyJoinRequested.Invoke(r.m_steamIDLobby, r.m_steamIDFriend));
+
+                    return eventGameLobbyJoinRequested;
+                }
+            }
+            /// <summary>
             /// Invoked when the SteamAPI resonds with a GameRichPresenceJoinRequested_t
             /// </summary>
             public static GameRichPresenceJoinRequestedEvent EventGameRichPresenceJoinRequested
@@ -91,6 +105,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
 
             private static GameOverlayActivatedEvent eventGameOverlayActivated = new GameOverlayActivatedEvent();
             private static GameServerChangeRequestedEvent eventGameServerChangeRequested = new GameServerChangeRequestedEvent();
+            private static GameLobbyJoinRequestedEvent eventGameLobbyJoinRequested = new GameLobbyJoinRequestedEvent();
             private static GameRichPresenceJoinRequestedEvent eventGameRichPresenceJoinRequest = new GameRichPresenceJoinRequestedEvent();
 
             private static Callback<GameOverlayActivated_t> m_GameOverlayActivated_t;
@@ -108,7 +123,13 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </summary>
             /// <param name="dialog">The dialog to open. Valid options are: "friends", "community", "players", "settings", "officialgamegroup", "stats", "achievements".</param>
             public static void Activate(OverlayDialog dialog) => SteamFriends.ActivateGameOverlay(dialog.ToString());
+            /// <summary>
+            /// Activates the Steam Overlay to open the invite dialog. Invitations sent from this dialog will be for the provided lobby.
+            /// </summary>
+            /// <param name="lobbyId">The Steam ID of the lobby that selected users will be invited to.</param>
+            public static void ActivateInviteDialog(CSteamID lobbyId) => SteamFriends.ActivateGameOverlayInviteDialog(lobbyId);
             public static void ActivateInviteDialog(string connectionString) => SteamFriends.ActivateGameOverlayInviteDialogConnectString(connectionString);
+            public static void ActivateRemotePlayInviteDialog(CSteamID lobbyId) => SteamFriends.ActivateGameOverlayRemotePlayTogetherInviteDialog(lobbyId);
             /// <summary>
             /// Activates the Steam Overlay to the Steam store page for the provided app.
             /// </summary>

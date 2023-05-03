@@ -1,7 +1,7 @@
 ## Become a GitHub Sponsor
 Support Heathen by becoming a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) and help projects like this one grow! [Heathen's Sponsors](https://github.com/sponsors/heathen-engineering) make it possible for us to create these free resources and to maintain our free [Knowledge Base](https://kb.heathenengineering.com/company/introduction). 
 
-As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $10 tier or higher you get instant access to [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit), [UX Complete](https://www.heathen.group/ux) and access to exclusives like our GUI Tools for Steam!
+As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $15 tier or higher you get instant access to [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit), [UX Complete](https://www.heathen.group/ux) and access to exclusives like our GUI Tools for Steam!
 
 # Steamworks Foundation
 ![Steamworks Image](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Steamworks_Cover.jpg)

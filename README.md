@@ -1,13 +1,13 @@
 
 [![Unity Version](https://img.shields.io/badge/Unity-2021.3%20LTS%2B-blueviolet?logo=unity)](https://unity3d.com/get-unity/download)
-[![Unity Pipeline Support (Built-In)](https://img.shields.io/badge/BiRP_✔️-darkgreen?logo=unity)](https://unity3d.com/get-unity/download)
-[![Unity Pipeline Support (URP)](https://img.shields.io/badge/URP_✔️-blue?logo=unity)](https://unity3d.com/get-unity/download)
-[![Unity Pipeline Support (HDRP)](https://img.shields.io/badge/HDRP_✔️-darkred?logo=unity)](https://unity3d.com/get-unity/download)
+[![Unity Pipeline Support (Built-In)](https://img.shields.io/badge/BiRP_✅-646464?logo=unity)](https://unity3d.com/get-unity/download)
+[![Unity Pipeline Support (URP)](https://img.shields.io/badge/URP_✅-646464?logo=unity)](https://unity3d.com/get-unity/download)
+[![Unity Pipeline Support (HDRP)](https://img.shields.io/badge/HDRP_✅-646464?logo=unity)](https://unity3d.com/get-unity/download)
 
+[![Discord](https://img.shields.io/badge/Discord--1877F2?style=social&logo=discord)](https://discord.gg/6X3xrRc)
 [![GitHub followers](https://img.shields.io/github/followers/heathen-engineering?style=social)](https://github.com/heathen-engineering?tab=followers)
 [![Twitter Follow](https://img.shields.io/twitter/follow/HeathenEngineer?style=social)](http://twitter.com/intent/user?screen_name=HeathenEngineer)
-[![Facebook Follow](https://img.shields.io/badge/Facebook_@Heathen--1877F2?style=social&logo=facebook)](https://www.facebook.com/heathenengineering)
-[![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCmPD1mHqMk_emJ25KbaGpWQ?style=social)](https://www.youtube.com/Heathenengineering)
+[![Facebook Follow](https://img.shields.io/badge/Follow_@Heathen--1877F2?style=social&logo=facebook)](https://www.facebook.com/heathenengineering)
 [![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCmPD1mHqMk_emJ25KbaGpWQ?style=social)](https://www.youtube.com/Heathenengineering)
 ## Become a GitHub Sponsor
 Support Heathen by becoming a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) and help projects like this one grow! [Heathen's Sponsors](https://github.com/sponsors/heathen-engineering) make it possible for us to create these free resources and to maintain our free [Knowledge Base](https://kb.heathenengineering.com/company/introduction). 

@@ -1,3 +1,9 @@
+[![Discord](https://img.shields.io/badge/Discord--1877F2?style=social&logo=discord)](https://discord.gg/6X3xrRc)
+[![GitHub followers](https://img.shields.io/github/followers/heathen-engineering?style=social)](https://github.com/heathen-engineering?tab=followers)
+[![Twitter Follow](https://img.shields.io/twitter/follow/HeathenEngineer?style=social)](http://twitter.com/intent/user?screen_name=HeathenEngineer)
+[![Facebook Follow](https://img.shields.io/badge/Follow_@Heathen--1877F2?style=social&logo=facebook)](https://www.facebook.com/heathenengineering)
+[![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UCmPD1mHqMk_emJ25KbaGpWQ?style=social)](https://www.youtube.com/Heathenengineering)
+
 ## Become a GitHub Sponsor
 Support Heathen by becoming a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) and help projects like this one grow! [Heathen's Sponsors](https://github.com/sponsors/heathen-engineering) make it possible for us to create these free resources and to maintain our free [Knowledge Base](https://kb.heathenengineering.com/company/introduction). 
 

@@ -24,7 +24,7 @@ Steamworks Foundaiton should only be installed from Unity Package Manager. It wi
 ## Description
 _Steamworks Foundation_ is the "lite" version of the [Steamworks Complete](https://www.heathen.group/steamworks) Unity asset and an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. This asset will check for the presence of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and offer to install it in your Unity project for you via Unity's Package Mannager if it is missing.
 
-> You can get [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit) and [UX Complete](https://www.heathen.group/ux) by becoming a [Heathen Sponsor](https://github.com/sponsors/heathen-engineering) here on GitHub!
+> You can get [Steamworks Complete](https://kb.heathen.group/assets/steamworks), [PhysKit Complete](https://kb.heathen.group/assets/physkit) and [UX Complete](https://kb.heathen.group/assets/ux) by becoming a [Heathen Sponsor](https://github.com/sponsors/heathen-engineering) here on GitHub!
 
 Heathen’s approach with its Steamworks assets has been to take the strength of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET), and the parody it has with Valve’s original APIs, and extend that with Unity centric tools, editor extensions and more to make [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) + Heathen the best possible option for Unity developers looking to integrate with Steam. 
 

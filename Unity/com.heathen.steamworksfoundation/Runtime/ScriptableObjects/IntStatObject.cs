@@ -22,7 +22,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// On get this returns the current stored value of the stat.
         /// On set this sets the value on the Steamworks API
         /// </summary>
-        public float Value
+        public int Value
         {
             get => data.IntValue();
             set => data.Set(value);

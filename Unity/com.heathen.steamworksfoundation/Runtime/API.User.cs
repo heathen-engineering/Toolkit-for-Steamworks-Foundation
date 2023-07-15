@@ -5,12 +5,6 @@ using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration.API
 {
-    [Serializable]
-    public struct RichPresenceEntry
-    {
-        public string key;
-        public string value;
-    }
 
     /// <summary>
     /// Functions for accessing and manipulating Steam user information.
@@ -35,17 +29,17 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </summary>
             public static UserData Id => SteamUser.GetSteamID();
             public static int Level => SteamUser.GetPlayerSteamLevel();
-            public static RichPresenceEntry[] RichPresence
+            public static StringKeyValuePair[] RichPresence
             {
                 get 
                 {
                     var count = SteamFriends.GetFriendRichPresenceKeyCount(SteamUser.GetSteamID());
-                    var results = new RichPresenceEntry[count];
+                    var results = new StringKeyValuePair[count];
                     for (int i = 0; i < count; i++)
                     {
                         var key = SteamFriends.GetFriendRichPresenceKeyByIndex(SteamUser.GetSteamID(), i);
                         var value = SteamFriends.GetFriendRichPresence(SteamUser.GetSteamID(), key);
-                        results[i] = new RichPresenceEntry { key = key, value = value };
+                        results[i] = new StringKeyValuePair { key = key, value = value };
                     }
 
                     return results;

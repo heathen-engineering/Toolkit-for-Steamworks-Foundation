@@ -12,23 +12,54 @@ using UnityEngine.InputSystem;
 
 namespace HeathenEngineering.SteamworksIntegration.UI
 {
+    /// <summary>
+    /// A simple dropdown like UI control that displays a list of player's that are available to invited to join a lobby
+    /// </summary>
+    [HelpURL("https://kb.heathen.group/assets/steamworks/unity-engine/ui-components/friend-invite-dropdown")]
     public class FriendInviteDropDown : MonoBehaviour
     {
+        /// <summary>
+        /// Flags used to filter the results of friends listed in the <see cref="FriendInviteDropDown"/>
+        /// </summary>
         public struct FilterOptions
         {
+            /// <summary>
+            /// Show friends that are playing this game
+            /// </summary>
             public bool inThisGame;
+            /// <summary>
+            /// Show friends that are playing some other game
+            /// </summary>
             public bool inOtherGame;
+            /// <summary>
+            /// Show friends that are listed as busy
+            /// </summary>
             public bool busy;
+            /// <summary>
+            /// Show friends that are listed as away
+            /// </summary>
             public bool away;
+            /// <summary>
+            /// Show friends that are listed as snooze
+            /// </summary>
             public bool snooze;
         }
 
-        public TMP_InputField inputField;
-        public Button dropdownButton;
-        public Button inviteButton;
-        public RectTransform panel;
-        public Transform content;
-        public GameObject template;
+        [SerializeField]
+        private TMP_InputField inputField;
+        [SerializeField]
+        private Button dropdownButton;
+        [SerializeField]
+        private Button inviteButton;
+        [SerializeField]
+        private RectTransform panel;
+        [SerializeField]
+        private Transform content;
+        [SerializeField]
+        private GameObject template;
+        /// <summary>
+        /// What sorts of friends should be displayed
+        /// </summary>
         public FilterOptions filter = new FilterOptions
         {
             inThisGame = true,
@@ -37,9 +68,14 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             away = true,
             snooze = true,
         };
+        /// <summary>
+        /// Invoked when the invite button has been pressed and provides information about the user for whom the button was pressed
+        /// </summary>
         [Header("Events")]
         public UserDataEvent Invited = new UserDataEvent();
-
+        /// <summary>
+        /// Is the drop down expanded
+        /// </summary>
         public bool IsExpanded
         {
             get => panel.gameObject.activeSelf;
@@ -50,6 +86,14 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 else
                     panel.gameObject.SetActive(false);
             }
+        }
+        /// <summary>
+        /// What text is currently displayed in the field
+        /// </summary>
+        public string InputText
+        {
+            get => inputField.text;
+            set => inputField.text = value;
         }
 
         private readonly List<GameObject> displayMembers = new List<GameObject>();
@@ -109,6 +153,9 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 Show();
         }
 
+        /// <summary>
+        /// Expand the drop down and show the list of friends
+        /// </summary>
         public void Show()
         {
             foreach(var go in displayMembers)
@@ -129,7 +176,7 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                                 continue;
 
                             var go = Instantiate(template, content);
-                            var fButton = go.GetComponent<FriendInviteButton>();
+                            var fButton = go.GetComponent<UserInviteButton>();
                             fButton.SetFriend(friend);
                             fButton.Click.AddListener(FriendButtonClicked);
                             displayMembers.Add(go);
@@ -144,7 +191,7 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                         || (state == EPersonaState.k_EPersonaStateSnooze && filter.snooze))
                     {
                         var go = Instantiate(template, content);
-                        var fButton = go.GetComponent<FriendInviteButton>();
+                        var fButton = go.GetComponent<UserInviteButton>();
                         fButton.SetFriend(friend);
                         fButton.Click.AddListener(FriendButtonClicked);
                         displayMembers.Add(go);
@@ -155,6 +202,10 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             panel.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Used internally when the invite button is clicked
+        /// </summary>
+        /// <param name="data"></param>
         public void FriendButtonClicked(UserAndPointerData data)
         {
             inputField.text = data.user.FriendId.ToString();

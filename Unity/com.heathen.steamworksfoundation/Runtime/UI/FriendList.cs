@@ -8,8 +8,15 @@ using System.Collections;
 
 namespace HeathenEngineering.SteamworksIntegration.UI
 {
+    /// <summary>
+    /// Displays a simple linear list of friends that match the indicated filter options.
+    /// </summary>
+    [HelpURL("https://kb.heathen.group/assets/steamworks/unity-engine/ui-components/friend-list")]
     public class FriendList : MonoBehaviour
     {
+        /// <summary>
+        /// Filter the displayed friends for the <see cref="FriendList"/>
+        /// </summary>
         public enum Filter
         {
             All,
@@ -21,19 +28,28 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             AnyOnline,
             AnyOffline,
             Away,
-            Buisy,
+            Busy,
             Followed
         }
 
-        [SerializeField]
+        /// <summary>
+        /// Should followed users be included in the list
+        /// </summary>
         public bool includeFollowed = false;
         [SerializeField]
         private Filter filter = Filter.All;
-        [SerializeField]
+        /// <summary>
+        /// The Transform where records will be spawned
+        /// </summary>
         public Transform content;
-        [SerializeField]
+        /// <summary>
+        /// The template to be instantiated for each record found
+        /// </summary>
         public GameObject recordTemplate;
 
+        /// <summary>
+        /// The currently active filter
+        /// </summary>
         public Filter ActiveFilter
         {
             get => filter;
@@ -121,7 +137,9 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 records[key].transform.SetAsLastSibling();
             }
         }
-
+        /// <summary>
+        /// Clear the displayed list
+        /// </summary>
         public void Clear()
         {
             records.Clear();
@@ -138,7 +156,9 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
         }
-
+        /// <summary>
+        /// Update the displayed list
+        /// </summary>
         public void UpdateDisplay()
         {
             Clear();
@@ -200,7 +220,11 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 SortRecords();
             }
         }
-
+        /// <summary>
+        /// Check if a user matches the current filter
+        /// </summary>
+        /// <param name="friend">The user to test</param>
+        /// <returns>True if the user matches the filter</returns>
         public bool MatchFilter(UserData friend)
         {
             switch(filter)
@@ -213,7 +237,7 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                     return friend.State != EPersonaState.k_EPersonaStateOffline;
                 case Filter.Away:
                     return friend.State == EPersonaState.k_EPersonaStateAway;
-                case Filter.Buisy:
+                case Filter.Busy:
                     return friend.State == EPersonaState.k_EPersonaStateBusy;
                 case Filter.InAnyGame:
                     return friend.InGame;

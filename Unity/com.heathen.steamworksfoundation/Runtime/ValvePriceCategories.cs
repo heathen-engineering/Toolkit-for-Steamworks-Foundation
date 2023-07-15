@@ -1,6 +1,6 @@
 ﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 
-namespace HeathenEngineering.SteamworksIntegration.Enums
+namespace HeathenEngineering.SteamworksIntegration
 {
     public enum ValvePriceCategories
     {

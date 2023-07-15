@@ -10,17 +10,17 @@ using UnityEngine.Events;
 namespace HeathenEngineering.SteamworksIntegration
 {
     /// <summary>
-    /// <para>The root of Heathen Engieering's Steamworks system. <see cref="SteamSettings"/> provides access to all core funcitonality including stats, achievements, the friend system and the overlay system.</para>
+    /// <para>The root of Heathen's Steamworks system. <see cref="SteamSettings"/> provides access to all core functionality including stats, achievements, the friend system and the overlay system.</para>
     /// </summary>
     /// <remarks>
     /// <para>The <see cref="SteamSettings"/> object is the root of Heathen Engineering's Steamworks kit.
-    /// <see cref="SteamSettings"/> contains the configuration for the fundamental systems of the Steamworks API and provides access to all core funcitonality.
-    /// You can easily access the active <see cref="SteamSettings"/> object any time via <see cref="current"/> a static member that is populated on initalization of the Steamworks API with the settings that are being used to configure it.</para>
+    /// <see cref="SteamSettings"/> contains the configuration for the fundamental systems of the Steamworks API and provides access to all core functionality.
+    /// You can easily access the active <see cref="SteamSettings"/> object any time via <see cref="current"/> a static member that is populated on initialization of the Steamworks API with the settings that are being used to configure it.</para>
     /// <para><see cref="SteamSettings"/> is divided into 2 major areas being <see cref="client"/> and <see cref="server"/>.
-    /// The <see cref="client"/> member provides easy access to features and systems relivent for your "client" that is the applicaiton the end user is actually playing e.g. your game.
+    /// The <see cref="client"/> member provides easy access to features and systems relevant for your "client" that is the application the end user is actually playing e.g. your game.
     /// This would include features such as overlay, friends, clans, stats, achievements, etc.
-    /// <see cref="server"/> in contrast deals with tthe configuraiton of Steamworks Game Server features and only comes into play for server builds.
-    /// Note that the <see cref="server"/> member and its funcitonality are stripped out of client builds, that is it is only accessable in a server build and in the Unity Editor</para>
+    /// <see cref="server"/> in contrast deals with the configuration of Steamworks Game Server features and only comes into play for server builds.
+    /// Note that the <see cref="server"/> member and its functionality are stripped out of client builds, that is it is only accessible in a server build and in the Unity Editor</para>
     /// </remarks>
     [HelpURL("https://kb.heathenengineering.com/assets/steamworks/objects/steam-settings")]
     [CreateAssetMenu(menuName = "Steamworks/Settings")]
@@ -64,7 +64,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public class GameServer
         {
             public bool LoggedOn { get; private set; }
-            public SteamGameServerConfiguraiton Configuration => new SteamGameServerConfiguraiton
+            public SteamGameServerConfiguration Configuration => new SteamGameServerConfiguration
             {
                 autoInitialize = autoInitialize,
                 anonymousServerLogin = anonymousServerLogin,
@@ -179,7 +179,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// {
         ///     public void AppIdTests()
         ///     {
-        ///         Debug.Log("Configred to run as " + SystemSettings.ApplicationId + ", actually running as " + SystemSettings.GetAppId() );
+        ///         Debug.Log("Configured to run as " + SystemSettings.ApplicationId + ", actually running as " + SystemSettings.GetAppId() );
         ///     }
         /// }
         /// </code>
@@ -187,20 +187,20 @@ namespace HeathenEngineering.SteamworksIntegration
         public static AppId_t ApplicationId => current != null ? current.applicationId : default;
 
         /// <summary>
-        /// Indicates an error with API intializaiton
+        /// Indicates an error with API initialization
         /// </summary>
         /// <remarks>
-        /// If true than an error occured during the initalization of the Steamworks API and normal funcitonality will not be possible.
+        /// If true than an error occurred during the initialization of the Steamworks API and normal functionality will not be possible.
         /// </remarks>
-        public static bool HasInitalizationError => API.App.HasInitalizationError;
+        public static bool HasInitializationError => API.App.HasInitializationError;
 
         /// <summary>
-        /// Initalization error message if any
+        /// Initialization error message if any
         /// </summary>
         /// <remarks>
-        /// See <see cref="HasInitalizationError"/> to determin if an error occured, if so this message will discribe possible causes.
+        /// See <see cref="HasInitializationError"/> to determine if an error occurred, if so this message will describe possible causes.
         /// </remarks>
-        public static string InitalizationErrorMessage => API.App.InitalizationErrorMessage;
+        public static string InitializationErrorMessage => API.App.InitializationErrorMessage;
 
         /// <summary>
         /// Indicates rather or not the Steamworks API is initialized
@@ -216,7 +216,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The <see cref="GameClient"/> object provides easy access to client specifc functions such as the <see cref="Steam.UserData"/> for the local user ... you can access this via.
+        /// The <see cref="GameClient"/> object provides easy access to client specific functions such as the <see cref="Steam.UserData"/> for the local user ... you can access this via.
         /// <code>
         /// SteamSettings.Client.user
         /// </code>
@@ -224,7 +224,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <code>
         /// SteamSettings.Client.GetUserData(ulong userId)
         /// </code>
-        /// For more information please see the documentaiton on the <see cref="GameClient"/> object.
+        /// For more information please see the documentation on the <see cref="GameClient"/> object.
         /// </para>
         /// </remarks>
         public static GameClient Client => current.client;
@@ -234,16 +234,16 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The <see cref="GameServer"/> object provides easy access to Steamworks Game Server configuraiton and server only features.
+        /// The <see cref="GameServer"/> object provides easy access to Steamworks Game Server configuration and server only features.
         /// Note that your server can be a Steamworks Game Server and not have to use the Steamworks Networking transports ... e.g. you can use any transport you like and host anywhere you like.
         /// Being a Steamworks Game Server simply means that your server has initialized the Steamworks API and registered its self against Valve's backend ... in addition if this server has an  IP address of a trusted server as defined in your app configuration on the Steamworks Portal,
-        /// then it may perform GS only actions such as setting stats and achievments that are marked as GS only.
+        /// then it may perform GS only actions such as setting stats and achievements that are marked as GS only.
         /// </para>
         /// </remarks>
         public static GameServer Server => current.server;
 
         /// <summary>
-        /// The list of achievements registered for this applicaiton.
+        /// The list of achievements registered for this application.
         /// </summary>
         /// <remarks>
         /// See <see cref="achievements"/> for more information. This field simply access the <see cref="achievements"/> member for the <see cref="current"/> <see cref="SteamworksClientApiSettings"/> object.
@@ -251,12 +251,13 @@ namespace HeathenEngineering.SteamworksIntegration
         public static List<AchievementObject> Achievements => current.achievements;
 
         /// <summary>
-        /// The list of stats registered for this applicaiton.
+        /// The list of stats registered for this application.
         /// </summary>
         /// <remarks>
         /// See <see cref="stats"/> for more information. This field simply access the <see cref="stats"/> member for the <see cref="current"/> <see cref="SteamworksClientApiSettings"/> object.
         /// </remarks>
         public static List<StatObject> Stats => current.stats;
+
         #endregion
 
         #region Utility Functions
@@ -265,7 +266,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// Checks if the Steam API is initialized and if not it will create a new Steamworks Behaviour object configure it with the settings and initialize
         /// </summary>
         /// <remarks>
-        /// This should only be used in the rare cases you need to initialize Steam API on demand. In a typical araingment you would defiine the Steamworks Beahviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
+        /// This should only be used in the rare cases you need to initialize Steam API on demand. In a typical arraignment you would define the Steamworks Behaviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
         /// </remarks>
         /// <param name="doNotDestroy">Optionally mark the created Steamworks Behaviour object as Do Not Destroy On Load</param>
         public void CreateBehaviour(bool doNotDestroy = false, Action initializedCallback = null, Action<string> errorCallback = null)
@@ -293,18 +294,18 @@ namespace HeathenEngineering.SteamworksIntegration
         /// Checks if the Steam API is initialized and if not it will create a new Steamworks Behaviour object configure it with the settings and initialize
         /// </summary>
         /// <remarks>
-        /// This should only be used in the rare cases you need to initialize Steam API on demand. In a typical araingment you would defiine the Steamworks Beahviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
+        /// This should only be used in the rare cases you need to initialize Steam API on demand. In a typical arraignment you would define the Steamworks Behaviour at developer time in the Unity Editor as part of a scene that is only ever loaded once.
         /// </remarks>
         /// <param name="doNotDestroy">Optionally mark the created Steamworks Behaviour object as Do Not Destroy On Load</param>
-        public static void CreateBeahviour(SteamSettings settings, bool doNotDestroy = false) => settings.CreateBehaviour(doNotDestroy);
+        public static void CreateBehaviour(SteamSettings settings, bool doNotDestroy = false) => settings.CreateBehaviour(doNotDestroy);
         #endregion
 
         #region Instanced Members
         /// <summary>
-        /// The current applicaiton ID
+        /// The current application ID
         /// </summary>
         /// <remarks>
-        /// <para>It is importnat that this is set to your game's appId.
+        /// <para>It is important that this is set to your game's appId.
         /// Note that when working in Unity Editor you need to change this value in the <see cref="SteamworksClientApiSettings"/> object your using but also in the steam_appid.txt file located in the root of your project.
         /// You can read more about the steam_appid.txt file here <a href="https://heathen-engineering.mn.co/posts/steam_appidtxt"/></para>
         /// </remarks>
@@ -312,12 +313,12 @@ namespace HeathenEngineering.SteamworksIntegration
         public int callbackTick_Milliseconds = 15;
 
         /// <summary>
-        /// Used in various processes to determin the level of detail to log
+        /// Used in various processes to determine the level of detail to log
         /// </summary>
         public bool isDebugging = false;
 
         /// <summary>
-        /// Contains server side funcitonality and is not available in client builds
+        /// Contains server side functionality and is not available in client builds
         /// </summary>
         /// <remarks>
         /// Note that this is not available in client builds and can only be accessed in server and editor builds.
@@ -333,7 +334,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public GameServer server = new GameServer();
 
         /// <summary>
-        /// Contains client side funcitonality
+        /// Contains client side functionality
         /// </summary>
         /// <remarks>
         /// Note that this is not available in server builds and can only be accessed in client and editor builds.
@@ -349,22 +350,22 @@ namespace HeathenEngineering.SteamworksIntegration
         public GameClient client = new GameClient();
 
         /// <summary>
-        /// The registered stats assoceated with this configuration
+        /// The registered stats associated with this configuration
         /// </summary>
         /// <remarks>
-        /// This collection is used by Valve callbacks to match incoming stat updates and records the value against the approprete stat.
+        /// This collection is used by Valve callbacks to match incoming stat updates and records the value against the appropriate stat.
         /// Put more simply if a stat is listed here then the system will update that <see cref="StatObject"/> object with score changes as that information comes in from the Valve backend insuring that these <see cref="StatObject"/> objects are an up to date snap shot of the local user's stat value.
-        /// For servers these objects simplify fetching and settting stat values for targeted users but of course dosn't cashe values for a local user since server's have no local user.
+        /// For servers these objects simplify fetching and setting stat values for targeted users but of course doesn't cache values for a local user since server's have no local user.
         /// </remarks>
         public List<StatObject> stats = new List<StatObject>();
 
         /// <summary>
-        /// The registered achievements assoceated with this configuration
+        /// The registered achievements associated with this configuration
         /// </summary>
         /// <remarks>
-        /// This collection is used by Valve callbacks to match incoming stat updates and records the value against the approprete achievement.
+        /// This collection is used by Valve callbacks to match incoming stat updates and records the value against the appropriate achievement.
         /// Put more simply if a stat is listed here then the system will update that <see cref="SteamAchievementData"/> object with state changes as that information comes in from the Valve backend insuring that these <see cref="AchievementObject"/> objects are an up to date snap shot of the local user's achievement value.
-        /// For servers these objects simplify fetching and settting stat values for targeted users but of course dosn't cashe values for a local user since server's have no local user.
+        /// For servers these objects simplify fetching and setting stat values for targeted users but of course doesn't cache values for a local user since server's have no local user.
         /// </remarks>
         public List<AchievementObject> achievements = new List<AchievementObject>();
 
@@ -372,7 +373,7 @@ namespace HeathenEngineering.SteamworksIntegration
 
         #region Internals
         /// <summary>
-        /// Initalization logic for the Steam API
+        /// Initialization logic for the Steam API
         /// </summary>
         public void Initialize()
         {
@@ -390,7 +391,9 @@ namespace HeathenEngineering.SteamworksIntegration
                     Debug.LogError("Invalid SteamSettings object detected. the client object is null and will not initalize properly, aborting initalization.");
                     return;
                 }
-                API.App.Client.Initialize(ApplicationId);
+
+                API.App.Client.Initialize(applicationId);
+
                 #endregion
 #else
                 #region Server

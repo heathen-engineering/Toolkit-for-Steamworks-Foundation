@@ -9,20 +9,66 @@ using Friends = HeathenEngineering.SteamworksIntegration.API.Friends;
 
 namespace HeathenEngineering.SteamworksIntegration.UI
 {
+    /// <summary>
+    /// Friend profile is a simple implementation of the <see cref="IUserProfile"/> interface and is used in the prefab examples for <see cref="FriendList"/> and other controls. In most cases you will want to create your own "Friend Profile" UI script and can use the included FriendProfile as an example to get started with.
+    /// </summary>
+    [HelpURL("https://kb.heathen.group/assets/steamworks/unity-engine/ui-components/friend-profile")]
     public class FriendProfile : MonoBehaviour, IUserProfile
     {
+        /// <summary>
+        /// Represents a configurable text field in the friend profile
+        /// </summary>
         [Serializable]
         public struct TextField
         {
+            /// <summary>
+            /// The label to display the text fields value
+            /// </summary>
+            [Tooltip("The label to display the fields value with")]
             public TMPro.TextMeshProUGUI label;
+            /// <summary>
+            /// should the system use specific colors for each status type
+            /// </summary>
             [Header("Colors")]
+            [Tooltip("Should the system use specific colors for each status type")]
             public bool useStatusColors;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inThisGame;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is not this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is *NOT* this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inOtherGame;
+            /// <summary>
+            /// The color to use when the status of the player is online and active.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and active.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineActive;
+            /// <summary>
+            /// The color to use when the status of the player is online and inactive.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and inactive.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineInactive;
+            /// <summary>
+            /// The color to use when the status of the player is offline.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is offline.\nOnly used when the Use Status Colors field is true.")]
             public Color isOffline;
-
+            /// <summary>
+            /// Sets the value of the field and its status
+            /// </summary>
+            /// <param name="value">The value to apply to the label</param>
+            /// <param name="inGame">Is the player in game</param>
+            /// <param name="inThisGame">If the player is in game, are they in this game</param>
+            /// <param name="state">The persona state value for this player</param>
             public void SetValue(string value, bool inGame, bool inThisGame, EPersonaState state)
             {
                 if (label != null)
@@ -61,18 +107,59 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             }
         }
 
+        /// <summary>
+        /// Represents a configurable input field in the friend profile
+        /// </summary>
         [Serializable]
         public struct InputField
         {
+            /// <summary>
+            /// The input field
+            /// </summary>
             public TMPro.TMP_InputField label;
+            /// <summary>
+            /// should the system use specific colors for each status type
+            /// </summary>
             [Header("Colors")]
+            [Tooltip("Should the system use specific colors for each status type")]
             public bool useStatusColors;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inThisGame;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is not this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is *NOT* this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inOtherGame;
+            /// <summary>
+            /// The color to use when the status of the player is online and active.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and active.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineActive;
+            /// <summary>
+            /// The color to use when the status of the player is online and inactive.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and inactive.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineInactive;
+            /// <summary>
+            /// The color to use when the status of the player is offline.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is offline.\nOnly used when the Use Status Colors field is true.")]
             public Color isOffline;
-
+            /// <summary>
+            /// Sets the value of the field and its status
+            /// </summary>
+            /// <param name="value">The value to apply to the label</param>
+            /// <param name="inGame">Is the player in game</param>
+            /// <param name="inThisGame">If the player is in game, are they in this game</param>
+            /// <param name="state">The persona state value for this player</param>
             public void SetValue(string value, bool inGame, bool inThisGame, EPersonaState state)
             {
                 if (label != null)
@@ -111,18 +198,56 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             }
         }
 
+        /// <summary>
+        /// Represents a configurable image field in the friend profile
+        /// </summary>
         [Serializable]
         public struct ImageField
         {
             public Image image;
+            /// <summary>
+            /// should the system use specific colors for each status type
+            /// </summary>
             [Header("Colors")]
+            [Tooltip("Should the system use specific colors for each status type")]
             public bool useStatusColors;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inThisGame;
+            /// <summary>
+            /// The color to use when the status of the player is playing a game and the game being played is not this game.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is playing a game and the game being played is *NOT* this game.\nOnly used when the Use Status Colors field is true.")]
             public Color inOtherGame;
+            /// <summary>
+            /// The color to use when the status of the player is online and active.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and active.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineActive;
+            /// <summary>
+            /// The color to use when the status of the player is online and inactive.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is online and inactive.\nOnly used when the Use Status Colors field is true.")]
             public Color isOnlineInactive;
+            /// <summary>
+            /// The color to use when the status of the player is offline.
+            /// Only used when <see cref="useStatusColors"/> is <see cref="true"/>
+            /// </summary>
+            [Tooltip("The color to use when the status of the player is offline.\nOnly used when the Use Status Colors field is true.")]
             public Color isOffline;
-
+            /// <summary>
+            /// Sets the value of the field and its status
+            /// </summary>
+            /// <param name="value">The value to apply to the label</param>
+            /// <param name="inGame">Is the player in game</param>
+            /// <param name="inThisGame">If the player is in game, are they in this game</param>
+            /// <param name="state">The persona state value for this player</param>
             public void SetValue(bool inGame, bool inThisGame, EPersonaState state)
             {
                 if (image != null)
@@ -158,15 +283,41 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
         }
-
+        /// <summary>
+        /// Configuration settings for the message to display for each of the valid states
+        /// </summary>
         [Serializable]
         public struct MessageOptions
         {
+            /// <summary>
+            /// The message to be displayed when the subject is playing this game
+            /// </summary>
+            [Tooltip("V")]
             public string playingThis;
+            /// <summary>
+            /// The message to be displayed when the subject is *NOT* playing this game
+            /// </summary>
+            [Tooltip("The message to be displayed when the subject is *NOT* playing this game. This is used if Name Other Game is false")]
             public string playingOther;
+            /// <summary>
+            /// If the player is playing some other game should the system name that game?
+            /// </summary>
+            [Tooltip("If true then the message will be the name of the game the player is playing if known, if false then the Playing Other message will be used.")]
             public bool nameOtherGame;
+            /// <summary>
+            /// The message to display when the subject is inactive
+            /// </summary>
+            [Tooltip("The message to display when the subject is inactive")]
             public string inactive;
+            /// <summary>
+            /// The message to display when the subject is active
+            /// </summary>
+            [Tooltip("The message to display when the subject is active")]
             public string active;
+            /// <summary>
+            /// The message to display when the subject is offline
+            /// </summary>
+            [Tooltip("The message to display when the subject is offline")]
             public string offline;
 
             public string ToString(EPersonaState state, bool isPlaying, string gameName)
@@ -199,8 +350,14 @@ namespace HeathenEngineering.SteamworksIntegration.UI
         [SerializeField]
         [Tooltip("Should the component load the local user's avatar on Start.\nIf false you must call LoadAvatar and provide the ID of the user to load")]
         private bool useLocalUser;
+        /// <summary>
+        /// If false then the display name field will get the Nickname if available and Friend name if not. If true then the display name will always be the Friend name and the nickname field will be used for nick if available.
+        /// </summary>
         [Tooltip("If false then the display name field will get the Nickname if available and Friend name if not. If true then the display name will always be the Friend name and the nickname field will be used for nick if available.")]
         public bool appendNickname;
+        /// <summary>
+        /// The message values to use for each of the possible status options
+        /// </summary>
         public MessageOptions messageOptions = new MessageOptions
         {
             active = "Online",
@@ -284,10 +441,14 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             isOnlineInactive = new Color(0.4117f, 0.7803f, 0.9254f, 1),
             isOffline = new Color(0.887f, 0.887f, 0.887f, 1)
         };
-
+        /// <summary>
+        /// An event that will be raised when the avatar image is freshly loaded
+        /// </summary>
         [Header("Events")]
         public UnityEvent evtLoaded;
-
+        /// <summary>
+        /// The <see cref="UserData"/> of the currently displayed user if any
+        /// </summary>
         public UserData UserData
         {
             get

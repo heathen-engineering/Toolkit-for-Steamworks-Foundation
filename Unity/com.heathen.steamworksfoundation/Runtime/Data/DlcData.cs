@@ -6,79 +6,95 @@ using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration
 {
+    /// <summary>
+    /// Represents a Downloadable Content app.
+    /// <para>Downloadable Content e.g. DLC are child apps of a parent 'game' app. They must be created in Steam Developer Portal and then can be access in code via their id using this structure</para>
+    /// </summary>
     [Serializable]
     public struct DlcData : IEquatable<AppId_t>, IEquatable<uint>, IEquatable<AppData>, IComparable<AppData>, IComparable<AppId_t>, IComparable<uint>
     {
         [SerializeField]
         private uint id;
-        public AppId_t AppId => new AppId_t(id);
-
-        [SerializeField]
-        private bool _available;
-        public bool Available
+        /// <summary>
+        /// The native <see cref="AppId_t"/> representation of this DLC
+        /// </summary>
+        public readonly AppId_t AppId => new AppId_t(id);
+        /// <summary>
+        /// The primitive <see cref="uint"/> representation of this DLC
+        /// </summary>
+        public readonly uint Id => id;
+        /// <summary>
+        /// Checks if the DLC in question is available or not
+        /// </summary>
+        public readonly bool Available
         {
             get
             {
-                if (!_available)
+                if (API.App.dlcAppCash.ContainsKey(Id))
+                    return API.App.dlcAppCash[Id].available;
+                else
                 {
+                    bool _available = false;
                     var count = SteamApps.GetDLCCount();
                     for (int i = 0; i < count; i++)
                     {
                         if (SteamApps.BGetDLCDataByIndex(i, out var pAppID, out var pAvailable, out var pName, 512))
                         {
+                            if (API.App.dlcAppCash.ContainsKey(pAppID.m_AppId))
+                                API.App.dlcAppCash[pAppID.m_AppId] = (pName, pAvailable);
+                            else
+                                API.App.dlcAppCash.Add(pAppID.m_AppId, (pName, pAvailable));
+
                             if (pAppID.m_AppId == id)
-                            {
                                 _available = pAvailable;
-                                _name = pName;
-                                break;
-                            }
                         }
                     }
+                    return _available;
                 }
-
-                return _available;
-            }
-
-            private set
-            {
-                _available = value;
             }
         }
-
-        [SerializeField]
-        private string _name;
-        public string Name
+        /// <summary>
+        /// Returns the DLC's name as visible to the user
+        /// </summary>
+        public readonly string Name
         {
             get
             {
-                if (_name == null)
+                if (API.App.dlcAppCash.ContainsKey(Id))
+                    return API.App.dlcAppCash[Id].name;
+                else
                 {
+                    string _name = "None Found";
                     var count = SteamApps.GetDLCCount();
                     for (int i = 0; i < count; i++)
                     {
                         if (SteamApps.BGetDLCDataByIndex(i, out var pAppID, out var pAvailable, out var pName, 512))
                         {
-                            if (pAppID == this)
-                            {
-                                _available = pAvailable;
+                            if (API.App.dlcAppCash.ContainsKey(pAppID.m_AppId))
+                                API.App.dlcAppCash[pAppID.m_AppId] = (pName, pAvailable);
+                            else
+                                API.App.dlcAppCash.Add(pAppID.m_AppId, (pName, pAvailable));
+
+                            if (pAppID.m_AppId == id)
                                 _name = pName;
-                                break;
-                            }
                         }
                     }
+                    return _name;
                 }
-
-                return _name;
-            }
-
-            private set
-            {
-                _name = value;
             }
         }
-        public bool IsSubscribed => SteamApps.BIsSubscribedApp(this);
-        public bool IsInstalled => SteamApps.BIsDlcInstalled(this);
-        public DirectoryInfo InstallDirectory
+        /// <summary>
+        /// Does the user "own" this DLC.
+        /// </summary>
+        public readonly bool IsSubscribed => SteamApps.BIsSubscribedApp(this);
+        /// <summary>
+        /// Is this DLC installed
+        /// </summary>
+        public readonly bool IsInstalled => SteamApps.BIsDlcInstalled(this);
+        /// <summary>
+        /// The location where this DLC is installed
+        /// </summary>
+        public readonly DirectoryInfo InstallDirectory
         {
             get
             {
@@ -92,7 +108,10 @@ namespace HeathenEngineering.SteamworksIntegration
                 }
             }
         }
-        public float DownloadProgress
+        /// <summary>
+        /// The download progress of this DLC if known
+        /// </summary>
+        public readonly float DownloadProgress
         {
             get
             {
@@ -105,7 +124,10 @@ namespace HeathenEngineering.SteamworksIntegration
                     return 0f;
             }
         }
-        public DateTime EarliestPurchaseTime
+        /// <summary>
+        /// The first known date of purchase for this DLC
+        /// </summary>
+        public readonly DateTime EarliestPurchaseTime
         {
             get
             {
@@ -115,66 +137,100 @@ namespace HeathenEngineering.SteamworksIntegration
                 return dateTime;
             }
         }
-        public void Install()
+        /// <summary>
+        /// Request that this DLC be installed
+        /// </summary>
+        public readonly void Install()
         {
             SteamApps.InstallDLC(this);
         }
-        public void Uninstall()
+        /// <summary>
+        /// Request that this DLC be uninstalled
+        /// </summary>
+        public readonly void Uninstall()
         {
             SteamApps.UninstallDLC(this);
         }
-        public void OpenStore(EOverlayToStoreFlag flag = EOverlayToStoreFlag.k_EOverlayToStoreFlag_None) => SteamFriends.ActivateGameOverlayToStore(this, flag);
-
+        /// <summary>
+        /// Open the Steam overlay to the store page for this DLC with the indicated flags
+        /// </summary>
+        /// <param name="flag">The <see cref="EOverlayToStoreFlag"/> to open the store page with</param>
+        public readonly void OpenStore(EOverlayToStoreFlag flag = EOverlayToStoreFlag.k_EOverlayToStoreFlag_None) => SteamFriends.ActivateGameOverlayToStore(this, flag);
+        /// <summary>
+        /// Construct a new <see cref="DlcData"/> based on an <see cref="AppId_t"/> and known availability and name values.
+        /// <para>
+        /// This is an internal feature for the editor tools and in general shouldn't be used by developers at runtime.
+        /// </para>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="available"></param>
+        /// <param name="name"></param>
         public DlcData(AppId_t id, bool available, string name)
         {
             this.id = id.m_AppId;
-            _available = available;
-            _name = name;
+            if (API.App.dlcAppCash.ContainsKey(id.m_AppId))
+                API.App.dlcAppCash[id.m_AppId] = (name, available);
+            else
+                API.App.dlcAppCash.Add(id.m_AppId, (name, available));
         }
-
+        /// <summary>
+        /// Get <see cref="DlcData"/> based on a <see cref="uint"/> representing its App ID
+        /// </summary>
+        /// <param name="appId">The ID of the App the DLC is known by</param>
+        /// <returns></returns>
         public static DlcData Get(uint appId) => appId;
+        /// <summary>
+        /// Get <see cref="DlcData"/> based on a <see cref="AppId_t"/> representing the Dlc in Steam
+        /// </summary>
+        /// <param name="appId">The App ID the DLC is known by</param>
+        /// <returns></returns>
         public static DlcData Get(AppId_t appId) => appId;
-        public static DlcData Get(AppData appData) => appData.appId;
+        /// <summary>
+        /// Get <see cref="DlcData"/> based on a <see cref="AppData"/> representing its Steam App
+        /// </summary>
+        /// <param name="appData"></param>
+        /// <returns></returns>
+        public static DlcData Get(AppData appData) => appData.AppId;
 
         #region Boilerplate
-        public int CompareTo(AppData other)
+        public readonly int CompareTo(AppData other)
         {
-            return id.CompareTo(other.appId);
+            return id.CompareTo(other.AppId);
         }
 
-        public int CompareTo(AppId_t other)
-        {
-            return id.CompareTo(other);
-        }
-
-        public int CompareTo(uint other)
+        public readonly int CompareTo(AppId_t other)
         {
             return id.CompareTo(other);
         }
 
-        public bool Equals(uint other)
+        public readonly int CompareTo(uint other)
+        {
+            return id.CompareTo(other);
+        }
+
+        public readonly bool Equals(uint other)
         {
             return id.Equals(other);
         }
 
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object obj)
         {
             return id.Equals(obj);
         }
 
-        public override int GetHashCode()
+        public readonly override int GetHashCode()
         {
-            return id.GetHashCode() + _name.GetHashCode() + _available.GetHashCode();
+            return id.GetHashCode();
         }
 
-        public bool Equals(AppId_t other)
+        public readonly bool Equals(AppId_t other)
         {
             return id.Equals(other);
         }
 
-        public bool Equals(AppData other)
+        public readonly bool Equals(AppData other)
         {
-            return id.Equals(other.appId);
+            return id.Equals(other.AppId);
         }
 
         public static bool operator ==(DlcData l, DlcData r) => l.id == r.id;
@@ -182,7 +238,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public static bool operator ==(DlcData l, AppId_t r) => l.id == r.m_AppId;
         public static bool operator ==(AppId_t l, DlcData r) => l.m_AppId == r.id;
         public static bool operator !=(DlcData l, DlcData r) => l.id != r.id;
-        public static bool operator !=(DlcData l, AppData r) => l.id != r.appId.m_AppId;
+        public static bool operator !=(DlcData l, AppData r) => l.id != r.AppId.m_AppId;
         public static bool operator !=(DlcData l, AppId_t r) => l.id != r.m_AppId;
         public static bool operator !=(AppId_t l, DlcData r) => l.m_AppId != r.id;
 
@@ -191,7 +247,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public static implicit operator AppId_t(DlcData c) => c.AppId;
         public static implicit operator DlcData(AppId_t id) => new DlcData { id = id.m_AppId };
         public static implicit operator DlcData(AppData id) => new DlcData { id = id.Id };
-        public static implicit operator AppData(DlcData id) => new AppData { Id = id.id };
+        public static implicit operator AppData(DlcData id) => AppData.Get(id.id);
         #endregion
     }
 }

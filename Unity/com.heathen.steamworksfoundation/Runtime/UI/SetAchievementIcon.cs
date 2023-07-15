@@ -36,6 +36,8 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
         public void Refresh()
         {
+            Debug.Log($"{name} Updated");
+
             achievement.GetIcon(texture =>
             {
                 image.texture = texture;

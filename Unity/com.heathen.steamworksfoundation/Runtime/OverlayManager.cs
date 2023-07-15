@@ -28,6 +28,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public bool IsEnabled => API.Overlay.Client.IsEnabled;
 
         public GameOverlayActivatedEvent evtOverlayActivated;
+        public GameLobbyJoinRequestedEvent evtGameLobbyJoinRequested;
         public GameServerChangeRequestedEvent evtGameServerChangeRequested;
         public GameRichPresenceJoinRequestedEvent evtRichPresenceJoinRequested;
 
@@ -48,6 +49,7 @@ namespace HeathenEngineering.SteamworksIntegration
             NotificationInset = notificationInset;
             API.Overlay.Client.EventGameOverlayActivated.AddListener(evtOverlayActivated.Invoke);
             API.Overlay.Client.EventGameServerChangeRequested.AddListener(evtGameServerChangeRequested.Invoke);
+            API.Overlay.Client.EventGameLobbyJoinRequested.AddListener(evtGameLobbyJoinRequested.Invoke);
             API.Overlay.Client.EventGameRichPresenceJoinRequested.AddListener(evtRichPresenceJoinRequested.Invoke);
         }
 
@@ -55,6 +57,7 @@ namespace HeathenEngineering.SteamworksIntegration
         {
             API.Overlay.Client.EventGameOverlayActivated.RemoveListener(evtOverlayActivated.Invoke);
             API.Overlay.Client.EventGameServerChangeRequested.RemoveListener(evtGameServerChangeRequested.Invoke);
+            API.Overlay.Client.EventGameLobbyJoinRequested.RemoveListener(evtGameLobbyJoinRequested.Invoke);
             API.Overlay.Client.EventGameRichPresenceJoinRequested.RemoveListener(evtRichPresenceJoinRequested.Invoke);
         }
 
@@ -87,7 +90,13 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </summary>
         /// <param name="dialog">The dialog to open. Valid options are: "friends", "community", "players", "settings", "officialgamegroup", "stats", "achievements".</param>
         public void Open(OverlayDialog dialog) => API.Overlay.Client.Activate(dialog);
+        /// <summary>
+        /// Activates the Steam Overlay to open the invite dialog. Invitations sent from this dialog will be for the provided lobby.
+        /// </summary>
+        /// <param name="lobbyId">The Steam ID of the lobby that selected users will be invited to.</param>
+        public void OpenLobbyInvite(CSteamID lobbyId) => API.Overlay.Client.ActivateInviteDialog(lobbyId);
         public void OpenConnectStringInvite(string connectionString) => API.Overlay.Client.ActivateInviteDialog(connectionString);
+        public void OpenRemotePlayInvite(CSteamID lobbyId) => API.Overlay.Client.ActivateRemotePlayInviteDialog(lobbyId);
         /// <summary>
         /// Activates the Steam Overlay to the Steam store page for the provided app.
         /// </summary>

@@ -5,28 +5,36 @@ using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration
 {
+    /// <summary>
+    /// Represents a user and exposes key data in relation to that user
+    /// </summary>
     [Serializable]
     public struct UserData : IEquatable<CSteamID>, IEquatable<ulong>, IEquatable<UserData>
     {
+        /// <summary>
+        /// Get the <see cref="UserData"/> for the local user
+        /// </summary>
         public static UserData Me => API.User.Client.Id;
+        /// <summary>
+        /// The native <see cref="CSteamID"/> of the user
+        /// </summary>
         public CSteamID id;
-        [Obsolete("Please use id instead")]
-        public CSteamID cSteamId
-        {
-            get => id;
-            set => id = value;
-        }
-        public bool IsMe => id == API.User.Client.Id.id;
-        public ulong SteamId
+        /// <summary>
+        /// Is this user the local user
+        /// </summary>
+        public readonly bool IsMe => id == API.User.Client.Id.id;
+        /// <summary>
+        /// The primitive value of the user's id
+        /// </summary>
+        public readonly ulong SteamId
         {
             get => id.m_SteamID;
-            set => id = new CSteamID(value);
         }
         /// <summary>
         /// Is this UserData value a valid value.
         /// This does not indicate it is a person simply that structurally the data is possibly a person
         /// </summary>
-        public bool IsValid
+        public readonly bool IsValid
         {
             get
             {
@@ -53,9 +61,15 @@ namespace HeathenEngineering.SteamworksIntegration
         ///     });
         /// </code>
         /// </remarks>
-        public Texture2D Avatar => API.Friends.Client.GetLoadedAvatar(id);
-        public string Name => API.Friends.Client.GetFriendPersonaName(id);
-        public string Nickname
+        public readonly Texture2D Avatar => API.Friends.Client.GetLoadedAvatar(id);
+        /// <summary>
+        /// The user's displayed name
+        /// </summary>
+        public readonly string Name => API.Friends.Client.GetFriendPersonaName(id);
+        /// <summary>
+        /// The nick name assigned to this user by the local user if any, if none this will be the same as <see cref="Name"/>
+        /// </summary>
+        public readonly string Nickname
         {
             get
             {
@@ -66,9 +80,18 @@ namespace HeathenEngineering.SteamworksIntegration
                     return API.Friends.Client.GetFriendPersonaName(id);
             }
         }
-        public EPersonaState State => SteamFriends.GetFriendPersonaState(id);
-        public bool InGame => SteamFriends.GetFriendGamePlayed(id, out _);
-        public FriendGameInfo_t GameInfo
+        /// <summary>
+        /// The user's persona state value
+        /// </summary>
+        public readonly EPersonaState State => SteamFriends.GetFriendPersonaState(id);
+        /// <summary>
+        /// Is this user in a game
+        /// </summary>
+        public readonly bool InGame => SteamFriends.GetFriendGamePlayed(id, out _);
+        /// <summary>
+        /// The details about the game the user is in if any
+        /// </summary>
+        public readonly FriendGameInfo_t GameInfo
         {
             get
             {
@@ -77,55 +100,76 @@ namespace HeathenEngineering.SteamworksIntegration
                 return result;
             }
         }
-        public int Level => SteamFriends.GetFriendSteamLevel(id);
+        /// <summary>
+        /// The Steam Level of the user
+        /// </summary>
+        public readonly int Level => SteamFriends.GetFriendSteamLevel(id);
         /// <summary>
         /// Also known as the "Friend ID" or "Friend Code"
         /// </summary>
-        public AccountID_t AccountId
+        public readonly AccountID_t AccountId
         {
             get => id.GetAccountID();
-            set
-            {
-                id = new CSteamID(value, EUniverse.k_EUniversePublic, EAccountType.k_EAccountTypeIndividual);
-            }
         }
         /// <summary>
         /// Also known as the "Account ID"
         /// </summary>
-        public uint FriendId
+        public readonly uint FriendId
         { 
             get => AccountId.m_AccountID;
-            set
-            {
-                id = new CSteamID(new AccountID_t(value), EUniverse.k_EUniversePublic, EAccountType.k_EAccountTypeIndividual);
-            }
         }
         /// <summary>
         /// Gets a collection of names the local user knows for the indicated user
         /// </summary>
-        public string[] NameHistory => API.Friends.Client.GetFriendPersonaNameHistory(this);
-
-        public void LoadAvatar(Action<Texture2D> callback) => API.Friends.Client.GetFriendAvatar(id, callback);
-        public bool GetGamePlayed(out FriendGameInfo gameInfo) => API.Friends.Client.GetFriendGamePlayed(id, out gameInfo);
-        public void InviteToGame(string connectString) => API.Friends.Client.InviteUserToGame(this, connectString);
-        public bool SendMessage(string message) => API.Friends.Client.ReplyToFriendMessage(this, message);
+        public readonly string[] NameHistory => API.Friends.Client.GetFriendPersonaNameHistory(this);
+        /// <summary>
+        /// Requests the user's avatar be loaded from Steam's backend
+        /// </summary>
+        /// <param name="callback"></param>
+        public readonly void LoadAvatar(Action<Texture2D> callback) => API.Friends.Client.GetFriendAvatar(id, callback);
+        /// <summary>
+        /// Request information about the game the user is playing
+        /// </summary>
+        /// <param name="gameInfo"></param>
+        /// <returns></returns>
+        public readonly bool GetGamePlayed(out FriendGameInfo gameInfo) => API.Friends.Client.GetFriendGamePlayed(id, out gameInfo);
+        /// <summary>
+        /// Invite the user to play on the connection string provided
+        /// </summary>
+        /// <param name="connectString"></param>
+        public readonly void InviteToGame(string connectString) => API.Friends.Client.InviteUserToGame(this, connectString);
+        /// <summary>
+        /// Send this user a frined chat message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public readonly bool SendMessage(string message) => API.Friends.Client.ReplyToFriendMessage(this, message);
         /// <summary>
         /// Requests the persona name and avatar of a specified user.
         /// </summary>
         /// <returns>
         /// true means that the data has being requested, and a PersonaStateChange_t callback will be posted when it's retrieved. false means that we already have all the details about that user, and functions that require this information can be used immediately.
         /// </returns>
-        public bool RequestInformation() => API.Friends.Client.RequestUserInformation(this, false);
-        public string GetRichPresenceValue(string key) => API.Friends.Client.GetFriendRichPresence(this, key);
-
+        public readonly bool RequestInformation() => API.Friends.Client.RequestUserInformation(this, false);
+        /// <summary>
+        /// Get the rich presence value from this user
+        /// </summary>
+        /// <param name="key">The key to read</param>
+        /// <returns>The value that was read</returns>
+        public readonly string GetRichPresenceValue(string key) => API.Friends.Client.GetFriendRichPresence(this, key);
+        
         /// <summary>
         /// Opens the Overlay Add Friend dialog to add this user as the local user's friend
         /// </summary>
-        public void AddFriend() => UserData.AddFriend(this);
+        public readonly void AddFriend() => UserData.AddFriend(this);
         /// <summary>
         /// Opens the Overlay Remove Friend dialog to remove this user as the local user's friend
         /// </summary>
-        public void RemoveFriend() => UserData.RemoveFriend(this);
+        public readonly void RemoveFriend() => UserData.RemoveFriend(this);
+        /// <summary>
+        /// Marks this player as "played with"
+        /// </summary>
+        public readonly void SetPlayedWith() => API.Friends.Client.SetPlayedWith(this);
         
         /// <summary>
         /// This clears the rich presence data for the local user
@@ -226,47 +270,47 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <param name="user"></param>
         public static void RemoveFriend(AccountID_t user) => API.Overlay.Client.Activate(FriendDialog.friendremove, UserData.Get(user));
     #region Boilerplate
-        public int CompareTo(UserData other)
+        public readonly int CompareTo(UserData other)
         {
             return id.CompareTo(other.id);
         }
 
-        public int CompareTo(CSteamID other)
+        public readonly int CompareTo(CSteamID other)
         {
             return id.CompareTo(other);
         }
 
-        public int CompareTo(ulong other)
+        public readonly int CompareTo(ulong other)
         {
             return id.m_SteamID.CompareTo(other);
         }
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             return id.ToString();
         }
 
-        public bool Equals(UserData other)
+        public readonly bool Equals(UserData other)
         {
             return id.Equals(other.id);
         }
 
-        public bool Equals(CSteamID other)
+        public readonly bool Equals(CSteamID other)
         {
             return id.Equals(other);
         }
 
-        public bool Equals(ulong other)
+        public readonly bool Equals(ulong other)
         {
             return id.m_SteamID.Equals(other);
         }
 
-        public override bool Equals(object obj)
+        public readonly override bool Equals(object obj)
         {
             return id.m_SteamID.Equals(obj);
         }
 
-        public override int GetHashCode()
+        public readonly override int GetHashCode()
         {
             return id.GetHashCode();
         }

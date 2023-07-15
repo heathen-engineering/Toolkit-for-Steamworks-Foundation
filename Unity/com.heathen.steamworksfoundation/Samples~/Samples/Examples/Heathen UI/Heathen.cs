@@ -1,7 +1,5 @@
-#if UNITY_EDITOR
+#if UNITY_EDITOR && !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace OnlyInEditor

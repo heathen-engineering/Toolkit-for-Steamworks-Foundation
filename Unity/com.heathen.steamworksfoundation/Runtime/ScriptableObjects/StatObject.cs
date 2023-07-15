@@ -41,6 +41,35 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <returns></returns>
         public float GetFloatValue() => data.FloatValue();
         /// <summary>
+        /// Asynchronously downloads stats and achievements for the specified user from the server.
+        /// </summary>
+        /// <remarks>
+        /// To keep from using too much memory, an least recently used cache (LRU) is maintained and other user's stats will occasionally be unloaded. When this happens a UserStatsUnloaded_t callback is sent. After receiving this callback the user's stats will be unavailable until this function is called again.
+        /// </remarks>
+        /// <param name="userId"></param>
+        /// <param name="callback"></param>
+        public void RequestUserStats(UserData user, Action<UserStatsReceived, bool> callback) => data.RequestUserStats(user, callback);   
+        /// <summary>
+        /// Read the value of this state for a specific user
+        /// <para>
+        /// You must have called <see cref="RequestUserStats(UserData, Action{UserStatsReceived_t, bool})"/> first
+        /// </para>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool GetValue(UserData user, out int value) => data.GetValue(user, out value);
+        /// <summary>
+        /// Read the value of this state for a specific user
+        /// <para>
+        /// You must have called <see cref="RequestUserStats(UserData, Action{UserStatsReceived_t, bool})"/> first
+        /// </para>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool GetValue(UserData user, out float value) => data.GetValue(user, out value);
+        /// <summary>
         /// Sets the value of this stat on the Steamworks API.
         /// This is used when working with the generic <see cref="StatObject"/> reference.
         /// </summary>
@@ -72,9 +101,9 @@ namespace HeathenEngineering.SteamworksIntegration
         /// This stores all stats to the Valve backend servers it is not possible to store only 1 stat at a time
         /// Note that this will cause a callback from Steamworks which will cause the stats to update
         /// </summary>
-        public void StoreStats() => StatData.Store();
+        public void StoreStats() => data.Store();
         /// <summary>
-        /// The availble type of stat data used in the Steamworks API
+        /// The available type of stat data used in the Steamworks API
         /// </summary>
         public enum DataType
         {
@@ -84,46 +113,44 @@ namespace HeathenEngineering.SteamworksIntegration
         }
 
 #if UNITY_SERVER || UNITY_EDITOR
+        [Obsolete("Use ServerGetUserIntStat instead.")]
+        public int GetUserIntStat(UserData user) => ServerGetUserIntStat(user);
         /// <summary>
         /// Get the int value of this stat for the <paramref name="user"/>
         /// </summary>
         /// <remarks>
         /// <para>
-        /// IMPORTANT: you must first call <see cref="SteamworksClientApiSettings.GameServer.RequestUserStats(CSteamID, Action{GSStatsReceived_t})"/> via SteamSettings.current.server.RequestUserStats(id, callbackMethod);
-        /// </para>
-        /// <para>
         /// Only available on server builds
         /// </para>
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
-        public int GetUserIntStat(CSteamID user)
+        public int ServerGetUserIntStat(UserData user)
         {
             int buffer;
-            SteamGameServerStats.GetUserStat(user, data, out buffer);
+            API.StatsAndAchievements.Server.GetUserStat(user, data, out buffer);
             return buffer;
         }
-
+        [Obsolete("User ServerGetUserFloatStat instead.")]
+        public float GetUserFloatStat(UserData user) => ServerGetUserFloatStat(user);
         /// <summary>
         /// Get the float value of this stat for the <paramref name="user"/>
         /// </summary>
         /// <remarks>
         /// <para>
-        /// IMPORTANT: you must first call <see cref="SteamworksClientApiSettings.GameServer.RequestUserStats(CSteamID, Action{GSStatsReceived_t})"/> via SteamSettings.current.server.RequestUserStats(id, callbackMethod);
-        /// </para>
-        /// <para>
         /// Only available on server builds
         /// </para>
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
-        public float GetUserFloatStat(CSteamID user)
+        public float ServerGetUserFloatStat(UserData user)
         {
             float buffer;
-            SteamGameServerStats.GetUserStat(user, data, out buffer);
+            API.StatsAndAchievements.Server.GetUserStat(user, data, out buffer);
             return buffer;
         }
-
+        [Obsolete("Use ServerSetUserIntStat instead")]
+        public void SetUserIntStat(UserData user, int value) => ServerSetUserIntStat(user, value);
         /// <summary>
         /// Sets a integer value for the user on this stat
         /// </summary>
@@ -134,11 +161,12 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </remarks>
         /// <param name="user"></param>
         /// <param name="value"></param>
-        public void SetUserIntStat(CSteamID user, int value)
+        public void ServerSetUserIntStat(UserData user, int value)
         {
-            SteamGameServerStats.SetUserStat(user, data, value);
+            API.StatsAndAchievements.Server.SetUserStat(user, data, value);
         }
-
+        [Obsolete("Use ServerSetUserFloatStat instead")]
+        public void SetUserFloatStat(UserData user, float value) => ServerSetUserFloatStat(user, value);
         /// <summary>
         /// Sets a float value for the user on this stat
         /// </summary>
@@ -149,11 +177,12 @@ namespace HeathenEngineering.SteamworksIntegration
         /// </remarks>
         /// <param name="user"></param>
         /// <param name="value"></param>
-        public void SetUserFloatStat(CSteamID user, float value)
+        public void ServerSetUserFloatStat(UserData user, float value)
         {
-            SteamGameServerStats.SetUserStat(user, data, value);
+            API.StatsAndAchievements.Server.SetUserStat(user, data, value);
         }
-
+        [Obsolete("Use ServerUpdateUserAvgRateStat instead")]
+        public void UpdateUserAvgRateStat(UserData user, float countThisSession, double sessionLength) => ServerUpdateUserAvgRateStat(user, countThisSession, sessionLength);   
         /// <summary>
         /// Updates the users average rate for this stat
         /// </summary>
@@ -165,9 +194,9 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <param name="user"></param>
         /// <param name="countThisSession"></param>
         /// <param name="sessionLength"></param>
-        public void UpdateUserAvgRateStat(CSteamID user, float countThisSession, double sessionLength)
+        public void ServerUpdateUserAvgRateStat(UserData user, float countThisSession, double sessionLength)
         {
-            SteamGameServerStats.UpdateUserAvgRateStat(user, data, countThisSession, sessionLength);
+            API.StatsAndAchievements.Server.UpdateUserAvgRateStat(user, data, countThisSession, sessionLength);
         }
 #endif
     }

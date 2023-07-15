@@ -52,6 +52,12 @@ namespace HeathenEngineering.DEMO
         {
             Application.OpenURL(urls[index]);
         }
+
+        [Serializable]
+        public struct TestObjectToUpload
+        {
+            public string someField;
+        }
     }
 }
 #endif

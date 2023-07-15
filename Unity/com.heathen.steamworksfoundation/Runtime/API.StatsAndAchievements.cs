@@ -473,7 +473,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// </remarks>
             /// <param name="userId"></param>
             /// <param name="callback"></param>
-            public static void RequestUserStats(UserData userId, Action<UserStatsReceived_t, bool> callback)
+            public static void RequestUserStats(UserData userId, Action<UserStatsReceived, bool> callback)
             {
                 if (callback == null)
                     return;
@@ -482,7 +482,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                     m_UserStatsReceived_t2 = CallResult<UserStatsReceived_t>.Create();
 
                 var handle = SteamUserStats.RequestUserStats(userId);
-                m_UserStatsReceived_t2.Set(handle, callback.Invoke);
+                m_UserStatsReceived_t2.Set(handle, (r,e) => callback.Invoke(r, e));
             }
             /// <summary>
             /// Resets the current users stats and, optionally achievements.

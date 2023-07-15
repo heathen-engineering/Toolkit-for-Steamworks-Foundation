@@ -8,6 +8,11 @@ using Friends = HeathenEngineering.SteamworksIntegration.API.Friends;
 
 namespace HeathenEngineering.SteamworksIntegration.UI
 {
+    /// <summary>
+    /// Represents a group of friends such as those that are online, offline, etc.
+    /// This is used by the <see cref="FriendGroupsDisplay"/>
+    /// </summary>
+    [HelpURL("https://kb.heathen.group/assets/steamworks/unity-engine/ui-components/friend-group")]
     public class FriendGroup : MonoBehaviour
     {
         [SerializeField]
@@ -126,6 +131,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             counter.text = "(" + records.Count.ToString() + ")";
         }
 
+        /// <summary>
+        /// Initializes the group display with a given collection of users
+        /// </summary>
+        /// <param name="name">The name of the group</param>
+        /// <param name="users">The list of users to display</param>
+        /// <param name="expanded">Should the group start expanded</param>
         public void InitializeCustom(string name, List<UserData> users, bool expanded)
         {
             label.text = name;
@@ -138,7 +149,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
             SortRecords();
         }
-
+        /// <summary>
+        /// Initializes the group display for online members
+        /// </summary>
+        /// <param name="name">The name of the group</param>
+        /// <param name="users">The list of users to display</param>
+        /// <param name="expanded">Should the group start expanded</param>
         public void InitializeOnline(string name, List<UserData> users, bool expanded)
         {
             label.text = name;
@@ -151,7 +167,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
             SortRecords();
         }
-
+        /// <summary>
+        /// Initializes the group display
+        /// </summary>
+        /// <param name="name">The name of the group</param>
+        /// <param name="users">The list of users to display</param>
+        /// <param name="expanded">Should the group start expanded</param>
         public void InitializeOffline(string name, List<UserData> users, bool expanded)
         {
             label.text = name;
@@ -164,7 +185,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
             SortRecords();
         }
-
+        /// <summary>
+        /// Initializes the group display
+        /// </summary>
+        /// <param name="name">The name of the group</param>
+        /// <param name="users">The list of users to display</param>
+        /// <param name="expanded">Should the group start expanded</param>
         public void InitializeInGame(string name, List<UserData> users, bool expanded)
         {
             label.text = name;
@@ -177,7 +203,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
             SortRecords();
         }
-
+        /// <summary>
+        /// Initializes the group display
+        /// </summary>
+        /// <param name="name">The name of the group</param>
+        /// <param name="users">The list of users to display</param>
+        /// <param name="expanded">Should the group start expanded</param>
         public void InitializeInOther(string name, List<UserData> users, bool expanded)
         {
             label.text = name;

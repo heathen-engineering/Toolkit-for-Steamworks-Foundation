@@ -86,7 +86,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 }
             }
             /// <summary>
-            /// Invoked when the SteamAPI resonds with a GameRichPresenceJoinRequested_t
+            /// Invoked when the SteamAPI responds with a GameRichPresenceJoinRequested_t
             /// </summary>
             public static GameRichPresenceJoinRequestedEvent EventGameRichPresenceJoinRequested
             {
@@ -113,6 +113,18 @@ namespace HeathenEngineering.SteamworksIntegration.API
             private static Callback<GameLobbyJoinRequested_t> m_GameLobbyJoinRequested_t;
             private static Callback<GameRichPresenceJoinRequested_t> m_GameRichPresenceJoinRequested_t;
 
+            public static void RegisterEvents()
+            {
+                m_GameOverlayActivated_t ??= Callback<GameOverlayActivated_t>.Create((r) =>
+                    {
+                        isShowing = r.m_bActive == 1;
+                        eventGameOverlayActivated.Invoke(isShowing);
+                    });
+
+                m_GameServerChangeRequested_t ??= Callback<GameServerChangeRequested_t>.Create((r) => eventGameServerChangeRequested.Invoke(r.m_rgchServer, r.m_rgchPassword));
+
+                m_GameLobbyJoinRequested_t ??= Callback<GameLobbyJoinRequested_t>.Create((r) => eventGameLobbyJoinRequested.Invoke(r.m_steamIDLobby, r.m_steamIDFriend));
+            }
             /// <summary>
             /// Activates the Steam Overlay to a specific dialog.
             /// </summary>

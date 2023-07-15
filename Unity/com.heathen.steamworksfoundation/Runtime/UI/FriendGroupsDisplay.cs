@@ -8,6 +8,10 @@ using System.Collections;
 
 namespace HeathenEngineering.SteamworksIntegration.UI
 {
+    /// <summary>
+    /// This control component is focused on emulation of Steam's own Friend List. It will read for and sort the local player's friends into the same list structure see in Steam Client's Friend List i.e. Playing, Online, Offline, any custom groups the player may have, etc.
+    /// </summary>
+    [HelpURL("https://kb.heathen.group/assets/steamworks/unity-engine/ui-components/friend-groups-display")]
     public class FriendGroupsDisplay : MonoBehaviour
     {
         [SerializeField]
@@ -46,9 +50,13 @@ namespace HeathenEngineering.SteamworksIntegration.UI
             API.App.evtSteamInitialized.RemoveListener(DelayUpdate);
         }
 
+        /// <summary>
+        /// Clear the display
+        /// </summary>
         public void Clear()
         {
-            if (inGameCollection.childCount > 0)
+            if (inGameCollection != null
+                && inGameCollection.childCount > 0)
             {
                 foreach (Transform tran in inGameCollection)
                 {
@@ -56,7 +64,8 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
 
-            if (groupedCollection.childCount > 0)
+            if (groupedCollection != null
+                && groupedCollection.childCount > 0)
             {
                 foreach (Transform tran in groupedCollection)
                 {
@@ -64,7 +73,8 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
 
-            if (onlineCollection.childCount > 0)
+            if (onlineCollection != null
+                && onlineCollection.childCount > 0)
             {
                 foreach (Transform tran in onlineCollection)
                 {
@@ -72,7 +82,8 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
 
-            if (offlineCollection.childCount > 0)
+            if (offlineCollection != null
+                && offlineCollection.childCount > 0)
             {
                 foreach (Transform tran in offlineCollection)
                 {
@@ -80,7 +91,8 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
 
-            if (inOtherGameCollection.childCount > 0)
+            if (inOtherGameCollection != null
+                && inOtherGameCollection.childCount > 0)
             {
                 foreach (Transform tran in inOtherGameCollection)
                 {
@@ -88,7 +100,9 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
         }
-
+        /// <summary>
+        /// Update the display
+        /// </summary>
         public void UpdateDisplay()
         {
             Clear();
@@ -149,22 +163,34 @@ namespace HeathenEngineering.SteamworksIntegration.UI
                 }
             }
 
+            if (onlineCollection != null)
+            {
                 onlineCollection.gameObject.SetActive(true);
                 var onlineGo = Instantiate(groupPrefab, onlineCollection);
                 var onlineComp = onlineGo.GetComponent<FriendGroup>();
                 onlineComp.InitializeOnline("Online", online, true);
+            }
 
+            if (offlineCollection != null)
+            {
                 var offlineGo = Instantiate(groupPrefab, offlineCollection);
                 var offlineComp = offlineGo.GetComponent<FriendGroup>();
                 offlineComp.InitializeOffline("Offline", offline, false);
+            }
 
+            if (inGameCollection != null)
+            {
                 var inGameGo = Instantiate(groupPrefab, inGameCollection);
                 var inGameComp = inGameGo.GetComponent<FriendGroup>();
                 inGameComp.InitializeInGame("In Game", inGame, true);
+            }
 
+            if (inOtherGameCollection != null)
+            {
                 var otherGO = Instantiate(groupPrefab, inOtherGameCollection);
                 var otherComp = otherGO.GetComponent<FriendGroup>();
                 otherComp.InitializeInOther("Other Games", inOtherGame, true);
+            }
 
             if (customGroups.Count > 0)
             {

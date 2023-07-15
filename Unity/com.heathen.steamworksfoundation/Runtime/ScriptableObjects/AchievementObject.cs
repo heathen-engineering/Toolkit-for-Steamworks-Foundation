@@ -20,16 +20,25 @@ namespace HeathenEngineering.SteamworksIntegration
     [CreateAssetMenu(menuName = "Steamworks/Achievement Object")]
     public class AchievementObject : ScriptableObject
     {
+        /// <summary>
+        /// The API Name of the Achievement
+        /// </summary>
         public string Id
         {
             get => data;
             set => data = value;
         }
-
+        /// <summary>
+        /// The display name of the achievement as seen by the user
+        /// </summary>
         public string Name => data.Name;
-
+        /// <summary>
+        /// THe description of the achievement as seen by the user
+        /// </summary>
         public string Description => data.Description;
-
+        /// <summary>
+        /// Is the achievement hidden from the user
+        /// </summary>
         public bool Hidden => data.Hidden;
 
         /// <summary>
@@ -40,7 +49,7 @@ namespace HeathenEngineering.SteamworksIntegration
         private AchievementData data;
 
         /// <summary>
-        /// Indicates that this achievment has been unlocked by this user.
+        /// Indicates that this achievement has been unlocked by this user.
         /// </summary>
         /// <remarks>
         /// Only available on client builds
@@ -50,7 +59,9 @@ namespace HeathenEngineering.SteamworksIntegration
             get => data.IsAchieved;
             set => data.IsAchieved = value;
         }
-
+        /// <summary>
+        /// An event that is raised if the status of the achievement changes
+        /// </summary>
         public UnityBoolEvent StatusChanged = new UnityBoolEvent();
 
         /// <summary>
@@ -60,13 +71,11 @@ namespace HeathenEngineering.SteamworksIntegration
 
         /// <summary>
         /// <para>Unlocks the achievement.</para>
-        /// <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement">https://partner.steamgames.com/doc/api/ISteamUserStats#SetAchievement</a>
         /// </summary>
         public void Unlock() => IsAchieved = true;
 
         /// <summary>
-        /// <para>Resets the unlock status of an achievmeent.</para>
-        /// <a href="https://partner.steamgames.com/doc/api/ISteamUserStats#ClearAchievement">https://partner.steamgames.com/doc/api/ISteamUserStats#ClearAchievement</a>
+        /// <para>Resets the unlock status of an achievement.</para>
         /// </summary>
         public void ClearAchievement() => IsAchieved = false;
 
@@ -97,19 +106,28 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <param name="user"></param>
         /// <returns></returns>
         public bool GetAchievementStatus(CSteamID user) => data.GetAchievementStatus(user);
-
+        /// <summary>
+        /// Get the unlock state and time for this achievement for a specific user.
+        /// </summary>
+        /// <param name="user">The user to check</param>
+        /// <returns>(<see cref="bool"/> unlocked, <see cref="DataTime"/> unlockTime) indicating the state and time of the achievement for the indicated user if known.</returns>
         public (bool unlocked, DateTime unlockTime) GetAchievementAndUnlockTime(UserData user) => data.GetAchievementAndUnlockTime(user);
-
+        /// <summary>
+        /// Gets the icon for this achievement as seen by the logged in user, this will return either the locked or unlocked icon depending on the state of the achievement for this user
+        /// </summary>
+        /// <param name="callback">A delegate of the form (<see cref="Texture2D"/> result) that is invoked when the process completes</param>
         public void GetIcon(Action<Texture2D> callback) => API.StatsAndAchievements.Client.GetAchievementIcon(data, callback);
-
+        /// <summary>
+        /// Request Steam client store the current state of all stats and achievements
+        /// </summary>
         public void Store() => API.StatsAndAchievements.Client.StoreStats();
 
         /// <summary>
-        /// This will create a ScriptableObject based on this leaderbaord ... in general you should not need this
-        /// The AchievementData struct has all the same features of the ScriptableObject but is much lighterweight and
+        /// This will create a ScriptableObject based on this achievement ... in general you should not need this
+        /// The AchievementData struct has all the same features of the ScriptableObject but is much lighter weight and
         /// more suitable for creation at runtime.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Creates a new ScriptableObject of type <see cref="AchievementObject"/> and returns it</returns>
         public static AchievementObject CreateScriptableObject(string apiName)
         {
             var newObject = UnityEngine.ScriptableObject.CreateInstance<AchievementObject>();

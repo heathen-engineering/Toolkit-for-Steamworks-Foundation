@@ -342,6 +342,8 @@ namespace HeathenEngineering.SteamworksIntegration.API
                         callbackWaitThread.RunWorkerAsync();
                         Web.LoadAppNames(null);
                         Overlay.Client.RegisterEvents();
+
+                        evtSteamInitialized.Invoke();
                     }
                     else
                     {

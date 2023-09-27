@@ -33,7 +33,7 @@ _Steamworks Foundation_ is the "lite" version of our [Steamworks Complete](https
 * Stats and Achievement (easy access to Steam stats and achievements, achievement UI controls)
 * User Daata (easy access to user information, UI controls to display name, level, game status and more)
 
-> Steamworks Complete covers the complete Steam API including every tool, system and feature of it. Become a sponsor for $10 a month and get instant access to Steamworks Complete as well as all of our other game development assets. [Learn More Here!](https://kb.heathen.group/company/become-a-sponsor)
+> Steamworks Complete covers the complete Steam API including every tool, system and feature of it. Become a sponsor for $15 a month and get instant access to Steamworks Complete as well as all of our other game development assets. [Learn More Here!](https://kb.heathen.group/company/become-a-sponsor)
 
 Heathen’s approach with its Steamworks assets has been to take the strength of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET), and the parody it has with Valve’s original APIs, and extend that with engine centric tools, editor extensions and more to make [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) + Heathen the best possible option for Unity & Godot (mono) developers looking to integrate with Steam. 
 

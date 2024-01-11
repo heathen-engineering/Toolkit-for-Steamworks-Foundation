@@ -23,7 +23,7 @@ As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $1
 * [Reporting Issues](https://github.com/heathen-engineering/SteamworksFoundation/issues)
 
 ## Description
-_Toolkit for Steamworks: Foundation_ is the "lite" version of our [Toolkit for Steamworks SDK](https://www.heathen.group/steamworks) which is available for Unreal, Unity and Godot. Toolkit for Steamworks: Foundation package is an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. 
+_Toolkit for Steamworks: Foundation_ is the "lite" version of our [Toolkit for Steamworks SDK](https://www.heathen.group/steamworks) which is available for Unreal, Unity and Godot. The Foundation edition is only available for Unity and Godot at this time. Toolkit for Steamworks: Foundation package is an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. The full-featured Toolkit for Steamworks SDK available on [Unreal Marketplace](https://www.unrealengine.com/marketplace/en-US/product/ad658ddf5c434478acb95f9091ea279c) and [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316) as well as [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) and is a complete integration of every feature in the Steamworks SDK. The free Foundation version you will find in this repository is a lite version containing a small set of commonly used features for your review.
 
 > Heathen's Toolkit for Steamworks SDK is available for Unreal, Unity and Godot game engines
 
@@ -33,7 +33,7 @@ _Toolkit for Steamworks: Foundation_ is the "lite" version of our [Toolkit for S
 * Stats and Achievement (easy access to Steam stats and achievements, achievement UI controls)
 * User Data (easy access to user information, UI controls to display name, level, game status and more)
 
-> Steamworks Complete covers the complete Steam API including every tool, system and feature of it. Become a sponsor for $15 a month and get instant access to Steamworks Complete as well as all of our other game development assets. [Learn More Here!](https://kb.heathen.group/company/become-a-sponsor)
+> Toolkit for Steamworks covers the complete Steam API including every tool, system and feature of it. Become a sponsor for $15 a month and get instant access to Toolkit for Steamworks as well as all of our other game development assets. [Learn More Here!](https://kb.heathen.group/company/become-a-sponsor)
 
 Our approach is to take the strength of Valve's [Steamworks SDK](https://partner.steamgames.com/doc/sdk), and extend that with engine-centric tools, systems, editor extensions, guides and community support to make Heathen the best possible solution for game developers publishing to Steam regardless of engine, skill set or project size. 
 

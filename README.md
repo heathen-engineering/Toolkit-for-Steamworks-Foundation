@@ -12,9 +12,9 @@
 ## Become a GitHub Sponsor
 Support Heathen by becoming a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) and help projects like this one grow! [Heathen's Sponsors](https://github.com/sponsors/heathen-engineering) make it possible for us to create these free resources and to maintain our free [Knowledge Base](https://kb.heathenengineering.com/company/introduction). 
 
-As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $15 tier or higher you get instant access to [Steamworks Complete](https://www.heathen.group/steamworks), [PhysKit Complete](https://www.heathen.group/physkit), [UX Complete](https://www.heathen.group/ux) and access to exclusives like our GUI Tools for Steam!
+As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $15 tier or higher you get instant access to [Toolkit for Steamworks SDK](https://www.heathen.group/steamworks), [Toolkit for Unity Physics](https://www.heathen.group/physkit), [Toolkit for uGUI & User Experience](https://www.heathen.group/ux) and access to exclusives like our GUI Tools for Steam!
 
-![Steamworks Image](https://github.com/heathen-engineering/SteamworksFoundation/assets/31243736/145b63f1-9b27-4fef-aee2-d14b3cc5205d)
+![Steamworks Banner](https://github.com/heathen-engineering/SteamworksFoundation/assets/31243736/a8f0cce4-8905-4424-a866-2202096eaaa7)
 * Author: [Heathen Group](https://github.com/sponsors/heathen-engineering)
 * Author Web Site: [Heathen.Group](https://heathen.group)
 * License: [MIT](https://github.com/heathen-engineering/SteamworksFoundation/blob/main/LICENSE.md)
@@ -23,36 +23,36 @@ As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $1
 * [Reporting Issues](https://github.com/heathen-engineering/SteamworksFoundation/issues)
 
 ## Description
-_Steamworks Foundation_ is the "lite" version of our [Steamworks Complete](https://www.heathen.group/steamworks) package available for both Unity and Godot. Heathen's Steamworks package is an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. 
+_Toolkit for Steamworks: Foundation_ is the "lite" version of our [Toolkit for Steamworks SDK](https://www.heathen.group/steamworks) which is available for Unreal, Unity and Godot. Toolkit for Steamworks: Foundation package is an extension of the work done by [Riley Labrecque](https://github.com/rlabrecque) on [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) and is dependent on it. 
 
-> Heathen's Steamworks pacakges are available for Unity and Godot game engines
+> Heathen's Toolkit for Steamworks SDK is available for Unreal, Unity and Godot game engines
 
-## Features
-* App API utilities (language, initalization, APP ID information)
-* Friends Interface (user names and avatar images, game info and friend chat, frined list UI controls)
+## Foundation Features
+* App API utilities (language, initialization, APP ID information)
+* Friends Interface (user names and avatar images, game info and friend chat, friend list UI controls)
 * Stats and Achievement (easy access to Steam stats and achievements, achievement UI controls)
-* User Daata (easy access to user information, UI controls to display name, level, game status and more)
+* User Data (easy access to user information, UI controls to display name, level, game status and more)
 
 > Steamworks Complete covers the complete Steam API including every tool, system and feature of it. Become a sponsor for $15 a month and get instant access to Steamworks Complete as well as all of our other game development assets. [Learn More Here!](https://kb.heathen.group/company/become-a-sponsor)
 
-Heathen’s approach with its Steamworks assets has been to take the strength of [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET), and the parody it has with Valve’s original APIs, and extend that with engine centric tools, editor extensions and more to make [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) + Heathen the best possible option for Unity & Godot (mono) developers looking to integrate with Steam. 
+Our approach is to take the strength of Valve's [Steamworks SDK](https://partner.steamgames.com/doc/sdk), and extend that with engine-centric tools, systems, editor extensions, guides and community support to make Heathen the best possible solution for game developers publishing to Steam regardless of engine, skill set or project size. 
 
-With Heathen's Steamworks You retain the strength of directly accessing Steam API when and where you may wish, while having the benefit of not just C# focused but Unity | Godot (mono) focused tools and extensions as well as systems battle tested cross many games from many developers. 
+With Heathen's Toolkit for Steamworks, You retain the strength of directly accessing Steam API via Steamworks SDK when and where you wish while having the benefit of not just native scripting (C# in Unity | Godot (mono)) but tools, systems and editor extensions, battle-tested across hundreds of games by thousands of game developers. 
 
-### Learn More about Heathen's Steamworks integration
-[![What is Heathen's Steamworks](https://static.wixstatic.com/media/6ca001_d8db9e631f42495e87f65272f4eea058~mv2.png)](https://www.youtube.com/watch?v=6ujmZI1qUYI "What is Heathen's Steamworks")
+### Learn More about Toolkit for Steamworks
+[![What is Heathen's Toolkit for Steamworks](https://static.wixstatic.com/media/6ca001_d8db9e631f42495e87f65272f4eea058~mv2.png)](https://www.youtube.com/watch?v=6ujmZI1qUYI "What is Heathen's Steamworks")
 
-Whether you're new to Steam, [Unity | Godot (mono)], or game development in general or a seasoned veteran well capable with the Steam APIs, Heathen’s Steamworks can greatly accelerate your project and help you produce a more robust product that better leverages the services offered by Valve. Heathen’s asset does not prevent you from using raw API calls in conjunction with its own extensions and tools. Many features of Steam API can be handled within our tools with little or no coding at all. In the same respect everything is built with respect to the programmer and the need to extend and expand. 
+Whether you're new to Steam, [Unreal | Unity | Godot (mono)], or game development in general or a seasoned veteran well capable with Steam's APIs, Heathen’s Toolkit for Steamworks can greatly accelerate your project and help you produce a more robust product that better leverages the services offered by Valve. Heathen’s tools do not prevent you from using raw API features in conjunction with our extensions and tools so your existing code, systems and approaches will just work right alongside ours. With Heathen's Toolkit for Steamworks, you will find many of the most common features of Steam can be handled with little or no coding at all. In the same respect, everything we built has its full source provided and was designed to be extended and adapted by your programmers should they need or want. 
 
-![More than a wrapper](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Unity%20Integration.jpg)
+![More than just a wrapper](https://github.com/heathen-engineering/SteamworksFoundation/assets/31243736/43a50e92-4d89-4fde-b441-da3b2844015d)
 Modular, extensible, and supported by a large community of fellow developers. Heathen’s Steamworks is the best solution for Unity & Godot developers looking to ship on the Steam platform.
 
-![Community](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Discord%20Community.jpg)
+![Active Community](https://github.com/heathen-engineering/SteamworksFoundation/assets/31243736/9861fbbe-086a-445a-8f3c-defa226a20cc)
 For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).
 
 Please consider supporting [Riley Labrecque](https://github.com/rlabrecque) and [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) here on GitHub you can find Sponsor links on his pages.
 
-_Steamworks Foundation_ is compatable with PC, Mac and Linux based Unity & Godot (mono) projects. Foundation is a "lite" version of [Heathen's Steamworks Complete](https://www.heathen.group/steamworks) which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) or get it on the [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316).
+_Toolkit for Steamworks: Foundation_ is compatible with PC, Mac and Linux-based Unity & Godot (mono) projects. Foundation is a "lite" version of [Toolkit for Steamworks](https://www.heathen.group/steamworks) which is available [here on GitHub to our sponsors](https://github.com/sponsors/heathen-engineering) for Unreal and Unity, or get it on the [Unreal Marketplace](https://www.unrealengine.com/marketplace/en-US/product/ad658ddf5c434478acb95f9091ea279c) or [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/steamworks-v2-complete-190316).
 
-![Knoweldge Base](https://github.com/heathen-engineering/SourceRepo/blob/main/Asset%20Images/Steamworks%20Exports/Knowledge%20Base.jpg)
+![Knowledge Base](https://github.com/heathen-engineering/SteamworksFoundation/assets/31243736/7246d697-3550-4283-9feb-10cd1ea86b9d)
 For more information on what this asset is capable of or how to use it please visit our [Knowledge Base](https://kb.heathenengineering.com/assets/steamworks) or if you have questions please visit our [Discord](https://discord.gg/6X3xrRc).

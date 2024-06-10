@@ -10,13 +10,13 @@ As a [GitHub Sponsor](https://github.com/sponsors/heathen-engineering) at the $1
 * License: [MIT](https://github.com/heathen-engineering/SteamworksFoundation/blob/main/LICENSE.md)
 * [Documentation](https://kb.heathenengineering.com/assets/steamworks)
 * [Support](https://discord.gg/6X3xrRc)
-* [Reporting Issues](https://github.com/heathen-engineering/SteamworksFoundation/issues)
+* [Reporting Issues](https://github.com/heathen-engineering/Toolkit-for-Steamworks-Foundation/issues)
 
 ## Installation
 * Package Manager
 1) Open the package manager and click the '+' (plus) button located in the upper left of the window
 2) Select `Add package from git URL...` when prompted provide the following URL:  
-`https://github.com/heathen-engineering/SteamworksFoundation.git?path=Unity/com.heathen.steamworksfoundation`  
+`https://github.com/heathen-engineering/Toolkit-for-Steamworks-Foundation.git?path=Unity/com.heathen.steamworksfoundation`  
 
 ### Installation Trouble Shooting
 Steamworks Foundaiton should only be installed from Unity Package Manager. It will handle the install of dependnecies such as [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET) for you. If you have any issues with installing from Unity Package Manager please read our [Package Manager Article](https://kb.heathenengineering.com/company/concepts/package-manager-install) on our Knowledge Base. Manual import is possible but tends to cause problems so we do not directly support it.

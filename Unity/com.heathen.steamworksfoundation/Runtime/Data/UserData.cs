@@ -118,6 +118,7 @@ namespace HeathenEngineering.SteamworksIntegration
         { 
             get => AccountId.m_AccountID;
         }
+        public readonly string HexId => FriendId.ToString("X");
         /// <summary>
         /// Gets a collection of names the local user knows for the indicated user
         /// </summary>
@@ -157,7 +158,6 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <param name="key">The key to read</param>
         /// <returns>The value that was read</returns>
         public readonly string GetRichPresenceValue(string key) => API.Friends.Client.GetFriendRichPresence(this, key);
-        
         /// <summary>
         /// Opens the Overlay Add Friend dialog to add this user as the local user's friend
         /// </summary>
@@ -177,8 +177,9 @@ namespace HeathenEngineering.SteamworksIntegration
         public static void ClearRichPresence() => SteamFriends.ClearRichPresence();
         public static UserData Get(string accountId)
         {
-            if (uint.TryParse(accountId, out uint result))
-                return Get(result);
+            uint id = Convert.ToUInt32(accountId, 16);
+            if (id > 0)
+                return Get(id);
             else
                 return CSteamID.Nil;
         }
@@ -287,7 +288,7 @@ namespace HeathenEngineering.SteamworksIntegration
 
         public readonly override string ToString()
         {
-            return id.ToString();
+            return HexId;
         }
 
         public readonly bool Equals(UserData other)

@@ -1,10 +1,12 @@
 ﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using HeathenEngineering.Events;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace HeathenEngineering.SteamworksIntegration
 {
+    [Obsolete("Replaced by Steamworks Event Triggers")]
     public class SteamSystemEvents : MonoBehaviour
     {
         [Header("Events")]

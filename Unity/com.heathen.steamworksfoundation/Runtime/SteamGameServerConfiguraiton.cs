@@ -1,6 +1,7 @@
 ﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using System;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 namespace HeathenEngineering.SteamworksIntegration
@@ -203,6 +204,21 @@ namespace HeathenEngineering.SteamworksIntegration
                 Debug.LogError($"Game Directory must be {Steamworks.Constants.k_cbMaxGameServerGameDir} char or less.");
                 valid = false;
             }
+            if(gamePort == 0 || gamePort == ushort.MaxValue)
+            {
+                Debug.LogError($"You must provide a valid Game Port... default is 27015");
+                valid = false;
+            }
+            if (queryPort == 0 || queryPort == ushort.MaxValue)
+            {
+                Debug.LogError($"You must provide a valid Query Port... default is 27016");
+                valid = false;
+            }
+            if (string.IsNullOrEmpty(serverVersion))
+            {
+                Debug.LogError($"You must provide a Server Version string, the suggested form is major.minor.build.revision");
+                valid = false;
+            }
 
             return valid;
         }
@@ -287,7 +303,7 @@ namespace HeathenEngineering.SteamworksIntegration
         }
 
         /// <summary>
-        /// Read server configuration from byte[] representing the string serialized configuraiton
+        /// Read server configuration from byte[] representing the string serialized configuration
         /// </summary>
         /// <param name="serializedData"></param>
         /// <param name="config"></param>
@@ -328,7 +344,7 @@ namespace HeathenEngineering.SteamworksIntegration
         public byte[] ToBytes() => System.Text.Encoding.UTF8.GetBytes(ToString());
 
         /// <summary>
-        /// Save this configuraiton to disk
+        /// Save this configuration to disk as a JSON structure
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -345,6 +361,207 @@ namespace HeathenEngineering.SteamworksIntegration
                 return false;
             }
         }
+        /// <summary>
+        /// Same as <see cref="Get(string, out SteamGameServerConfiguration)"/> this will attempt to read the file at the location and deserialize it as JSON data
+        /// </summary>
+        /// <param name="path">The path of a file to load</param>
+        /// <param name="config">The resulting configuration</param>
+        /// <returns>True if successful</returns>
+        public static bool LoadFromDisk(string path, out SteamGameServerConfiguration config) => Get(path, out config);
+        /// <summary>
+        /// Save this configuration to disk as a INI structure
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool SaveToDiskAsIni(string path)
+        {
+            try
+            {
+                File.WriteAllText(path, ToIniString(this));
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                return false;
+            }
+        }
+        /// <summary>
+        /// Reads a file from disk parsing its content using <see cref="ParseIniString(string)"/>
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="config">The resulting configuration</param>
+        /// <returns>True if successful</returns>
+        public static bool LoadFromDiskAsIni(string path, out SteamGameServerConfiguration config)
+        {
+            try
+            {
+                if (File.Exists(path))
+                {
+                    config = ParseIniString(File.ReadAllText(path));
+                    return true;
+                }
+                else
+                {
+                    config = Default;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+                config = Default;
+                return false;
+            }
+        }
+        /// <summary>
+        /// Attempts to parse an input string assuming a typical ini format
+        /// </summary>
+        /// <param name="iniData">The body of an INI formatted file</param>
+        /// <returns>A fully populated configuration file. This works by starting with the <see cref="Default"/> and then updating fields based on data found in the <paramref name="iniData"/></returns>
+        public static SteamGameServerConfiguration ParseIniString(string iniData)
+        {
+            SteamGameServerConfiguration config = Default;
+
+            string[] lines = iniData.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string line in lines)
+            {
+                string[] parts = line.Split('=');
+                if (parts.Length == 2)
+                {
+                    string key = parts[0].Trim().ToLower();
+                    string value = parts[1].Trim();
+
+                    switch (key)
+                    {
+                        case "autoinitialize":
+                            if (bool.TryParse(value, out bool autoInitialize))
+                                config.autoInitialize = autoInitialize;
+                            break;
+                        case "autologon":
+                            if (bool.TryParse(value, out bool autoLogon))
+                                config.autoLogon = autoLogon;
+                            break;
+                        case "ip":
+                                config.IpAddress = value;
+                            break;
+                        case "gameport":
+                            if (ushort.TryParse(value, out ushort gamePort))
+                                config.gamePort = gamePort;
+                            break;
+                        case "queryport":
+                            if (ushort.TryParse(value, out ushort queryPort))
+                                config.queryPort = queryPort;
+                            break;
+                        case "spectatorport":
+                            if (ushort.TryParse(value, out ushort spectatorPort))
+                                config.spectatorPort = spectatorPort;
+                            break;
+                        case "serverversion":
+                            config.serverVersion = value;
+                            break;
+                        case "usinggameserverauthapi":
+                            if (bool.TryParse(value, out bool usingGameServerAuthApi))
+                                config.usingGameServerAuthApi = usingGameServerAuthApi;
+                            break;
+                        case "enableheartbeats":
+                            if (bool.TryParse(value, out bool enableHeartbeats))
+                                config.enableHeartbeats = enableHeartbeats;
+                            break;
+                        case "supportspectators":
+                            if (bool.TryParse(value, out bool supportSpectators))
+                                config.supportSpectators = supportSpectators;
+                            break;
+                        case "spectatorservername":
+                            config.spectatorServerName = value;
+                            break;
+                        case "anonymousserverlogin":
+                            if (bool.TryParse(value, out bool anonymousServerLogin))
+                                config.anonymousServerLogin = anonymousServerLogin;
+                            break;
+                        case "gameservertoken":
+                            config.gameServerToken = value;
+                            break;
+                        case "ispasswordprotected":
+                            if (bool.TryParse(value, out bool isPasswordProtected))
+                                config.isPasswordProtected = isPasswordProtected;
+                            break;
+                        case "servername":
+                            config.serverName = value;
+                            break;
+                        case "gamedescription":
+                            config.gameDescription = value;
+                            break;
+                        case "gamedirectory":
+                            config.gameDirectory = value;
+                            break;
+                        case "isdedicated":
+                            if (bool.TryParse(value, out bool isDedicated))
+                                config.isDedicated = isDedicated;
+                            break;
+                        case "maxplayercount":
+                            if (int.TryParse(value, out int maxPlayerCount))
+                                config.maxPlayerCount = maxPlayerCount;
+                            break;
+                        case "botplayercount":
+                            if (int.TryParse(value, out int botPlayerCount))
+                                config.botPlayerCount = botPlayerCount;
+                            break;
+                        case "mapname":
+                            config.mapName = value;
+                            break;
+                        case "gamedata":
+                            config.gameData = value;
+                            break;
+                        default:
+                            Debug.LogWarning($"Unknown key '{key}' in INI data.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Malformed line: '{line}' in INI data.");
+                }
+            }
+
+            return config;
+        }
+
+        /// <summary>
+        /// Converts the configuration to an INI formatted string
+        /// </summary>
+        /// <param name="config">The configuration to read fields from</param>
+        /// <returns>A string formatted in the INI style</returns>
+        public static string ToIniString(SteamGameServerConfiguration config)
+        {
+            StringBuilder iniBuilder = new StringBuilder();
+
+            iniBuilder.AppendLine($"autoInitialize = {config.autoInitialize}");
+            iniBuilder.AppendLine($"autoLogon = {config.autoLogon}");
+            iniBuilder.AppendLine($"ip = {config.IpAddress}");
+            iniBuilder.AppendLine($"gamePort = {config.gamePort}");
+            iniBuilder.AppendLine($"queryPort = {config.queryPort}");
+            iniBuilder.AppendLine($"spectatorPort = {config.spectatorPort}");
+            iniBuilder.AppendLine($"serverVersion = {config.serverVersion}");
+            iniBuilder.AppendLine($"usingGameServerAuthApi = {config.usingGameServerAuthApi}");
+            iniBuilder.AppendLine($"enableHeartbeats = {config.enableHeartbeats}");
+            iniBuilder.AppendLine($"supportSpectators = {config.supportSpectators}");
+            iniBuilder.AppendLine($"spectatorServerName = {config.spectatorServerName}");
+            iniBuilder.AppendLine($"anonymousServerLogin = {config.anonymousServerLogin}");
+            iniBuilder.AppendLine($"gameServerToken = {config.gameServerToken}");
+            iniBuilder.AppendLine($"isPasswordProtected = {config.isPasswordProtected}");
+            iniBuilder.AppendLine($"serverName = {config.serverName}");
+            iniBuilder.AppendLine($"gameDescription = {config.gameDescription}");
+            iniBuilder.AppendLine($"gameDirectory = {config.gameDirectory}");
+            iniBuilder.AppendLine($"isDedicated = {config.isDedicated}");
+            iniBuilder.AppendLine($"maxPlayerCount = {config.maxPlayerCount}");
+            iniBuilder.AppendLine($"botPlayerCount = {config.botPlayerCount}");
+            iniBuilder.AppendLine($"mapName = {config.mapName}");
+            iniBuilder.AppendLine($"gameData = {config.gameData}");
+
+            return iniBuilder.ToString();
+        }
+
     }
 }
 #endif

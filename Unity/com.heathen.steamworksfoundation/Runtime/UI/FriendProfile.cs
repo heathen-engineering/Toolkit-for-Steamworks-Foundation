@@ -517,6 +517,9 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
         private void UpdateUserData()
         {
+            if (!currentUser.IsValid)
+                return;
+
             var inGame = currentUser.GetGamePlayed(out FriendGameInfo gameInfo);
             var inThisGame = inGame && gameInfo.Game.App == API.App.Client.Id;
             var state = currentUser.State;
@@ -551,8 +554,12 @@ namespace HeathenEngineering.SteamworksIntegration.UI
 
             friendId.SetValue(currentUser.FriendId.ToString(), inGame, inThisGame, state);
             var levelValue = currentUser.Level;
-            if(levelValue == 0)
+            if (levelValue == 0)
+            {
                 level.SetValue("??", inGame, inThisGame, state);
+                //Try again in 1 second, this will keep retrying untill it gets the level
+                Invoke(nameof(UpdateUserData), 1);
+            }
             else
                 level.SetValue(levelValue.ToString(), inGame, inThisGame, state);
             panel.SetValue(inGame, inThisGame, state);

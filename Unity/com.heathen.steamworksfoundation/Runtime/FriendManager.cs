@@ -10,8 +10,8 @@ namespace HeathenEngineering.SteamworksIntegration
     {
         public bool ListenForFriendsMessages
         {
-            get => API.Friends.Client.ListenForFrendsMessages;
-            set => API.Friends.Client.ListenForFrendsMessages = value;
+            get => API.Friends.Client.ListenForFriendsMessages;
+            set => API.Friends.Client.ListenForFriendsMessages = value;
         }
 
         public GameConnectedFriendChatMsgEvent evtGameConnectedChatMsg;

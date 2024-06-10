@@ -24,17 +24,17 @@ namespace HeathenEngineering.SteamworksIntegration.API
             [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
             static void Init()
             {
-                eventFriendMessageReceived = new GameConnectedFriendChatMsgEvent();
+                eventFriendMessageReceived = new();
                 listeningForFriendMessages = false;
-                eventPersonaStateChange = new PersonaStateChangeEvent();
-                eventFriendRichPresenceUpdate = new FriendRichPresenceUpdateEvent();
-                pendingLinks = new List<ImageRequestCallbackLink>();
+                eventPersonaStateChange = new();
+                eventFriendRichPresenceUpdate = new();
+                pendingLinks = new();
 
                 if (loadedImages.Count > 0)
                     UnloadAvatarImages();
 
-                loadedImages = new Dictionary<int, Texture2D>();
-                userAvatarMapping = new Dictionary<UserData, Texture2D>();
+                loadedImages = new();
+                userAvatarMapping = new();
 
                 m_FriendsEnumerateFollowingList_t = null;
                 m_FriendsGetFollowerCount_t = null;
@@ -56,14 +56,13 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// Called when chat message has been received from a friend.
             /// </summary>
             /// <remarks> 
-            /// You must enable friend messages by setting ListenForFrendsMessages to true;
+            /// You must enable friend messages by setting ListenForFriendsMessages to true;
             /// </remarks>
             public static GameConnectedFriendChatMsgEvent EventGameConnectedFriendChatMsg
             {
                 get
                 {
-                    if (m_GameConnectedFriendChatMsg_t == null)
-                        m_GameConnectedFriendChatMsg_t = Callback<GameConnectedFriendChatMsg_t>.Create((result) =>
+                    m_GameConnectedFriendChatMsg_t ??= Callback<GameConnectedFriendChatMsg_t>.Create((result) =>
                         {
                             var count = SteamFriends.GetFriendMessage(result.m_steamIDUser, result.m_iMessageID, out string message, 8193, out EChatEntryType type);
                             if (count > 0)
@@ -81,8 +80,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             {
                 get
                 {
-                    if (m_FriendRichPresenceUpdate_t == null)
-                        m_FriendRichPresenceUpdate_t = Callback<FriendRichPresenceUpdate_t>.Create((r) => eventFriendRichPresenceUpdate.Invoke(r));
+                    m_FriendRichPresenceUpdate_t ??= Callback<FriendRichPresenceUpdate_t>.Create((r) => eventFriendRichPresenceUpdate.Invoke(r));
 
                     return eventFriendRichPresenceUpdate;
                 }
@@ -92,8 +90,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             {
                 get
                 {
-                    if (m_PersonaStateChange_t == null)
-                        m_PersonaStateChange_t = Callback<PersonaStateChange_t>.Create(HandlePersonaStateChange);
+                    m_PersonaStateChange_t ??= Callback<PersonaStateChange_t>.Create(HandlePersonaStateChange);
 
                     return eventPersonaStateChange;
                 }
@@ -102,7 +99,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <summary>
             /// Listens for Steam friends chat messages.
             /// </summary>
-            public static bool ListenForFrendsMessages
+            public static bool ListenForFriendsMessages
             {
                 get => listeningForFriendMessages;
                 set
@@ -244,8 +241,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 if (callback == null)
                     return;
 
-                if (m_FriendsEnumerateFollowingList_t == null)
-                    m_FriendsEnumerateFollowingList_t = CallResult<FriendsEnumerateFollowingList_t>.Create();
+                m_FriendsEnumerateFollowingList_t ??= CallResult<FriendsEnumerateFollowingList_t>.Create();
 
                 var handle = SteamFriends.EnumerateFollowingList(index);
                 m_FriendsEnumerateFollowingList_t.Set(handle, callback.Invoke);
@@ -262,7 +258,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <returns></returns>
             public static int GetCoplayFriendCount() => SteamFriends.GetCoplayFriendCount();
             /// <summary>
-            /// Get the list of players the current useer has recently played with across all games
+            /// Get the list of players the current user has recently played with across all games
             /// </summary>
             /// <returns></returns>
             public static UserData[] GetCoplayFriends()
@@ -291,8 +287,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 if (callback == null)
                     return;
 
-                if (m_FriendsGetFollowerCount_t == null)
-                    m_FriendsGetFollowerCount_t = CallResult<FriendsGetFollowerCount_t>.Create();
+                m_FriendsGetFollowerCount_t ??= CallResult<FriendsGetFollowerCount_t>.Create();
 
                 var handle = SteamFriends.GetFollowerCount(userId);
                 m_FriendsGetFollowerCount_t.Set(handle, callback.Invoke);
@@ -383,9 +378,9 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <returns></returns>
             public static bool GetFriendGamePlayed(UserData userId, out FriendGameInfo results)
             {
-                var responce = SteamFriends.GetFriendGamePlayed(userId, out var native);
+                var response = SteamFriends.GetFriendGamePlayed(userId, out var native);
                 results = native;
-                return responce;
+                return response;
             }
             /// <summary>
             /// Gets the data from a Steam friends message.
@@ -547,7 +542,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <returns></returns>
             public static string GetFriendsGroupName(FriendsGroupID_t groupId) => SteamFriends.GetFriendsGroupName(groupId);
             /// <summary>
-            /// Gets the level of the indicated user if kown by the local user
+            /// Gets the level of the indicated user if known by the local user
             /// </summary>
             /// <param name="userId"></param>
             /// <returns></returns>
@@ -556,7 +551,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// Gets the "large" avatar for the indicated user if any
             /// </summary>
             /// <param name="userId">The user to look the image up for</param>
-            /// <param name="callback">Will be invoked when the process is completed, if no avatar is available the respocne texture will be null</param>
+            /// <param name="callback">Will be invoked when the process is completed, if no avatar is available the response texture will be null</param>
             public static void GetFriendAvatar(CSteamID userId, Action<Texture2D> callback)
             {
                 if (callback == null)
@@ -624,7 +619,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 userAvatarMapping.Clear();
             }
             /// <summary>
-            /// Unloads a specifci avatar image
+            /// Unloads a specific avatar image
             /// </summary>
             /// <param name="image"></param>
             public static void UnloadAvatarImage(Texture2D image)

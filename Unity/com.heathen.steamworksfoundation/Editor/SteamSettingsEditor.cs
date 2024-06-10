@@ -68,7 +68,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
         {
             EditorGUILayout.BeginHorizontal();
             var debug = GUILayout.Toggle(settings.isDebugging, "Enable Debug Messages", EditorStyles.toolbarButton);
-            if(settings.isDebugging != debug)
+            if (settings.isDebugging != debug)
             {
                 Undo.RecordObject(target, "editor");
                 settings.isDebugging = debug;
@@ -111,7 +111,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private void DrawServerSettings()
         {
-            sgsFoldout = EditorGUILayout.Foldout(sgsFoldout, "Steam Game Server Configuraiton");
+            sgsFoldout = EditorGUILayout.Foldout(sgsFoldout, "Steam Game Server Configuration");
 
             if (sgsFoldout)
             {
@@ -219,8 +219,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
             var address = API.Utilities.IPUintToString(settings.server.ip);
             var nAddress = EditorGUILayout.TextField("IP Address", address);
-            
-            if(address != nAddress)
+
+            if (address != nAddress)
             {
                 try
                 {
@@ -249,9 +249,9 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 EditorUtility.SetDirty(target);
             }
 
-            port = EditorGUILayout.TextField(new GUIContent("Query", "The port that will manage server browser related duties and info pings from clients.\nIf you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE (65535) for QueryPort, then it will use 'GameSocketShare' mode, which means that the game is responsible for sending and receiving UDP packets for the master server updater. See references to GameSocketShare in isteamgameserver.hn"), settings.server.queryPort.ToString());
-            
-            if(ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
+            port = EditorGUILayout.TextField(new GUIContent("Query", "The port that will manage server browser related duties and info pings from clients.\nIf you pass MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE (65535) for QueryPort, then it will use 'GameSocketShare' mode, which means that the game is responsible for sending and receiving UDP packets for the master server updater. See references to GameSocketShare in isteamgameserver.h"), settings.server.queryPort.ToString());
+
+            if (ushort.TryParse(port, out nPort) && nPort != settings.server.queryPort)
             {
                 Undo.RecordObject(target, "editor");
                 settings.server.queryPort = nPort;
@@ -282,7 +282,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             var heart = GUILayout.Toggle(settings.server.enableHeartbeats, (settings.server.enableHeartbeats ? "Disable" : "Enable") + " Server Heartbeat", EditorStyles.toolbarButton);
             var anon = GUILayout.Toggle(settings.server.anonymousServerLogin, (settings.server.anonymousServerLogin ? "Disable" : "Enable") + " Anonymous Server Login", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();            
+            EditorGUILayout.BeginHorizontal();
             var gsAuth = GUILayout.Toggle(settings.server.usingGameServerAuthApi, (settings.server.usingGameServerAuthApi ? "Disable" : "Enable") + " Game Server Auth API", EditorStyles.toolbarButton);
             var pass = GUILayout.Toggle(settings.server.isPasswordProtected, (settings.server.isPasswordProtected ? "Disable" : "Enable") + " Password Protected", EditorStyles.toolbarButton);
             EditorGUILayout.EndHorizontal();
@@ -615,7 +615,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam Leaderboard is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam Leaderboard is not supported in Foundation, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard License.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
@@ -642,7 +642,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam DLC is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam DLC is not supported in Foundation, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard License.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
@@ -669,7 +669,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             {
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam Inventory is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam Inventory is not supported in Foundation, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard License.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {
@@ -693,12 +693,12 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             //inputFoldout
             inputFoldout = EditorGUILayout.Foldout(inputFoldout, "Input: ");
 
-            if(inputFoldout)
+            if (inputFoldout)
             {
 
                 EditorGUI.indentLevel++;
 
-                EditorGUILayout.HelpBox("Steam Input is not supported in Foundaiton, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard Licnese.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
+                EditorGUILayout.HelpBox("Steam Input is not supported in Foundation, you can upgrade to Steamworks Complete by becoming a GitHub Sponsor for $10.\n\nSponsors get instant access to all Heathen assets and the Heathen Standard License.\n\nCancel your subscription at any time and keep what you have installed and the license to go with it.", MessageType.Info);
 
                 if (GUILayout.Button("Become a GitHub Sponsor", EditorStyles.toolbarButton))
                 {

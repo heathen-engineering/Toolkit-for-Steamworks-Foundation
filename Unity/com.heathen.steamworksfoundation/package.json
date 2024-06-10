@@ -1,30 +1,27 @@
 {
   "name": "com.heathen.steamworksfoundation",
-  "displayName": "Steamworks Foundation",
-  "version": "3.2.1",
+  "displayName": "Toolkit for Steamworks SDK (Foundation)",
+  "version": "3.4.3",
   "unity": "2021.3",
   "author": {
     "name": "Heathen Group",
     "email": "support@heathen.group",
     "url": "https://heathen.group"
   },
-  "dependencies": {
-    "com.unity.mathematics": "1.2.5"
-  },
-  "documentationUrl": "https://kb.heathenengineering.com/assets/steamworks",
+  "documentationUrl": "https://kb.heathen.group/toolkit-for-steamworks-sdk/steamworks",
   "keywords": [],
-  "description": "A powerful set of tools, systems and editor extensions to make you integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!",
+  "description": "The free lite version of Heathen's Toolkit for Steamworks SDK; A powerful set of tools, systems and editor extensions to make your integration with the Steam API easier, faster, and more robust. Make the most of Steam for your game!",
   "license": "LICENSE.md",
   "samples": 
 	[
 	{
 		"displayName": "Prefabs",
 		"description": "Unity uGUI Prefabs to help you prototype common use cases faster!.",
-		"path": "Tools~/Prefabs"
+		"path": "Prefabs~"
 	},
 	{
-		"displayName": "Example Scenes",
-		"description": "A collection of 11 scenes demonstrating inital set up, using UserData, Stats and Achievements, Leaderbaords, Lobbies, Steam Input, Workshop Browser, Steam Inventory basics, Creating an Item Store using Steam Inventory, Using Steam's Remote Storage and configuring a Steam Game Server",
-		"path": "Samples~/Samples"
+		"displayName": "Example Scene",
+		"description": "A simple example scene that demonstrates the use of Steamworks most common and widely used features",
+		"path": "Samples~/Examples"
 	 }]
 }

@@ -109,8 +109,8 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             bool changed = false;
             var userTmp = string.IsNullOrEmpty(config.username) ? string.Empty : SimpleCipher.Decrypt(config.username, cipher);
             var pasTmp = config.rememberPassword ? (string.IsNullOrEmpty(config.password) ? string.Empty : SimpleCipher.Decrypt(config.password, cipher)) : SessionState.GetString("Steam Password", string.Empty);
-            
-            if (!File.Exists($"{sdkLocation}\\builder\\steamcmd.exe")) 
+
+            if (!File.Exists($"{sdkLocation}\\builder\\steamcmd.exe"))
             {
                 EditorGUILayout.HelpBox("Unable to locate SteamCmd.exe\nPlease specify the folder path of the sdk\\tools\\ContentBuilder", MessageType.Error);
                 if (GUILayout.Button("Update Configuration"))
@@ -127,7 +127,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                     Selection.objects = new Object[1] { config };
                 }
             }
-            
+
             GUILayout.Label("User");
             var user = EditorGUILayout.TextField(userTmp);
             GUILayout.Label("Password");
@@ -135,14 +135,14 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
             var toggle = EditorGUILayout.Toggle("Remember Password", config.rememberPassword);
 
-            if(toggle != config.rememberPassword)
+            if (toggle != config.rememberPassword)
             {
                 changed = true;
                 config.rememberPassword = toggle;
             }
-            
-            if(user != userTmp
-                ||  password != pasTmp) 
+
+            if (user != userTmp
+                || password != pasTmp)
             {
                 Undo.RecordObject(config, "Steam Content Builder Config User/Pass");
                 if (!string.IsNullOrEmpty(user))
@@ -159,7 +159,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                 }
                 else
                 {
-                    config.password= string.Empty;
+                    config.password = string.Empty;
                     SessionState.SetString("Steam Password", password);
                 }
 
@@ -219,7 +219,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                     Repaint();
                     GUILayout.Space(20);
                 }
-                
+
                 if (GUILayout.Button("Cancel"))
                 {
                     uploading = false;
@@ -257,11 +257,11 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
                         if (GUILayout.Button("Upload", GUILayout.Width(150)))
                         {
                             doThis = 2;
-                            
+
                         }
                         GUILayout.EndHorizontal();
 
-                        if(doThis == 1)
+                        if (doThis == 1)
                         {
                             Build();
                         }
@@ -291,7 +291,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             GUILayout.Label("Two-factor Token");
             twoFactor = EditorGUILayout.TextField(twoFactor, GUILayout.MaxWidth(300));
 
-            if (steamCMD != null 
+            if (steamCMD != null
                 && !string.IsNullOrEmpty(twoFactor) && twoFactor.Trim().Length == 5)
             {
                 steamCMD.StandardInput.WriteLine(twoFactor.Trim());
@@ -349,7 +349,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             string buildPath = $"{sdkLocation}\\content\\{Application.productName}\\{platform}\\";
             DeleteSubFolders(buildPath);
 
-            
+
             var buildReport = BuildPipeline.BuildPlayer(EditorBuildSettings.scenes, $"{buildPath}{PlayerSettings.productName}{selectedDepot.extension}", selectedDepot.target, BuildOptions.None);
 
             if (buildReport.summary.totalErrors == 0)
@@ -396,7 +396,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             string BuildScripts = sdkLocation + "\\scripts\\simple_app_build.vdf";
             var selectedDepot = config.depots[config.lastDepot];
 
-            
+
 
             string content = AppBuildVDF(config.targetApp.ToString(), Application.version, selectedDepot.id.ToString(), platform);
             File.WriteAllText(BuildScripts, content);
@@ -409,7 +409,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             steamCMD.StartInfo.UseShellExecute = false;
             steamCMD.StartInfo.CreateNoWindow = true;
             steamCMD.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Minimized;
-            
+
             steamCMD.Start();
             steamCMD.OutputDataReceived += SteamCMD_OutputDataReceived;
             steamCMD.Exited += SteamCMD_Exited;
@@ -507,7 +507,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
 
         private void OnInspectorUpdate()
         {
-            if(steamCMD != null)
+            if (steamCMD != null)
             {
                 if (steamCMD.HasExited)
                 {
@@ -534,7 +534,7 @@ namespace HeathenEngineering.SteamworksIntegration.Editors
             uploading = false;
         }
 
-        
+
     }
 }
 #endif

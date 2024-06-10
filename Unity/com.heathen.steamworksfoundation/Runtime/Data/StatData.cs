@@ -79,6 +79,11 @@ namespace HeathenEngineering.SteamworksIntegration
         /// Store the value set to the Steam backend
         /// </summary>
         public readonly void Store() => API.StatsAndAchievements.Client.StoreStats();
+
+        public readonly void ServerSetValue(UserData user, int value) => API.StatsAndAchievements.Server.SetUserStat(user, this, value);
+        public readonly void ServerSetValue(UserData user, float value) => API.StatsAndAchievements.Server.SetUserStat(user, this, value);
+        public readonly bool ServerGetValue(UserData user, out int value) => API.StatsAndAchievements.Server.GetUserStat(user, this, out value);
+        public readonly bool ServerGetValue(UserData user, out float value) => API.StatsAndAchievements.Server.GetUserStat(user, this, out value);
         
         #region Boilerplate
         public readonly bool Equals(string other)

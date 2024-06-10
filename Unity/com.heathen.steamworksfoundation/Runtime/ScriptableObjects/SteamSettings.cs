@@ -227,7 +227,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// For more information please see the documentation on the <see cref="GameClient"/> object.
         /// </para>
         /// </remarks>
-        public static GameClient Client => current.client;
+        public static GameClient Client => current == null ? null : current.client;
 
         /// <summary>
         /// Static access to the active <see cref="GameServer"/> object.
@@ -240,7 +240,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// then it may perform GS only actions such as setting stats and achievements that are marked as GS only.
         /// </para>
         /// </remarks>
-        public static GameServer Server => current.server;
+        public static GameServer Server => current == null ? null : current.server;
 
         /// <summary>
         /// The list of achievements registered for this application.
@@ -248,7 +248,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <remarks>
         /// See <see cref="achievements"/> for more information. This field simply access the <see cref="achievements"/> member for the <see cref="current"/> <see cref="SteamworksClientApiSettings"/> object.
         /// </remarks>
-        public static List<AchievementObject> Achievements => current.achievements;
+        public static List<AchievementObject> Achievements => current == null ? null : current.achievements;
 
         /// <summary>
         /// The list of stats registered for this application.
@@ -256,7 +256,7 @@ namespace HeathenEngineering.SteamworksIntegration
         /// <remarks>
         /// See <see cref="stats"/> for more information. This field simply access the <see cref="stats"/> member for the <see cref="current"/> <see cref="SteamworksClientApiSettings"/> object.
         /// </remarks>
-        public static List<StatObject> Stats => current.stats;
+        public static List<StatObject> Stats => current == null ? null : current.stats;
 
         #endregion
 
@@ -388,7 +388,7 @@ namespace HeathenEngineering.SteamworksIntegration
                 #region Client
                 if(client == null)
                 {
-                    Debug.LogError("Invalid SteamSettings object detected. the client object is null and will not initalize properly, aborting initalization.");
+                    Debug.LogError("Invalid SteamSettings object detected. the client object is null and will not initialize properly, aborting initialization.");
                     return;
                 }
 

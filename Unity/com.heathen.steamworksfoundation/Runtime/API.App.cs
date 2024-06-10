@@ -3,10 +3,8 @@
 using HeathenEngineering.Events;
 using Steamworks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
@@ -23,15 +21,6 @@ namespace HeathenEngineering.SteamworksIntegration.API
     /// </remarks>
     public static class App
     {
-        #region Obsolete
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        [Obsolete("Use HasInitializationError instead")]
-        public static bool HasInitalizationError => HasInitializationError;
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        [Obsolete("Use InitializationErrorMessage instead")]
-        public static string InitalizationErrorMessage_ => InitializationErrorMessage;
-        #endregion
-
         #region Global
         internal readonly static Dictionary<uint, (string name, bool available)> dlcAppCash = new Dictionary<uint, (string name, bool available)>();
         /// <summary>
@@ -204,7 +193,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 m_NewUrlLaunchParameters_t = null;
 
                 eventDlcInstalled = new DlcInstalledEvent();
-                eventNewUrlLaunchParameters = new NewUrlLaunchParametersEvent();
+                eventNewUrlLaunchParameters = new UnityEvent();
                 eventServersConnected = new UnityEvent();
                 eventServersDisconnected = new UnityEventServersDisconnected();
             }
@@ -307,7 +296,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                             if (appId != SteamUtils.GetAppID())
                             {
 #if UNITY_EDITOR
-                                Debug.LogWarning($"The reported applicaiton ID of {SteamUtils.GetAppID()} does not match the anticipated ID of {appId}. This is most frequently caused when you edit your AppID but fail to restart Unity, Visual Studio and or any other processes that may have mounted the Steam API under the previous App ID. To correct this please insure your AppID is entered correctly in the SteamSettings object and that you fully restart the Unity Editor, Visual Studio and any other processes that may have connectd to them.");
+                                Debug.LogWarning($"The reported application ID of {SteamUtils.GetAppID()} does not match the anticipated ID of {appId}. This is most frequently caused when you edit your AppID but fail to restart Unity, Visual Studio and or any other processes that may have mounted the Steam API under the previous App ID. To correct this please insure your AppID is entered correctly in the SteamSettings object and that you fully restart the Unity Editor, Visual Studio and any other processes that may have connected to them.");
 #else
                             Debug.LogError($"The reported AppId is not as expected:\ntAppId Reported = {SteamUtils.GetAppID()}\n\tAppId Expected = {appId}");
                             Application.Quit();
@@ -343,6 +332,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                         Web.LoadAppNames(null);
                         Overlay.Client.RegisterEvents();
 
+
                         evtSteamInitialized.Invoke();
                     }
                     else
@@ -363,7 +353,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
                 get
                 {
                     if (m_DlcInstalled_t == null)
-                        m_DlcInstalled_t = Callback<DlcInstalled_t>.Create(eventDlcInstalled.Invoke);
+                        m_DlcInstalled_t = Callback<DlcInstalled_t>.Create((e) => eventDlcInstalled.Invoke(e.m_nAppID));
 
                     return eventDlcInstalled;
                 }
@@ -372,12 +362,12 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <summary>
             /// Posted after the user executes a steam url with command line or query parameters such as steam://run/<appid>//?param1=value1;param2=value2;param3=value3; while the game is already running. The new params can be queried with GetLaunchCommandLine and GetLaunchQueryParam.
             /// </summary>
-            public static NewUrlLaunchParametersEvent EventNewUrlLaunchParameters
+            public static UnityEvent EventNewUrlLaunchParameters
             {
                 get
                 {
                     if (m_NewUrlLaunchParameters_t == null)
-                        m_NewUrlLaunchParameters_t = Callback<NewUrlLaunchParameters_t>.Create(eventNewUrlLaunchParameters.Invoke);
+                        m_NewUrlLaunchParameters_t = Callback<NewUrlLaunchParameters_t>.Create((e) => eventNewUrlLaunchParameters.Invoke());
 
                     return eventNewUrlLaunchParameters;
                 }
@@ -435,7 +425,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             }
 
             private static DlcInstalledEvent eventDlcInstalled = new DlcInstalledEvent();
-            private static NewUrlLaunchParametersEvent eventNewUrlLaunchParameters = new NewUrlLaunchParametersEvent();
+            private static UnityEvent eventNewUrlLaunchParameters = new UnityEvent();
             private static UnityEvent eventServersConnected = new UnityEvent();
             private static UnityEventServersDisconnected eventServersDisconnected = new UnityEventServersDisconnected();
             private static UnityEventServersConnectFailure eventServersConnectFailure = new UnityEventServersConnectFailure();

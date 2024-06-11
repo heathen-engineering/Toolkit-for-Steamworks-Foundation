@@ -1,4 +1,4 @@
-#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
+﻿#if !DISABLESTEAMWORKS && HE_SYSCORE && STEAMWORKSNET
 using HeathenEngineering.Events;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,10 +27,10 @@ namespace HeathenEngineering.SteamworksIntegration
 
         private void OnEnable()
         {
+            API.App.evtSteamInitialized.AddListener(HandleInitialization);
             API.App.evtSteamInitializationError.AddListener(HandleInitializationError);
-            API.App.evtSteamInitialized.AddListener(evtSteamInitialized.Invoke);
 
-            if(SteamSettings.behaviour == null)
+            if (SteamSettings.behaviour == null)
                 SteamSettings.behaviour = this;
 
             settings.Initialize();
@@ -38,8 +38,8 @@ namespace HeathenEngineering.SteamworksIntegration
 
         private void OnDestroy()
         {
+            API.App.evtSteamInitialized.RemoveListener(HandleInitialization);
             API.App.evtSteamInitializationError.RemoveListener(HandleInitializationError);
-            API.App.evtSteamInitialized.RemoveListener(evtSteamInitialized.Invoke);
         }
 
         /// <summary>
@@ -56,6 +56,11 @@ namespace HeathenEngineering.SteamworksIntegration
             Debug.LogError(message);
 
             evtSteamInitializationError.Invoke(message);
+        }
+
+        private void HandleInitialization()
+        {
+            evtSteamInitialized.Invoke();
         }
     }
 }

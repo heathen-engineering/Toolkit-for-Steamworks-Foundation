@@ -252,16 +252,13 @@ namespace HeathenEngineering.SteamworksIntegration.API
                     {
                         if (isDebugging)
                             Debug.Log("Initializing Steam Client API");
-                        Initialized = Steamworks.SteamAPI.Init();
+                        var result = Steamworks.SteamAPI.InitEx(out var ErrorMessage);
+                        Initialized = result == ESteamAPIInitResult.k_ESteamAPIInitResult_OK;
 
                         if (!Initialized)
                         {
                             HasInitializationError = true;
-                            InitializationErrorMessage = "The Steam client isn't running. A running Steam client is required to provide implementations of the various Steamworks interfaces.\n"
-                                    + "The Steam client couldn't determine the App ID of game, this most commonly occurs when running the game outside of Steam client.\n"
-                                    + "Your application is not running under the same OS user context as the Steam client, such as a different user or administration access level.\n"
-                                    + "Ensure that you own a license for the App ID on the currently active Steam account. Your game must show up in your Steam library.\n"
-                                    + "Your App ID is not completely set up, i.e. in Release State: Unavailable, or it's missing default packages.";
+                            InitializationErrorMessage = $"Steamworks failed to initialize with result({result}) and message: {ErrorMessage}";
 
                             evtSteamInitializationError.Invoke(InitializationErrorMessage);
                             Debug.LogError(InitializationErrorMessage);

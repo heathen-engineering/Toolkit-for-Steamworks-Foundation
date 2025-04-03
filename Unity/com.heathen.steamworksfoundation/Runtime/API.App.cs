@@ -283,8 +283,6 @@ namespace HeathenEngineering.SteamworksIntegration.API
                                 Debug.LogWarning("Steam API was able to initialize however the user does not have an active logon; no real-time services provided by the Steamworks API will be enabled. The Steam client will automatically be trying to recreate the connection as often as possible. When the connection is restored a API.App.Client.EvenServersConnected event will be posted.");
                             }
 
-                            API.StatsAndAchievements.Client.RequestCurrentStats();
-
                             if (isDebugging)
                             {
                                 Debug.Log("Steam API has been initialized with App ID: " + SteamUtils.GetAppID());

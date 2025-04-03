@@ -424,14 +424,7 @@ namespace HeathenEngineering.SteamworksIntegration.API
             /// <param name="maxProgress">The progress required to unlock the achievement.</param>
             /// <returns></returns>
             public static bool IndicateAchievementProgress(string achievementApiName, uint progress, uint maxProgress) => SteamUserStats.IndicateAchievementProgress(achievementApiName, progress, maxProgress);
-            /// <summary>
-            /// Asynchronously request the user's current stats and achievements from the server.
-            /// </summary>
-            /// <remarks>
-            /// You must always call this first to get the initial status of stats and achievements. Only after the resulting callback comes back can you start calling the rest of the stats and achievement functions for the current user.
-            /// </remarks>
-            /// <returns></returns>
-            public static bool RequestCurrentStats() => SteamUserStats.RequestCurrentStats();
+            
             /// <summary>
             /// Asynchronously fetch the data for the percentage of players who have received each achievement for the current game globally.
             /// </summary>
